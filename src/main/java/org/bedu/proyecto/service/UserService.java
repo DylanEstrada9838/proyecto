@@ -29,6 +29,10 @@ public class UserService {
 
         return mapper.toDTO(optionalUser.get());
     }
+    public void deleteById(Long userId) {
+        Optional<User> optionalUser = repository.findById(userId);
+        repository.delete(optionalUser.get());
+    }
 
     public UserDTO save(CreateUserDTO data) {
         User entity = repository.save(mapper.toModel(data));

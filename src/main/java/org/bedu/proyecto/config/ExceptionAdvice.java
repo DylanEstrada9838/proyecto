@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
-     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO validationErrors(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
@@ -26,13 +26,13 @@ public class ExceptionAdvice {
             errors.add(fieldError.getDefaultMessage());
         }
 
-        return new ErrorDTO("ERR_VALID", "Hubo un error al validar los datos de entrada", errors);
+        return new ErrorDTO("ERR_VALID", "Validation Error", errors);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDTO unknownErrors(Exception ex) {
         log.error(ex.getMessage());
-        return new ErrorDTO("ERR_UNKNOWN", "Hubo un error desconocido", null);
+        return new ErrorDTO("ERR_UNKNOWN", "Unknown Error", null);
     }
 }

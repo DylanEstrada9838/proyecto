@@ -7,6 +7,7 @@ import org.bedu.proyecto.dto.UserDTO;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,12 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO save(@Valid @RequestBody CreateUserDTO data) {
         return service.save(data);
+    }
+
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+             service.deleteById(id);
     }
 
 }
