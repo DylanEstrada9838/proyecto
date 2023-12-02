@@ -13,17 +13,21 @@ public class CreateUserDTO {
     @NotBlank
     @Size(min = 3, max = 50)
     private String name;
+
     @Size(min = 3, max = 50)
     @NotBlank
     private String lastname;
+
     @Size(min = 3, max = 50)
     @NotBlank
     @Email
     private String email;
-    @Size(min = 3, max = 50)
+
+    
     @NotBlank
     @Size(min = 3, max = 50)
     private String phone;
+
     @Past
     private Date date;
 }

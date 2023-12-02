@@ -1,6 +1,7 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bedu.proyecto.dto.CreateUserDTO;
 import org.bedu.proyecto.dto.UserDTO;
@@ -17,13 +18,21 @@ public class UserService {
     @Autowired
     private UserMapper mapper;
 
-    public List<UserDTO> findAll(){
+    public List<UserDTO> findAll() {
         List<User> data = repository.findAll();
-        return data.stream().map(mapper::toDTO).toList();
+        return mapper.toDTOs(data);
+        // return data.stream().map(mapper::toDTO).toList();
     }
 
-    public UserDTO save(CreateUserDTO data){
+    public UserDTO findById(Long userId) {
+        Optional<User> optionalUser = repository.findById(userId);
+
+        return mapper.toDTO(optionalUser.get());
+    }
+
+    public UserDTO save(CreateUserDTO data) {
         User entity = repository.save(mapper.toModel(data));
         return mapper.toDTO(entity);
     }
+
 }
