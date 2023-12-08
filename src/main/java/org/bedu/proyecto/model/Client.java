@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Getter
 @Setter
 @ToString
@@ -23,13 +22,13 @@ import lombok.ToString;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id; 
+    private long id;
 
     @Column(nullable = false, length = 15)
     @NotNull
     private String phone;
 
-   @OneToOne(cascade = CascadeType.ALL)
-   @JoinColumn(name="user_id",referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 }

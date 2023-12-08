@@ -19,9 +19,9 @@ public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
     User toModel(CreateUserDTO dto);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
-    void update(@MappingTarget User user,UpdateUserDTO data);
+    void update(@MappingTarget User user, UpdateUserDTO data);
 
 }

@@ -27,11 +27,11 @@ public class ExceptionAdvice {
             errors.add(fieldError.getDefaultMessage());
         }
 
-        return new ErrorDTO("ERR_VALID", "Validation Error",errors);
+        return new ErrorDTO("ERR_VALID", "Validation Error", errors);
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ErrorDTO applicationError(RuntimeException ex){
+    public ErrorDTO applicationError(RuntimeException ex) {
         return new ErrorDTO(ex.getCode(), ex.getMessage(), ex.getDetails());
     }
 

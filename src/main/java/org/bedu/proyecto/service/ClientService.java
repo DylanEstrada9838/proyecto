@@ -24,13 +24,13 @@ public class ClientService {
     @Autowired
     UserRepository userRepository;
 
-    public List<ClientDTO> findAll(){
+    public List<ClientDTO> findAll() {
         return mapper.toDTOs(repository.findAll());
     }
 
-    public ClientDTO findById(Long clientId) throws ClientNotFoundException{
+    public ClientDTO findById(Long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if(!clientOptional.isPresent()){
+        if (!clientOptional.isPresent()) {
             throw new ClientNotFoundException(clientId);
         }
         return mapper.toDTO(clientOptional.get());
@@ -45,19 +45,19 @@ public class ClientService {
         return mapper.toDTO(entity);
     }
 
-    public void update(long clientId,UpdateClientDTO data) throws ClientNotFoundException{
+    public void update(long clientId, UpdateClientDTO data) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if(!clientOptional.isPresent()){
+        if (!clientOptional.isPresent()) {
             throw new ClientNotFoundException(clientId);
         }
         Client client = clientOptional.get();
-        mapper.update(client,data);
+        mapper.update(client, data);
         repository.save(client);
     }
 
-    public void delete(long clientId) throws ClientNotFoundException{
+    public void delete(long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if(!clientOptional.isPresent()){
+        if (!clientOptional.isPresent()) {
             throw new ClientNotFoundException(clientId);
         }
         repository.delete(clientOptional.get());

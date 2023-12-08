@@ -15,11 +15,12 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ClientMapper {
     ClientDTO toDTO(Client model);
-    
+
     List<ClientDTO> toDTOs(List<Client> model);
+
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "userId",target = "user.id")
+    @Mapping(source = "userId", target = "user.id")
     Client toModel(CreateClientDTO dto);
 
-    void update (@MappingTarget Client client, UpdateClientDTO data);
+    void update(@MappingTarget Client client, UpdateClientDTO data);
 }

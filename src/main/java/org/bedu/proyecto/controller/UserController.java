@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO findById(@PathVariable Long id) throws UserNotFoundException{
+    public UserDTO findById(@PathVariable Long id) throws UserNotFoundException {
         return service.findById(id);
     }
 
@@ -48,13 +48,13 @@ public class UserController {
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable Long id) throws UserNotFoundException {
-             service.deleteById(id);
+        service.deleteById(id);
     }
 
     @PutMapping("{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable long userId,@Valid @RequestBody UpdateUserDTO data) throws UserNotFoundException{
-        service.update(userId,data);
+    public void update(@PathVariable long userId, @Valid @RequestBody UpdateUserDTO data) throws UserNotFoundException {
+        service.update(userId, data);
     }
 
 }
