@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO findById(@PathVariable Long id) {
+    public UserDTO findById(@PathVariable Long id) throws UserNotFoundException{
         return service.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) throws UserNotFoundException {
              service.deleteById(id);
     }
 

@@ -23,17 +23,14 @@ public class UserService {
     public List<UserDTO> findAll() {
         List<User> data = repository.findAll();
         return mapper.toDTOs(data);
-        // return data.stream().map(mapper::toDTO).toList();
     }
 
-    public UserDTO findById(Long userId) {
+    public UserDTO findById(Long userId) throws UserNotFoundException {
         Optional<User> optionalUser = repository.findById(userId);
-
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException(userId);
+        }
         return mapper.toDTO(optionalUser.get());
-    }
-    public void deleteById(Long userId) {
-        Optional<User> optionalUser = repository.findById(userId);
-        repository.delete(optionalUser.get());
     }
 
     public UserDTO save(CreateUserDTO data) {
@@ -41,15 +38,23 @@ public class UserService {
         return mapper.toDTO(entity);
     }
 
-    public void update(long userId, UpdateUserDTO data) throws UserNotFoundException{
+    public void update(long userId, UpdateUserDTO data) throws UserNotFoundException {
         Optional<User> result = repository.findById(userId);
-        if(!result.isPresent()){
+        if (!result.isPresent()) {
             throw new UserNotFoundException(userId);
         }
         User user = result.get();
-        mapper.update(user,data);
+        mapper.update(user, data);
 
         repository.save(user);
+    }
+
+    public void deleteById(Long userId) throws UserNotFoundException {
+        Optional<User> optionalUser = repository.findById(userId);
+        if (!optionalUser.isPresent()) {
+            throw new UserNotFoundException(userId);
+        }
+        repository.delete(optionalUser.get());
     }
 
 }

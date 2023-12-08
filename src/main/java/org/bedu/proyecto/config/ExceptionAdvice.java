@@ -27,7 +27,7 @@ public class ExceptionAdvice {
             errors.add(fieldError.getDefaultMessage());
         }
 
-        return new ErrorDTO("ERR_VALID", "Validation Error", errors);
+        return new ErrorDTO("ERR_VALID", "Validation Error",errors);
     }
 
     @ExceptionHandler(RuntimeException.class)
