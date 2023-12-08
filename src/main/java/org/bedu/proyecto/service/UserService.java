@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bedu.proyecto.dto.CreateUserDTO;
+import org.bedu.proyecto.dto.UpdateUserDTO;
 import org.bedu.proyecto.dto.UserDTO;
+import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.mapper.UserMapper;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.UserRepository;
@@ -37,6 +39,17 @@ public class UserService {
     public UserDTO save(CreateUserDTO data) {
         User entity = repository.save(mapper.toModel(data));
         return mapper.toDTO(entity);
+    }
+
+    public void update(long userId, UpdateUserDTO data) throws UserNotFoundException{
+        Optional<User> result = repository.findById(userId);
+        if(!result.isPresent()){
+            throw new UserNotFoundException(userId);
+        }
+        User user = result.get();
+        mapper.update(user,data);
+
+        repository.save(user);
     }
 
 }

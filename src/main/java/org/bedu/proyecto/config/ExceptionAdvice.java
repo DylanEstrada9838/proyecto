@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bedu.proyecto.dto.ErrorDTO;
+import org.bedu.proyecto.exception.RuntimeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +28,11 @@ public class ExceptionAdvice {
         }
 
         return new ErrorDTO("ERR_VALID", "Validation Error", errors);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ErrorDTO applicationError(RuntimeException ex){
+        return new ErrorDTO(ex.getCode(), ex.getMessage(), ex.getDetails());
     }
 
     @ExceptionHandler(Exception.class)
