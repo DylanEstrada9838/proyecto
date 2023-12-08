@@ -52,7 +52,7 @@ public class ClientController {
     public void update(@PathVariable long clientId,@Valid @RequestBody UpdateClientDTO data) throws ClientNotFoundException{
         service.update(clientId, data);
     }
-    @DeleteMapping
+    @DeleteMapping("{clientId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long clientId) throws ClientNotFoundException{
         service.delete(clientId);
