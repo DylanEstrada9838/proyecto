@@ -9,12 +9,16 @@ import org.bedu.proyecto.dto.UpdateSupplierDTO;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
 import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.mapper.SupplierMapper;
+import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Supplier;
 import org.bedu.proyecto.model.User;
+import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class SupplierService {
@@ -24,6 +28,8 @@ public class SupplierService {
     SupplierMapper mapper;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ServiceRepository serviceRepository;
 
     public List<SupplierDTO> findAll() {
         return mapper.toDTOs(repository.findAll());
@@ -65,5 +71,20 @@ public class SupplierService {
             throw new SupplierNotFoundException(supplierId);
         }
         repository.delete(supplierOptional.get());
+    }
+
+    public void addService(long supplierId,long serviceId) throws SupplierNotFoundException{
+         Optional<Supplier> supplierOptional = repository.findById(supplierId);
+        if (!supplierOptional.isPresent()) {
+            throw new SupplierNotFoundException(supplierId);
+        }
+        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
+
+        Supplier supplier = supplierOptional.get();
+        List <AppService> services = supplier.getServices();
+        services.add(serviceOptional.get());
+
+        repository.save(supplier);
+
     }
 }

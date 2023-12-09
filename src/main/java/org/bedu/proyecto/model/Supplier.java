@@ -41,5 +41,5 @@ public class Supplier {
      name = "supplier_service", 
     joinColumns = @JoinColumn(name = "supplier_id"), 
     inverseJoinColumns = @JoinColumn(name = "service_id"))
-    List<Service> services;
+    List<AppService> services;
 }

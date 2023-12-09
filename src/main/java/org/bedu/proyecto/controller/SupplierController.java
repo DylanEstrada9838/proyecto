@@ -3,6 +3,7 @@ package org.bedu.proyecto.controller;
 import java.util.List;
 
 import org.bedu.proyecto.dto.SupplierDTO;
+import org.bedu.proyecto.dto.AddServiceDTO;
 import org.bedu.proyecto.dto.CreateSupplierDTO;
 import org.bedu.proyecto.dto.UpdateSupplierDTO;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
@@ -61,6 +62,12 @@ public class SupplierController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long supplierId) throws SupplierNotFoundException {
         service.delete(supplierId);
+    }
+
+    @PostMapping("{supplierId}/service")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException{
+        service.addService(supplierId, data.getServiceId());
     }
 
 }

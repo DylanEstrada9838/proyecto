@@ -20,7 +20,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "services")
 @Entity
-public class Service {
+public class AppService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,8 +31,12 @@ public class Service {
 
     @ManyToMany(mappedBy = "services")
     List<Supplier> suppliers;
+    
+    public AppService(){
 
-    public Service(String serviceName) {
+    }
+
+    public AppService(String serviceName) {
         this.service = serviceName;
     }
 }
