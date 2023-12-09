@@ -2,12 +2,12 @@ package org.bedu.proyecto.controller;
 
 import java.util.List;
 
-import org.bedu.proyecto.dto.ClientDTO;
-import org.bedu.proyecto.dto.CreateClientDTO;
-import org.bedu.proyecto.dto.UpdateClientDTO;
-import org.bedu.proyecto.exception.ClientNotFoundException;
+import org.bedu.proyecto.dto.SupplierDTO;
+import org.bedu.proyecto.dto.CreateSupplierDTO;
+import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.exception.SupplierNotFoundException;
 import org.bedu.proyecto.exception.UserNotFoundException;
-import org.bedu.proyecto.service.ClientService;
+import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,43 +24,43 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("clients")
-public class ClientController {
+@RequestMapping("suppliers")
+public class SupplierController {
     @Autowired
-    ClientService service;
+    SupplierService service;
     @Autowired
     UserService userService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ClientDTO> findAll() {
+    public List<SupplierDTO> findAll() {
         return service.findAll();
     }
 
-    @GetMapping("{clientId}")
+    @GetMapping("{supplierId}")
     @ResponseStatus(HttpStatus.OK)
-    public ClientDTO findById(@PathVariable long clientId) throws ClientNotFoundException {
-        return service.findById(clientId);
+    public SupplierDTO findById(@PathVariable long supplierId) throws SupplierNotFoundException {
+        return service.findById(supplierId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientDTO save(@Valid @RequestBody CreateClientDTO data) throws UserNotFoundException{
+    public SupplierDTO save(@Valid @RequestBody CreateSupplierDTO data) throws UserNotFoundException{
 
         return service.save(data);
     }
 
-    @PutMapping("{clientId}")
+    @PutMapping("{supplierId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable long clientId, @Valid @RequestBody UpdateClientDTO data)
-            throws ClientNotFoundException {
-        service.update(clientId, data);
+    public void update(@PathVariable long supplierId, @Valid @RequestBody UpdateSupplierDTO data)
+            throws SupplierNotFoundException {
+        service.update(supplierId, data);
     }
 
-    @DeleteMapping("{clientId}")
+    @DeleteMapping("{supplierId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long clientId) throws ClientNotFoundException {
-        service.delete(clientId);
+    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException {
+        service.delete(supplierId);
     }
 
 }
