@@ -5,7 +5,10 @@ import java.util.List;
 import org.bedu.proyecto.dto.SupplierDTO;
 import org.bedu.proyecto.dto.AddServiceDTO;
 import org.bedu.proyecto.dto.CreateSupplierDTO;
+import org.bedu.proyecto.dto.RemoveServiceDTO;
 import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.exception.ServiceNotAssignedException;
+import org.bedu.proyecto.exception.ServiceNotFoundException;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
 import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.service.SupplierService;
@@ -66,8 +69,15 @@ public class SupplierController {
 
     @PostMapping("{supplierId}/service")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException{
+    public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException{
         service.addService(supplierId, data.getServiceId());
     }
+
+    @DeleteMapping("{supplierId}/service")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeService(@PathVariable long supplierId,@RequestBody RemoveServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
+        service.removeService(supplierId, data.getServiceId());
+    }
+
 
 }

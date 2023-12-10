@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.bedu.proyecto.dto.SupplierDTO;
 import org.bedu.proyecto.dto.CreateSupplierDTO;
 import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.exception.ServiceNotAssignedException;
+import org.bedu.proyecto.exception.ServiceNotFoundException;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
 import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.mapper.SupplierMapper;
@@ -73,13 +75,15 @@ public class SupplierService {
         repository.delete(supplierOptional.get());
     }
 
-    public void addService(long supplierId,long serviceId) throws SupplierNotFoundException{
+    public void addService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException{
          Optional<Supplier> supplierOptional = repository.findById(supplierId);
         if (!supplierOptional.isPresent()) {
             throw new SupplierNotFoundException(supplierId);
         }
         Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-
+        if(!serviceOptional.isPresent()){
+            throw new ServiceNotFoundException(serviceId);
+        }
         Supplier supplier = supplierOptional.get();
         List <AppService> services = supplier.getServices();
         services.add(serviceOptional.get());
@@ -87,4 +91,24 @@ public class SupplierService {
         repository.save(supplier);
 
     }
+    public void removeService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
+         Optional<Supplier> supplierOptional = repository.findById(supplierId);
+        if (!supplierOptional.isPresent()) {
+            throw new SupplierNotFoundException(supplierId);
+        }
+        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
+        if(!serviceOptional.isPresent()){
+            throw new ServiceNotFoundException(serviceId);
+        }
+        Supplier supplier = supplierOptional.get();
+        List <AppService> services = supplier.getServices();
+        
+        if (!services.contains(serviceOptional.get())){
+            throw new ServiceNotAssignedException(serviceId);
+        }
+        services.remove(serviceOptional.get());
+        repository.save(supplier);
+
+    }
+    
 }
