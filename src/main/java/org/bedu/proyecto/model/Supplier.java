@@ -2,6 +2,8 @@ package org.bedu.proyecto.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,5 +43,6 @@ public class Supplier {
      name = "supplier_service", 
     joinColumns = @JoinColumn(name = "supplier_id"), 
     inverseJoinColumns = @JoinColumn(name = "service_id"))
+    @JsonBackReference
     List<AppService> services;
 }

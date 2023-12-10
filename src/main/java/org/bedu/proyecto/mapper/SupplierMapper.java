@@ -19,8 +19,12 @@ public interface SupplierMapper {
     List<SupplierDTO> toDTOs(List<Supplier> model);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "services", ignore = true)
     @Mapping(source = "userId", target = "user.id")
     Supplier toModel(CreateSupplierDTO dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "services", ignore = true)
+    @Mapping(target = "user", ignore = true)
     void update(@MappingTarget Supplier supplier, UpdateSupplierDTO data);
 }

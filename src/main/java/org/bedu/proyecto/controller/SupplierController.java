@@ -7,10 +7,12 @@ import org.bedu.proyecto.dto.AddServiceDTO;
 import org.bedu.proyecto.dto.CreateSupplierDTO;
 import org.bedu.proyecto.dto.RemoveServiceDTO;
 import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.exception.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.ServiceNotFoundException;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
 import org.bedu.proyecto.exception.UserNotFoundException;
+import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,16 +69,22 @@ public class SupplierController {
         service.delete(supplierId);
     }
 
-    @PostMapping("{supplierId}/service")
+    @PostMapping("{supplierId}/services")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException{
+    public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
         service.addService(supplierId, data.getServiceId());
     }
 
-    @DeleteMapping("{supplierId}/service")
+    @DeleteMapping("{supplierId}/services")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeService(@PathVariable long supplierId,@RequestBody RemoveServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
         service.removeService(supplierId, data.getServiceId());
+    }
+
+    @GetMapping("{supplierId}/services")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AppService> findAllServicesBySupplier(@PathVariable long supplierId){
+        return service.findAllBySupplier(supplierId);
     }
 
 

@@ -2,6 +2,7 @@ package org.bedu.proyecto.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -19,6 +21,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @Table(name = "services")
+@NoArgsConstructor
+
 @Entity
 public class AppService {
     @Id
@@ -30,11 +34,9 @@ public class AppService {
     private String service;
 
     @ManyToMany(mappedBy = "services")
+    @JsonBackReference
     List<Supplier> suppliers;
     
-    public AppService(){
-
-    }
 
     public AppService(String serviceName) {
         this.service = serviceName;

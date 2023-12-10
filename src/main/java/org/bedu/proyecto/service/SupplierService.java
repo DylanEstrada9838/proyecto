@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.bedu.proyecto.dto.SupplierDTO;
 import org.bedu.proyecto.dto.CreateSupplierDTO;
 import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.exception.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.ServiceNotFoundException;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
@@ -75,7 +76,7 @@ public class SupplierService {
         repository.delete(supplierOptional.get());
     }
 
-    public void addService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException{
+    public void addService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
          Optional<Supplier> supplierOptional = repository.findById(supplierId);
         if (!supplierOptional.isPresent()) {
             throw new SupplierNotFoundException(supplierId);
@@ -84,8 +85,12 @@ public class SupplierService {
         if(!serviceOptional.isPresent()){
             throw new ServiceNotFoundException(serviceId);
         }
+        
         Supplier supplier = supplierOptional.get();
         List <AppService> services = supplier.getServices();
+         if (services.contains(serviceOptional.get())){
+            throw new ServiceAlreadyAssignedException(serviceId);
+        }
         services.add(serviceOptional.get());
 
         repository.save(supplier);
@@ -102,13 +107,19 @@ public class SupplierService {
         }
         Supplier supplier = supplierOptional.get();
         List <AppService> services = supplier.getServices();
-        
+
         if (!services.contains(serviceOptional.get())){
             throw new ServiceNotAssignedException(serviceId);
         }
         services.remove(serviceOptional.get());
         repository.save(supplier);
 
+    }
+
+    public List<AppService> findAllBySupplier(long supplierId){
+        Optional<Supplier> supplier = repository.findById(supplierId);
+
+        return serviceRepository.findAllBySuppliers(supplier.get());
     }
     
 }
