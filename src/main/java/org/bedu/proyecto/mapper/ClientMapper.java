@@ -19,8 +19,11 @@ public interface ClientMapper {
     List<ClientDTO> toDTOs(List<Client> model);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
     @Mapping(source = "userId", target = "user.id")
     Client toModel(CreateClientDTO dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "user", ignore = true)
     void update(@MappingTarget Client client, UpdateClientDTO data);
 }
