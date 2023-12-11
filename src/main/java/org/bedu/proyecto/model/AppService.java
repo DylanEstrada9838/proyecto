@@ -36,7 +36,7 @@ public class AppService {
 
     @ManyToMany(mappedBy = "services")
     @JsonBackReference
-    List<Supplier> suppliers;
+    private List<Supplier> suppliers;
     
 
     public AppService(String serviceName) {
