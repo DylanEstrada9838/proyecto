@@ -24,11 +24,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "req_services")
+@Table(name = "service_req")
 @NoArgsConstructor
 
 @Entity
-public class ReqService {
+public class ServiceRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

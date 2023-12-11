@@ -1,10 +1,10 @@
 package org.bedu.proyecto.controller;
 
-import org.bedu.proyecto.dto.CreateReqServiceDTO;
-import org.bedu.proyecto.dto.ReqServiceDTO;
+import org.bedu.proyecto.dto.CreateServiceRequestDTO;
+import org.bedu.proyecto.dto.ServiceRequestDTO;
 import org.bedu.proyecto.exception.ClientNotFoundException;
 import org.bedu.proyecto.exception.ServiceNotFoundException;
-import org.bedu.proyecto.service.ReqServiceService;
+import org.bedu.proyecto.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("clients")
-public class ReqServiceController {
+public class ServiceRequestController {
     @Autowired
-    ReqServiceService service;
+    ServiceRequestService service;
 
-    @PostMapping("{clientId}/reqservices")
+    @PostMapping("{clientId}/request")
     @ResponseStatus(HttpStatus.CREATED)
-    public ReqServiceDTO save(@PathVariable long clientId, @Valid @RequestBody CreateReqServiceDTO data) throws ClientNotFoundException,ServiceNotFoundException{
+    public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException{
         log.info("Received controller CreateReqServiceDTO: {}", data);
         return service.save(clientId,data);
     }
