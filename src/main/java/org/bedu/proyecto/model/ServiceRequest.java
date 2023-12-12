@@ -6,11 +6,12 @@ import java.time.Instant;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -52,17 +53,18 @@ public class ServiceRequest {
      @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 100)
     @NotNull
-    private Status status;
+    private StatusRequest status;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "client_id",nullable = false)
+     @JsonBackReference
     private Client client;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="service_id",nullable=false)
     private AppService service;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="supplier_id",nullable = false)
     private Supplier supplier;
    

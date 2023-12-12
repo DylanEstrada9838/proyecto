@@ -1,6 +1,8 @@
 package org.bedu.proyecto.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,17 +16,22 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "appointments")
+@Table(name = "quotes")
 @Entity
-public class Appointment {
+public class Quote {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
-    private StatusAppointment status;
+    @Column(nullable = false)
+    private double price;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id",referencedColumnName = "id")
-    private Supplier supplier;
+    @Column(nullable=false)
+    private StatusQuote status;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="request_id",referencedColumnName = "id")
+    private ServiceRequest serviceRequest;
+
 
 }

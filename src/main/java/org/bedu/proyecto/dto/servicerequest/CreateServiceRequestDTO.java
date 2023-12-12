@@ -2,7 +2,7 @@ package org.bedu.proyecto.dto.servicerequest;
 
 
 
-import org.bedu.proyecto.model.Status;
+import org.bedu.proyecto.model.StatusRequest;
 import org.bedu.proyecto.model.Urgency;
 
 import lombok.Data;
@@ -14,5 +14,5 @@ public class CreateServiceRequestDTO {
     private Urgency urgency;
     private long serviceId;
     private long supplierId;
-    private Status status = Status.OPEN;
+    private StatusRequest status = StatusRequest.OPEN;
 }
