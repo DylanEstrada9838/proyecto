@@ -2,17 +2,18 @@ package org.bedu.proyecto.mapper;
 
 import java.util.List;
 
-import org.bedu.proyecto.dto.SupplierDTO;
-import org.bedu.proyecto.dto.CreateSupplierDTO;
-import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
+import org.bedu.proyecto.dto.supplier.SupplierDTO;
+import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
 import org.bedu.proyecto.model.Supplier;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface SupplierMapper {
     SupplierDTO toDTO(Supplier model);
 

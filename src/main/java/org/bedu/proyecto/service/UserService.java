@@ -3,9 +3,9 @@ package org.bedu.proyecto.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.bedu.proyecto.dto.CreateUserDTO;
-import org.bedu.proyecto.dto.UpdateUserDTO;
-import org.bedu.proyecto.dto.UserDTO;
+import org.bedu.proyecto.dto.user.CreateUserDTO;
+import org.bedu.proyecto.dto.user.UpdateUserDTO;
+import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.mapper.UserMapper;
 import org.bedu.proyecto.model.User;

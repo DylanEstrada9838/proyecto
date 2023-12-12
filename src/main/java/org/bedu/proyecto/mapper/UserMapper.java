@@ -2,16 +2,17 @@ package org.bedu.proyecto.mapper;
 
 import java.util.List;
 
-import org.bedu.proyecto.dto.CreateUserDTO;
-import org.bedu.proyecto.dto.UpdateUserDTO;
-import org.bedu.proyecto.dto.UserDTO;
+import org.bedu.proyecto.dto.user.CreateUserDTO;
+import org.bedu.proyecto.dto.user.UpdateUserDTO;
+import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.model.User;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
     UserDTO toDTO(User model);
 

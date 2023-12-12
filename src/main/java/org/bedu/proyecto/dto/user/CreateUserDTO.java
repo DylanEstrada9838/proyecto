@@ -1,4 +1,4 @@
-package org.bedu.proyecto.dto;
+package org.bedu.proyecto.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

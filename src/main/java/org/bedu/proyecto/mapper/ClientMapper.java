@@ -2,17 +2,18 @@ package org.bedu.proyecto.mapper;
 
 import java.util.List;
 
-import org.bedu.proyecto.dto.ClientDTO;
-import org.bedu.proyecto.dto.CreateClientDTO;
-import org.bedu.proyecto.dto.UpdateClientDTO;
+import org.bedu.proyecto.dto.client.ClientDTO;
+import org.bedu.proyecto.dto.client.CreateClientDTO;
+import org.bedu.proyecto.dto.client.UpdateClientDTO;
 import org.bedu.proyecto.model.Client;
 
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ClientMapper {
     ClientDTO toDTO(Client model);
 

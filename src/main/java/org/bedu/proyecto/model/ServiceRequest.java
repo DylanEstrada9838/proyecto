@@ -1,7 +1,10 @@
 package org.bedu.proyecto.model;
 
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +36,24 @@ public class ServiceRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
+    @NotNull
+    private String address;
+
+    @Column(nullable = false)
+    @NotNull
+    private String description;
+
+    @Column(nullable = false, length = 100)
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Urgency urgency;
+
+     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 100)
+    @NotNull
+    private Status status;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "client_id",nullable = false)
     private Client client;
@@ -41,16 +62,11 @@ public class ServiceRequest {
     @JoinColumn(name="service_id",nullable=false)
     private AppService service;
 
-
-    @Column(nullable = false, length = 100)
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    private Urgency urgency;
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 100)
-    @NotNull
-    private Status status;
-    
-    private LocalDateTime createdAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="supplier_id",nullable = false)
+    private Supplier supplier;
+   
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdAt;
      
 }

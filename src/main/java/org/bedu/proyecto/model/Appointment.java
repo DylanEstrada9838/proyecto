@@ -24,7 +24,7 @@ public class Appointment {
     private StatusAppointment statusAppointment;
 
     @ManyToOne
-    @JoinColumn(name = "supplier_id")
+    @JoinColumn(name = "supplier_id",referencedColumnName = "id")
     private Supplier supplier;
 
 }

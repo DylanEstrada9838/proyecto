@@ -2,9 +2,9 @@ package org.bedu.proyecto.controller;
 
 import java.util.List;
 
-import org.bedu.proyecto.dto.CreateUserDTO;
-import org.bedu.proyecto.dto.UpdateUserDTO;
-import org.bedu.proyecto.dto.UserDTO;
+import org.bedu.proyecto.dto.user.CreateUserDTO;
+import org.bedu.proyecto.dto.user.UpdateUserDTO;
+import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

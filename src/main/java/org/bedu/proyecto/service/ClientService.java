@@ -3,9 +3,9 @@ package org.bedu.proyecto.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.bedu.proyecto.dto.ClientDTO;
-import org.bedu.proyecto.dto.CreateClientDTO;
-import org.bedu.proyecto.dto.UpdateClientDTO;
+import org.bedu.proyecto.dto.client.ClientDTO;
+import org.bedu.proyecto.dto.client.CreateClientDTO;
+import org.bedu.proyecto.dto.client.UpdateClientDTO;
 import org.bedu.proyecto.exception.ClientNotFoundException;
 import org.bedu.proyecto.exception.UserNotFoundException;
 import org.bedu.proyecto.mapper.ClientMapper;

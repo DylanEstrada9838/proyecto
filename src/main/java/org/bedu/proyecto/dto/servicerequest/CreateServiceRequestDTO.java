@@ -1,8 +1,6 @@
-package org.bedu.proyecto.dto;
+package org.bedu.proyecto.dto.servicerequest;
 
 
-
-import java.time.LocalDateTime;
 
 import org.bedu.proyecto.model.Status;
 import org.bedu.proyecto.model.Urgency;
@@ -11,8 +9,10 @@ import lombok.Data;
 
 @Data
 public class CreateServiceRequestDTO {
+    private String address;
+    private String description;
     private Urgency urgency;
     private long serviceId;
-    private LocalDateTime createdAt= LocalDateTime.now();
+    private long supplierId;
     private Status status = Status.OPEN;
 }

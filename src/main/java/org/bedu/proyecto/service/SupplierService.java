@@ -3,9 +3,9 @@ package org.bedu.proyecto.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.bedu.proyecto.dto.SupplierDTO;
-import org.bedu.proyecto.dto.CreateSupplierDTO;
-import org.bedu.proyecto.dto.UpdateSupplierDTO;
+import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
+import org.bedu.proyecto.dto.supplier.SupplierDTO;
+import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
 import org.bedu.proyecto.exception.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.ServiceNotFoundException;

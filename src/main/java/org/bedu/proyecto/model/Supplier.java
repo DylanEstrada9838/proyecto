@@ -30,6 +30,9 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(nullable = false)
+    @NotNull
+    private String businessName;
     @Column(nullable = false, length = 15)
     @NotNull
     private String phone;

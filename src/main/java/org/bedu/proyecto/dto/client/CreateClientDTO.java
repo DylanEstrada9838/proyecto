@@ -1,11 +1,11 @@
-package org.bedu.proyecto.dto;
+package org.bedu.proyecto.dto.client;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CreateSupplierDTO {
+public class CreateClientDTO {
     @NotBlank
     @Min(5)
     private String phone;

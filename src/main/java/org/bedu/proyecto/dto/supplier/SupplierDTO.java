@@ -1,4 +1,4 @@
-package org.bedu.proyecto.dto;
+package org.bedu.proyecto.dto.supplier;
 
 import lombok.Data;
 
@@ -6,4 +6,5 @@ import lombok.Data;
 public class SupplierDTO {
     private long id;
     private String phone;
+    private String businessName;
 }

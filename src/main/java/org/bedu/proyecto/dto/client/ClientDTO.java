@@ -1,4 +1,4 @@
-package org.bedu.proyecto.dto;
+package org.bedu.proyecto.dto.client;
 
 import lombok.Data;
 
