@@ -10,8 +10,12 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface ServiceRequestMapper {
+    @Mapping(source = "supplier.id", target = "supplierId")
+    @Mapping(source = "service.id", target = "serviceId")
     ServiceRequestDTO toDTO(ServiceRequest model);
 
+    @Mapping(source = "supplier.id", target = "supplierId")
+    @Mapping(source = "service.id", target = "serviceId")
     List<ServiceRequestDTO> toDTOs(List <ServiceRequest> model);
 
     @Mapping(target = "id", ignore = true)

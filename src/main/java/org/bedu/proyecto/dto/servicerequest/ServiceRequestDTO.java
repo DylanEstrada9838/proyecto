@@ -14,5 +14,7 @@ public class ServiceRequestDTO {
     private String description;
     private StatusRequest status;
     private Urgency urgency;
+    private long serviceId;
+    private long supplierId;
     private Instant createdAt ;
 }

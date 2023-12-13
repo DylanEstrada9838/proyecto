@@ -7,8 +7,8 @@ import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.ClientNotFoundException;
 import org.bedu.proyecto.exception.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.ServiceNotFoundException;
+import org.bedu.proyecto.exception.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.SupplierNotFoundException;
-import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,14 +31,14 @@ public class ServiceRequestController {
 
     @PostMapping("{clientId}/request")
     @ResponseStatus(HttpStatus.CREATED)
-    public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException,SupplierNotFoundException,ServiceNotAssignedException{
+    public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException,SupplierNotFoundException,ServiceNotAssignedException,ServiceRequestCreateNotAllowed{
         log.info("Received controller CreateReqServiceDTO: {}", data);
         return service.save(clientId,data);
     }
 
     @GetMapping("{clientId}/request")
     @ResponseStatus(HttpStatus.OK)
-    public List<ServiceRequest> findAllByClient(@PathVariable long clientId){
+    public List<ServiceRequestDTO> findAllByClient(@PathVariable long clientId) throws ClientNotFoundException{
         return service.findAllByClient(clientId);
     }
 }

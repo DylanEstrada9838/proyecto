@@ -8,4 +8,5 @@ public class ClientDTO {
     private String phone;
     private String name;
     private String lastName;
+    
 }

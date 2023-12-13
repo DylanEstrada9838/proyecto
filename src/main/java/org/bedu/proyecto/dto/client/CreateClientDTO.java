@@ -14,5 +14,4 @@ public class CreateClientDTO {
     private String name;
     @NotBlank
     private String lastName;
-    
 }
