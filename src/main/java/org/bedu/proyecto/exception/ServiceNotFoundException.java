@@ -1,6 +1,5 @@
 package org.bedu.proyecto.exception;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 
 public class ServiceNotFoundException extends RuntimeException {
 
