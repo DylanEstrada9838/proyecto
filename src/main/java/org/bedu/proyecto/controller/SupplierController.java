@@ -2,6 +2,8 @@ package org.bedu.proyecto.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.service.RemoveServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
@@ -29,63 +31,69 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("suppliers")
+@Tag(name="Endpoints de Provedores y Servicios",description="CRUD de Usuarios y asignacion de servicios a provedores")
+@RestController // Esta anotación indica que esta clase es un controlador REST.
+@RequestMapping("suppliers") // Esta anotación mapea las solicitudes HTTP a "/suppliers" a los métodos en esta clase.
 public class SupplierController {
-    @Autowired
+    @Autowired // Esta anotación permite la inyección automática del bean 'SupplierService'.
     SupplierService service;
-    @Autowired
+    @Autowired // Esta anotación permite la inyección automática del bean 'UserService'.
     UserService userService;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary="Este método devuelve una lista de todos los proveedores.")
+    @GetMapping // Mapea las solicitudes GET a este método.
+    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
     public List<SupplierDTO> findAll() {
         return service.findAll();
     }
 
-    @GetMapping("{supplierId}")
-    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary="Este método devuelve un proveedor específico por su ID.")
+    @GetMapping("{supplierId}") // Mapea las solicitudes GET con un ID de proveedor a este método.
+    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
     public SupplierDTO findById(@PathVariable long supplierId) throws SupplierNotFoundException {
         return service.findById(supplierId);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary="Este método guarda un nuevo proveedor en la base de datos.")
+    @PostMapping // Mapea las solicitudes POST a este método.
+    @ResponseStatus(HttpStatus.CREATED) // Si el método se ejecuta con éxito, devuelve un estado HTTP 201 (CREADO).
     public SupplierDTO save(@Valid @RequestBody CreateSupplierDTO data) throws UserNotFoundException{
-
         return service.save(data);
     }
 
-    @PutMapping("{supplierId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="Este método actualiza un proveedor existente en la base de datos deacuerdo a el ID de el path..")
+    @PutMapping("{supplierId}") // Mapea las solicitudes PUT con un ID de proveedor a este método.
+    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
     public void update(@PathVariable long supplierId, @Valid @RequestBody UpdateSupplierDTO data)
             throws SupplierNotFoundException {
         service.update(supplierId, data);
     }
 
-    @DeleteMapping("{supplierId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="Este método elimina un proveedor existente en la base de datos deacuerdo a el ID de el path.")
+    @DeleteMapping("{supplierId}") // Mapea las solicitudes DELETE con un ID de proveedor a este método.
+    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
     public void delete(@PathVariable long supplierId) throws SupplierNotFoundException {
         service.delete(supplierId);
     }
 
-    @PostMapping("{supplierId}/services")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="Este método agrega un servicio a un proveedor existente.")
+    @PostMapping("{supplierId}/services") // Mapea las solicitudes POST con un ID de proveedor y "/services" a este método.
+    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
     public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
         service.addService(supplierId, data.getServiceId());
     }
 
-    @DeleteMapping("{supplierId}/services")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary="Este método elimina un servicio de un proveedor existente.")
+    @DeleteMapping("{supplierId}/services") // Mapea las solicitudes DELETE con un ID de proveedor y "/services" a este método.
+    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
     public void removeService(@PathVariable long supplierId,@RequestBody RemoveServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
         service.removeService(supplierId, data.getServiceId());
     }
 
-    @GetMapping("{supplierId}/services")
-    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary="Este método devuelve una lista de todos los servicios de un proveedor específico.")
+    @GetMapping("{supplierId}/services") // Mapea las solicitudes GET con un ID de proveedor y "/services" a este método.
+    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
     public List<AppService> findAllServicesBySupplier(@PathVariable long supplierId){
         return service.findAllBySupplier(supplierId);
     }
-
-
 }
