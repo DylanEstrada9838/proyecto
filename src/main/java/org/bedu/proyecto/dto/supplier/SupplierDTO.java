@@ -12,6 +12,6 @@ public class SupplierDTO {
     @Schema(description = "Numero de telefono",example = "0123456789")
     private String phone;
 
-    @Schema(description = "Numero de telefono",example = "0123456789")
+    @Schema(description = "Nombre de Proveedor",example = "0123456789")
     private String businessName;
 }

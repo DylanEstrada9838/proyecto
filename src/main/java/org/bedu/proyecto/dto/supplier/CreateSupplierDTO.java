@@ -7,15 +7,15 @@ import lombok.Data;
 
 @Data
 public class CreateSupplierDTO {
-    @Schema(description = "Nombre del provedor", example = "Supplier 1")
+    @Schema(description = "Nombre del proveedor", example = "Supplier 1")
     @NotBlank
     private String businessName;
 
-    @Schema(description = "Telefono del provedor", example = "0123456789")
+    @Schema(description = "Telefono del proveedor", example = "0123456789")
     @NotBlank(message = "Phone cannot be blank")
     @Min(5)
     private String phone;
 
-    @Schema(description = "ID de usario", example = "1")
+    @Schema(description = "ID de usuario", example = "1")
     private long userId;
 }
