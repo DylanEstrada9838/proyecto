@@ -14,7 +14,7 @@ Para visualizar la documentación en Swagger UI [visite este enlace](http://loca
 La pagina muestra informacino basica del proyecto asi como las funcionalidades de cada endpoint  
 ![image](https://github.com/DylanEstrada9838/proyecto/assets/104156855/d025f8ec-1565-4806-ad8d-0bbd889aac89)  
 
-En la parte inferior se muestran ejemplos de que parametros acepta cada variable  
+En la parte inferior se muestran ejemplos de que parametros acepta cada variable del código  
 ![image](https://github.com/DylanEstrada9838/proyecto/assets/104156855/39f39d6b-c7d7-4caf-9358-605327dba002)
 
 
