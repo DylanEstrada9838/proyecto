@@ -2,6 +2,8 @@ package org.bedu.proyecto.controller;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.ClientNotFoundException;
@@ -22,23 +24,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-@Slf4j
-@RestController
-@RequestMapping("clients")
-public class ServiceRequestController {
-    @Autowired
-    ServiceRequestService service;
 
-    @PostMapping("{clientId}/request")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException,SupplierNotFoundException,ServiceNotAssignedException{
+@Tag(name="Endpoints de ServiceRequestController",description="en construccion **")
+@Slf4j // Esta anotación de Lombok crea un objeto Logger en la clase, que puedes usar para registrar mensajes.
+@RestController // Esta anotación indica que la clase es un controlador REST.
+@RequestMapping("clients") // Esta anotación mapea las solicitudes HTTP a métodos de controlador específicos.
+
+public class ServiceRequestController { // Define una clase pública llamada ServiceRequestController.
+    @Autowired // Esta anotación permite la inyección automática del bean ServiceRequestService.
+    ServiceRequestService service; // Define una variable de instancia para el servicio.
+
+    @Operation(summary="Registra información sobre los datos recibidos.")
+    @PostMapping("{clientId}/request") // Mapea las solicitudes POST a este método.
+    @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
+    public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException,SupplierNotFoundException,ServiceNotAssignedException{ // Define un método para guardar una solicitud de servicio.
         log.info("Received controller CreateReqServiceDTO: {}", data);
-        return service.save(clientId,data);
+        return service.save(clientId,data); // Llama al método save del servicio y devuelve el resultado.
     }
 
-    @GetMapping("{clientId}/request")
-    @ResponseStatus(HttpStatus.OK)
+    @Operation(summary="Define un método para encontrar todas las solicitudes de servicio por cliente.")
+    @GetMapping("{clientId}/request") // Mapea las solicitudes GET a este método.
+    @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
     public List<ServiceRequest> findAllByClient(@PathVariable long clientId){
-        return service.findAllByClient(clientId);
+        return service.findAllByClient(clientId); // Llama al método findAllByClient del servicio y devuelve el resultado.
     }
 }
