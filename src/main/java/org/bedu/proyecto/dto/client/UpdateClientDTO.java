@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 public class UpdateClientDTO {
     private String phone;
-    private String name;
-    private String lastName;
+
 }
