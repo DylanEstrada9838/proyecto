@@ -12,5 +12,9 @@ El codigo se vera de la siguiente manera:
 
 Para visualizar la documentación en Swagger UI [visite este enlace](http://localhost:8080/swagger-ui/index.html)  
 La pagina muestra informacino basica del proyecto asi como las funcionalidades de cada endpoint  
-![image](https://github.com/DylanEstrada9838/proyecto/assets/104156855/d025f8ec-1565-4806-ad8d-0bbd889aac89)
+![image](https://github.com/DylanEstrada9838/proyecto/assets/104156855/d025f8ec-1565-4806-ad8d-0bbd889aac89)  
+
+En la parte inferior se muestran ejemplos de que parametros acepta cada variable  
+![image](https://github.com/DylanEstrada9838/proyecto/assets/104156855/39f39d6b-c7d7-4caf-9358-605327dba002)
+
 
