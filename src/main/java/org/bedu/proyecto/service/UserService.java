@@ -6,7 +6,8 @@ import java.util.Optional;
 import org.bedu.proyecto.dto.user.CreateUserDTO;
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
-import org.bedu.proyecto.exception.UserNotFoundException;
+import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
+import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.UserMapper;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.UserRepository;
@@ -27,20 +28,25 @@ public class UserService {
 
     public UserDTO findById(Long userId) throws UserNotFoundException {
         Optional<User> optionalUser = repository.findById(userId);
-        if (!optionalUser.isPresent()) {
+        if (optionalUser.isEmpty()) {
             throw new UserNotFoundException(userId);
         }
         return mapper.toDTO(optionalUser.get());
     }
 
-    public UserDTO save(CreateUserDTO data) {
+    public UserDTO save(CreateUserDTO data) throws UserEmailAlreadyCreated{
+        Optional<User> userOptional = repository.findByEmail(data.getEmail());
+
+        if(userOptional.isPresent()){
+            throw new UserEmailAlreadyCreated(data.getEmail());
+        }
         User entity = repository.save(mapper.toModel(data));
         return mapper.toDTO(entity);
     }
 
     public void update(long userId, UpdateUserDTO data) throws UserNotFoundException {
         Optional<User> result = repository.findById(userId);
-        if (!result.isPresent()) {
+        if (result.isEmpty()) {
             throw new UserNotFoundException(userId);
         }
         User user = result.get();

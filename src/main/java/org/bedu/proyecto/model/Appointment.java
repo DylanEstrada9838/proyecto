@@ -1,5 +1,7 @@
 package org.bedu.proyecto.model;
 
+import org.bedu.proyecto.model_enums.StatusAppointment;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

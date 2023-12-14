@@ -12,6 +12,6 @@ public class UserDTO {
     @Schema(description = "Email del Usuario",example = "usuario@dominio")
     private String email;
 
-    @Schema(description = "Contraseaña del Usuario",example = "1234567")
+    @Schema(description = "Contraseña del Usuario",example = "1234567")
     private String password;
 }

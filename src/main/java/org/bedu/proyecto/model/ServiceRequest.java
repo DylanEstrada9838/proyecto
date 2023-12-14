@@ -2,7 +2,10 @@ package org.bedu.proyecto.model;
 
 
 import java.time.Instant;
+import java.util.List;
 
+import org.bedu.proyecto.model_enums.StatusRequest;
+import org.bedu.proyecto.model_enums.Urgency;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
 
@@ -12,13 +15,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -65,9 +68,13 @@ public class ServiceRequest {
     @JoinColumn(name="service_id",nullable=false)
     private AppService service;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name="supplier_id",nullable = false)
     private Supplier supplier;
+
+    @OneToMany(mappedBy = "serviceRequest")
+    @JsonBackReference
+    private List<Quote> quotes; 
    
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;

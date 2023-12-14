@@ -1,8 +1,11 @@
 package org.bedu.proyecto.model;
 
+import org.bedu.proyecto.model_enums.StatusQuote;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,14 +27,20 @@ public class Quote {
     private long id;
 
     @Column(nullable = false)
-    private double price;
+    private double totalCost;
 
     @Column(nullable=false)
     private StatusQuote status;
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="request_id",referencedColumnName = "id")
+    @JsonBackReference
     private ServiceRequest serviceRequest;
+
+    @ManyToOne
+    @JoinColumn(name="supplier_id",referencedColumnName="id")
+    @JsonBackReference
+    private Supplier supplier;
 
 
 }

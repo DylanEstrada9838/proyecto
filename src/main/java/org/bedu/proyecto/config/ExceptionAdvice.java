@@ -17,28 +17,42 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDTO validationErrors(MethodArgumentNotValidException ex) {
+    public ErrorDTO validationError(MethodArgumentNotValidException ex) {
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
         List<String> errors = new LinkedList<>();
 
         for (FieldError fieldError : fieldErrors) {
-            errors.add(fieldError.getDefaultMessage());
+            String errorMessage = String.format("Field '%s' %s", fieldError.getField(), fieldError.getDefaultMessage());
+            errors.add(errorMessage);
         }
 
-        return new ErrorDTO("ERR_VALID", "Validation Error", errors);
+        return ErrorDTO.builder()
+                .code("ERR_VALID")
+                .message("Los datos de entrada contiene errores")
+                .details(errors)
+                .build();
     }
 
     @ExceptionHandler(RuntimeException.class)
-    public ErrorDTO applicationError(RuntimeException ex) {
-        return new ErrorDTO(ex.getCode(), ex.getMessage(), ex.getDetails());
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO runtimeError(RuntimeException ex) {
+        return ErrorDTO.builder()
+                .code(ex.getCode())
+                .message(ex.getMessage())
+                .details(ex.getDetails())
+                .build();
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorDTO unknownErrors(Exception ex) {
+    public ErrorDTO unknownError(Exception ex) {
         log.error(ex.getMessage());
-        return new ErrorDTO("ERR_UNKNOWN", "Unknown Error", null);
+        return ErrorDTO.builder()
+                .code("ERR_UNKNOWN")
+                .message("Unknown Error")
+                .build();
     }
 }

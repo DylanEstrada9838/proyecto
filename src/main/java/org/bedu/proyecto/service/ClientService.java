@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
 import org.bedu.proyecto.dto.client.UpdateClientDTO;
-import org.bedu.proyecto.exception.ClientNotFoundException;
-import org.bedu.proyecto.exception.UserNotFoundException;
+import org.bedu.proyecto.exception.client.ClientNotFoundException;
+import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.ClientMapper;
 import org.bedu.proyecto.model.Client;
 import org.bedu.proyecto.model.User;
@@ -61,7 +61,7 @@ public class ClientService {
 
     public void delete(long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if (!clientOptional.isPresent()) {
+        if (clientOptional.isEmpty()) {
             throw new ClientNotFoundException(clientId);
         }
         repository.delete(clientOptional.get());

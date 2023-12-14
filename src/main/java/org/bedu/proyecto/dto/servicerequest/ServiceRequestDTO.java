@@ -3,8 +3,9 @@ package org.bedu.proyecto.dto.servicerequest;
 import java.time.Instant;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.bedu.proyecto.model.StatusRequest;
-import org.bedu.proyecto.model.Urgency;
+
+import org.bedu.proyecto.model_enums.StatusRequest;
+import org.bedu.proyecto.model_enums.Urgency;
 
 import lombok.Data;
 
