@@ -6,10 +6,11 @@ import java.util.Optional;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
-import org.bedu.proyecto.exception.ServiceAlreadyAssignedException;
-import org.bedu.proyecto.exception.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
+import org.bedu.proyecto.exception.supplier.ServiceAlreadyAssignedException;
+import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
+import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.SupplierMapper;
 import org.bedu.proyecto.model.AppService;
@@ -46,10 +47,15 @@ public class SupplierService {
         return mapper.toDTO(supplierOptional.get());
     }
 
-    public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException{
+    public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException,SupplierUserAlreadyExist{
         Optional<User> userOptional = userRepository.findById(data.getUserId());
-        if(!userOptional.isPresent()){
+        if(userOptional.isEmpty()){
             throw new UserNotFoundException(data.getUserId());
+        }
+
+        Optional<Supplier> supplierOptional = repository.findByUser(userOptional.get());
+        if(supplierOptional.isPresent()){
+            throw new SupplierUserAlreadyExist(data.getUserId());
         }
         Supplier entity = mapper.toModel(data);
         entity.setUser(userOptional.get());

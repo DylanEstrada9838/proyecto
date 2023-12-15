@@ -7,6 +7,7 @@ import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
 import org.bedu.proyecto.dto.client.UpdateClientDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
+import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.ClientMapper;
 import org.bedu.proyecto.model.Client;
@@ -37,11 +38,18 @@ public class ClientService {
         return mapper.toDTO(clientOptional.get());
     }
 
-    public ClientDTO save(CreateClientDTO data) throws UserNotFoundException{
+    public ClientDTO save(CreateClientDTO data) throws UserNotFoundException,ClientUserAlreadyExist{
         Optional<User> userOptional = userRepository.findById(data.getUserId());
-        if(!userOptional.isPresent()){
+        if(userOptional.isEmpty()){
             throw new UserNotFoundException(data.getUserId());
         }
+        
+        Optional<Client> clientOptional = repository.findByUser(userOptional.get());
+
+        if(clientOptional.isPresent()){
+            throw new ClientUserAlreadyExist(data.getUserId());
+        }
+
         Client entity = mapper.toModel(data);
         entity.setUser(userOptional.get());
         repository.save(entity);

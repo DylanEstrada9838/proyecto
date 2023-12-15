@@ -9,10 +9,11 @@ import org.bedu.proyecto.dto.service.RemoveServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
-import org.bedu.proyecto.exception.ServiceAlreadyAssignedException;
-import org.bedu.proyecto.exception.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
+import org.bedu.proyecto.exception.supplier.ServiceAlreadyAssignedException;
+import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
+import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.service.SupplierService;
@@ -57,7 +58,7 @@ public class SupplierController {
     @Operation(summary="Este método guarda un nuevo proveedor en la base de datos.")
     @PostMapping // Mapea las solicitudes POST a este método.
     @ResponseStatus(HttpStatus.CREATED) // Si el método se ejecuta con éxito, devuelve un estado HTTP 201 (CREADO).
-    public SupplierDTO save(@Valid @RequestBody CreateSupplierDTO data) throws UserNotFoundException{
+    public SupplierDTO save(@Valid @RequestBody CreateSupplierDTO data) throws UserNotFoundException,SupplierUserAlreadyExist{
         return service.save(data);
     }
 

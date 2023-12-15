@@ -8,6 +8,7 @@ import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
 import org.bedu.proyecto.dto.client.UpdateClientDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
+import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.ClientService;
 import org.bedu.proyecto.service.UserService;
@@ -52,7 +53,7 @@ public class ClientController {
     @Operation(summary="Crea un nuevo cliente con los datos proporcionados.")
     @PostMapping  // Maneja las solicitudes POST a la ruta base ("clients").
     @ResponseStatus(HttpStatus.CREATED)  // Devuelve un estado HTTP 201 (CREATED) si el método se ejecuta con éxito.
-    public ClientDTO save(@Valid @RequestBody CreateClientDTO data) throws UserNotFoundException{
+    public ClientDTO save(@Valid @RequestBody CreateClientDTO data) throws UserNotFoundException,ClientUserAlreadyExist{
         return service.save(data);
     }
 
