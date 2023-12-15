@@ -23,10 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 
 @Tag(name="Endpoints de ServiceRequestClientController",description="en construccion **")
-@Slf4j // Esta anotación de Lombok crea un objeto Logger en la clase, que puedes usar para registrar mensajes.
 @RestController // Esta anotación indica que la clase es un controlador REST.
 @RequestMapping("clients") // Esta anotación mapea las solicitudes HTTP a métodos de controlador específicos.
 
@@ -34,11 +32,11 @@ public class ServiceRequestClientController { // Define una clase pública llama
     @Autowired // Esta anotación permite la inyección automática del bean ServiceRequestService.
     ServiceRequestService service; // Define una variable de instancia para el servicio.
 
-    @Operation(summary="Registra información sobre los datos recibidos.")
+    @Operation(summary="Crea una solicitud de Servicio a un Proveedor específico.")
     @PostMapping("{clientId}/requests") // Mapea las solicitudes POST a este método.
     @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
     public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException,SupplierNotFoundException,ServiceNotAssignedException,ServiceRequestCreateNotAllowed{ // Define un método para guardar una solicitud de servicio.
-        log.info("Received controller CreateReqServiceDTO: {}", data);
+
         return service.save(clientId,data); // Llama al método save del servicio y devuelve el resultado.
     }
 

@@ -7,8 +7,9 @@ import org.bedu.proyecto.model.ServiceRequest;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ServiceRequestMapper {
     @Mapping(source = "supplier.id", target = "supplierId")
     @Mapping(source = "service.id", target = "serviceId")

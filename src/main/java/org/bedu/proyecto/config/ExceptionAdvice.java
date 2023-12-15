@@ -31,7 +31,7 @@ public class ExceptionAdvice {
 
         return ErrorDTO.builder()
                 .code("ERR_VALID")
-                .message("Los datos de entrada contiene errores")
+                .message("Entry data is invalid")
                 .details(errors)
                 .build();
     }

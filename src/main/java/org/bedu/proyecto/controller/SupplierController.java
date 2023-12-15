@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.service.RemoveServiceDTO;
-import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
@@ -102,10 +101,5 @@ public class SupplierController {
         return service.findAllBySupplier(supplierId);
     }
 
-    @Operation(summary="Define un método para encontrar todas las solicitudes de servicio por proveedor.")
-    @GetMapping("{supplierId}/requests") // Mapea las solicitudes GET a este método.
-    @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
-    public List<ServiceRequestDTO> findAllBySupplier(@PathVariable long supplierId) throws SupplierNotFoundException{
-        return serviceRequestService.findAllBySupplier(supplierId); // Llama al método findAllByClient del servicio y devuelve el resultado.
-    }
+    
 }
