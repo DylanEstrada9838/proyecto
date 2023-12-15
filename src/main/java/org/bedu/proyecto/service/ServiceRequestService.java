@@ -97,4 +97,13 @@ public class ServiceRequestService {
 
         return mapper.toDTOs(repository.findAllByClient(clientOptional.get()));
     }
+    public List<ServiceRequestDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
+        Optional<Supplier> supplierOptional = supplierRepository.findById(supplierId);
+
+        if (supplierOptional.isEmpty()) {
+            throw new SupplierNotFoundException(supplierId);
+        }
+
+        return mapper.toDTOs(repository.findAllBySupplier(supplierOptional.get()));
+    }
 }

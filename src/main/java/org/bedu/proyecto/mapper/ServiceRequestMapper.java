@@ -12,10 +12,12 @@ import org.mapstruct.Mapping;
 public interface ServiceRequestMapper {
     @Mapping(source = "supplier.id", target = "supplierId")
     @Mapping(source = "service.id", target = "serviceId")
+    @Mapping(source = "client.id", target = "clientId")
     ServiceRequestDTO toDTO(ServiceRequest model);
 
     @Mapping(source = "supplier.id", target = "supplierId")
     @Mapping(source = "service.id", target = "serviceId")
+    @Mapping(source = "client.id", target = "clientId")
     List<ServiceRequestDTO> toDTOs(List <ServiceRequest> model);
 
     @Mapping(target = "id", ignore = true)

@@ -32,7 +32,7 @@ public class ClientService {
 
     public ClientDTO findById(Long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if (!clientOptional.isPresent()) {
+        if (clientOptional.isEmpty()) {
             throw new ClientNotFoundException(clientId);
         }
         return mapper.toDTO(clientOptional.get());
@@ -59,7 +59,7 @@ public class ClientService {
 
     public void update(long clientId, UpdateClientDTO data) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if (!clientOptional.isPresent()) {
+        if (clientOptional.isEmpty()) {
             throw new ClientNotFoundException(clientId);
         }
         Client client = clientOptional.get();

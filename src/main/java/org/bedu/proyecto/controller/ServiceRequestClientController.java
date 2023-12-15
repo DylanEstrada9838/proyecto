@@ -25,17 +25,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-@Tag(name="Endpoints de ServiceRequestController",description="en construccion **")
+@Tag(name="Endpoints de ServiceRequestClientController",description="en construccion **")
 @Slf4j // Esta anotación de Lombok crea un objeto Logger en la clase, que puedes usar para registrar mensajes.
 @RestController // Esta anotación indica que la clase es un controlador REST.
 @RequestMapping("clients") // Esta anotación mapea las solicitudes HTTP a métodos de controlador específicos.
 
-public class ServiceRequestController { // Define una clase pública llamada ServiceRequestController.
+public class ServiceRequestClientController { // Define una clase pública llamada ServiceRequestController.
     @Autowired // Esta anotación permite la inyección automática del bean ServiceRequestService.
     ServiceRequestService service; // Define una variable de instancia para el servicio.
 
     @Operation(summary="Registra información sobre los datos recibidos.")
-    @PostMapping("{clientId}/request") // Mapea las solicitudes POST a este método.
+    @PostMapping("{clientId}/requests") // Mapea las solicitudes POST a este método.
     @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
     public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data) throws ClientNotFoundException,ServiceNotFoundException,SupplierNotFoundException,ServiceNotAssignedException,ServiceRequestCreateNotAllowed{ // Define un método para guardar una solicitud de servicio.
         log.info("Received controller CreateReqServiceDTO: {}", data);
@@ -43,7 +43,7 @@ public class ServiceRequestController { // Define una clase pública llamada Ser
     }
 
     @Operation(summary="Define un método para encontrar todas las solicitudes de servicio por cliente.")
-    @GetMapping("{clientId}/request") // Mapea las solicitudes GET a este método.
+    @GetMapping("{clientId}/requests") // Mapea las solicitudes GET a este método.
     @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
     public List<ServiceRequestDTO> findAllByClient(@PathVariable long clientId) throws ClientNotFoundException{
         return service.findAllByClient(clientId); // Llama al método findAllByClient del servicio y devuelve el resultado.

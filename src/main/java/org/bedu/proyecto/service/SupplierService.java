@@ -41,7 +41,7 @@ public class SupplierService {
 
     public SupplierDTO findById(Long supplierId) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (!supplierOptional.isPresent()) {
+        if (supplierOptional.isEmpty()) {
             throw new SupplierNotFoundException(supplierId);
         }
         return mapper.toDTO(supplierOptional.get());
@@ -66,7 +66,7 @@ public class SupplierService {
 
     public void update(long supplierId, UpdateSupplierDTO data) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (!supplierOptional.isPresent()) {
+        if (supplierOptional.isEmpty()) {
             throw new SupplierNotFoundException(supplierId);
         }
         Supplier supplier = supplierOptional.get();
@@ -76,7 +76,7 @@ public class SupplierService {
 
     public void delete(long supplierId) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (!supplierOptional.isPresent()) {
+        if (supplierOptional.isEmpty()) {
             throw new SupplierNotFoundException(supplierId);
         }
         repository.delete(supplierOptional.get());
@@ -84,11 +84,11 @@ public class SupplierService {
 
     public void addService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
          Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (!supplierOptional.isPresent()) {
+        if (supplierOptional.isEmpty()) {
             throw new SupplierNotFoundException(supplierId);
         }
         Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        if(!serviceOptional.isPresent()){
+        if(serviceOptional.isEmpty()){
             throw new ServiceNotFoundException(serviceId);
         }
         
@@ -104,11 +104,11 @@ public class SupplierService {
     }
     public void removeService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
          Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (!supplierOptional.isPresent()) {
+        if (supplierOptional.isEmpty()) {
             throw new SupplierNotFoundException(supplierId);
         }
         Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        if(!serviceOptional.isPresent()){
+        if(serviceOptional.isEmpty()){
             throw new ServiceNotFoundException(serviceId);
         }
         Supplier supplier = supplierOptional.get();
