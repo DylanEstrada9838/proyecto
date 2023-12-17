@@ -1,19 +1,22 @@
 package org.bedu.proyecto.seed;
 
 import java.util.List;
-
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.ServiceRepository;
-
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import jakarta.transaction.Transactional;
+
 @Component
+@Order(1)
 public class DataLoader implements CommandLineRunner {
 
     private final UserRepository userRepository;
@@ -26,21 +29,27 @@ public class DataLoader implements CommandLineRunner {
 
     }
 
+    @Transactional
     @Override
     public void run(String... args) {
-        User user = new User();
-        user.setPassword("123");
-        user.setEmail("dylan@gmail.com");
-        userRepository.save(user);
+        Map<String, String> userCredentials = Map.of(
+                "dylan@gmail.com", "123",
+                "dylan2@gmail.com", "456");
 
-        List<String> stringList = List.of("Plumbing", "Electrical", "Carpentry", "Painting");
+        userCredentials.forEach((email, password) -> {
+            User user = new User();
+            user.setPassword(password);
+            user.setEmail(email);
+            userRepository.save(user);
+        });
 
-        // Using Stream and map to create instances of Fruit
+        List<String> stringList = List.of("Plumbing", "Electrical", "Carpentry", "Painting","HVAC","Cleaning","Pest Control","Roofing","Home Security");
+
+        // Using Stream and map to create instances
         List<AppService> servicesList = stringList.stream()
                 .map(name -> new AppService(name))
                 .collect(Collectors.toList());
 
-        // Save each Fruit instance to the database
         servicesList.forEach(serviceRepository::save);
 
     }

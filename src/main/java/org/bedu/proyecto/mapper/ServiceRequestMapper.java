@@ -26,7 +26,7 @@ public interface ServiceRequestMapper {
     @Mapping(target = "service", ignore = true)
     @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "quotes", ignore = true)
+    @Mapping(target = "quote", ignore = true)
     @Mapping(source = "serviceId", target = "service.id")
     ServiceRequest toModel(CreateServiceRequestDTO dto);
     

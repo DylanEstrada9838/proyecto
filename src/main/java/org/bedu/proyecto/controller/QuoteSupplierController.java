@@ -5,8 +5,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+
 import org.bedu.proyecto.dto.quote.CreateQuoteDTO;
 import org.bedu.proyecto.dto.quote.QuoteDTO;
+import org.bedu.proyecto.exception.quote.QuoteServiceRequestNotAllowed;
+import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
+import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.service.QuoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,10 +30,12 @@ public class QuoteSupplierController { // Define una clase pública llamada Serv
     QuoteService service; // Define una variable de instancia para el servicio.
 
     @Operation(summary="Crea una cotización a un ServiceRequest")
-    @PostMapping("{supplierId}/requests/{requestId}") // Mapea las solicitudes GET a este método.
+    @PostMapping("{supplierId}/requests/{requestId}/quotes") // Mapea las solicitudes GET a este método.
     @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
-    public QuoteDTO save(@PathVariable long supplierId,@PathVariable long requestId,@Valid @RequestBody CreateQuoteDTO dto){
+    public QuoteDTO save(@PathVariable long supplierId,@PathVariable long requestId,@Valid @RequestBody CreateQuoteDTO dto) throws ServiceRequestNotFound,SupplierNotFoundException,QuoteServiceRequestNotAllowed{
         return service.save(supplierId,requestId,dto); // Llama al método findAllByClient del servicio y devuelve el resultado.
     }
+
+
 }
 

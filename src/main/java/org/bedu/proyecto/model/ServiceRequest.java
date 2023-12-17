@@ -1,8 +1,6 @@
 package org.bedu.proyecto.model;
 
-
 import java.time.Instant;
-import java.util.List;
 
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.model_enums.Urgency;
@@ -21,7 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -54,29 +52,29 @@ public class ServiceRequest {
     @Enumerated(EnumType.STRING)
     private Urgency urgency;
 
-     @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 100)
     @NotNull
     private StatusRequest status;
 
     @ManyToOne
-    @JoinColumn(name = "client_id",nullable = false)
-     @JsonBackReference
+    @JoinColumn(name = "client_id", nullable = false)
+    @JsonBackReference
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name="service_id",nullable=false)
+    @JoinColumn(name = "service_id", nullable = false)
     private AppService service;
 
     @ManyToOne
-    @JoinColumn(name="supplier_id",nullable = false)
+    @JoinColumn(name = "supplier_id", nullable = false)
     private Supplier supplier;
 
-    @OneToMany(mappedBy = "serviceRequest")
+    @OneToOne(mappedBy = "serviceRequest")
     @JsonBackReference
-    private List<Quote> quotes; 
-   
+    private Quote quote;
+
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
-     
+
 }

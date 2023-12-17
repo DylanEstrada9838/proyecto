@@ -1,5 +1,7 @@
 package org.bedu.proyecto.model;
 
+import java.math.BigDecimal;
+
 import org.bedu.proyecto.model_enums.StatusQuote;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -12,8 +14,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,19 +33,21 @@ public class Quote {
     private long id;
 
     @Column(nullable = false)
-    private double totalCost;
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer=5, fraction=2)
+    private BigDecimal totalCost;
     
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
     private StatusQuote status;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="request_id",referencedColumnName = "id")
     @JsonBackReference
     private ServiceRequest serviceRequest;
 
-    @ManyToOne
-    @JoinColumn(name="supplier_id",referencedColumnName="id")
-    @JsonBackReference
-    private Supplier supplier;
+    // @ManyToOne
+    // @JoinColumn(name="supplier_id",referencedColumnName="id")
+    // @JsonBackReference
+    // private Supplier supplier;
 }

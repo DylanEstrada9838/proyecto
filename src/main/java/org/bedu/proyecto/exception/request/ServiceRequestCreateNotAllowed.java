@@ -1,7 +1,6 @@
-package org.bedu.proyecto.exception;
+package org.bedu.proyecto.exception.request;
 
-
-
+import org.bedu.proyecto.exception.RuntimeException;
 
 public class ServiceRequestCreateNotAllowed  extends RuntimeException{
     public ServiceRequestCreateNotAllowed(long serviceId) {

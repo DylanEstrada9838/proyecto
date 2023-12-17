@@ -1,5 +1,7 @@
 package org.bedu.proyecto.dto.quote;
 
+import java.math.BigDecimal;
+
 import org.bedu.proyecto.model_enums.StatusQuote;
 
 import lombok.Data;
@@ -8,7 +10,6 @@ import lombok.Data;
 public class QuoteDTO {
     private long id;
     private long requestId;
-    private long supplierId;
-    private double totalCost;
+    private BigDecimal totalCost;
     private StatusQuote status;
 }

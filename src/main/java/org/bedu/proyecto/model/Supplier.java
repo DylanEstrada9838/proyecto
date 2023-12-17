@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -50,7 +49,7 @@ public class Supplier {
     @JsonBackReference
     List<AppService> services;
 
-    @OneToMany(mappedBy = "supplier")
-    @JsonBackReference
-    List<Quote> quotes;
+    // @OneToMany(mappedBy = "supplier")
+    // @JsonBackReference
+    // List<Quote> quotes;
 }
