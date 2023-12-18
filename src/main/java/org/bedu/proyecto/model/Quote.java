@@ -1,8 +1,11 @@
 package org.bedu.proyecto.model;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 import org.bedu.proyecto.model_enums.StatusQuote;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -45,6 +48,9 @@ public class Quote {
     @JoinColumn(name="request_id",referencedColumnName = "id")
     @JsonBackReference
     private ServiceRequest serviceRequest;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdAt;
 
     // @ManyToOne
     // @JoinColumn(name="supplier_id",referencedColumnName="id")

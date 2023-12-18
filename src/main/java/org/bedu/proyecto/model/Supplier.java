@@ -37,6 +37,13 @@ public class Supplier {
     @NotNull
     private String phone;
 
+    @Column(nullable = true, length = 15,unique=true)
+    private String phone_2;
+
+    @Column(nullable = false)
+    @NotNull
+    private String address;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -49,7 +56,4 @@ public class Supplier {
     @JsonBackReference
     List<AppService> services;
 
-    // @OneToMany(mappedBy = "supplier")
-    // @JsonBackReference
-    // List<Quote> quotes;
 }

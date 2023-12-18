@@ -16,6 +16,15 @@ public class CreateSupplierDTO {
     @Min(5)
     private String phone;
 
+    @Schema(description = "Telefono del proveedor", example = "0123456789")
+    @Min(5)
+    private String phone_2;
+
+    @Schema(description = "Dirección del proveedor", example = "789 Oak Lane Hamletville, XY 12345")
+    @Min(5)
+    private String address;
+
+
     @Schema(description = "ID de usuario", example = "1")
     private long userId;
 }

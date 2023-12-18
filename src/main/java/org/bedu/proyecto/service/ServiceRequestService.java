@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
+import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
@@ -45,7 +46,7 @@ public class ServiceRequestService {
     @Transactional
     public ServiceRequestDTO save(long clientId, CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException, SupplierNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed {
+            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, RequestSameUserNotAllowed {
         Optional<Client> clientOptional = clientRepository.findById(clientId);
         Optional<AppService> serviceOptional = serviceRepository.findById(data.getServiceId());
         Optional<Supplier> supplierOptional = supplierRepository.findById(data.getSupplierId());
@@ -62,6 +63,11 @@ public class ServiceRequestService {
         Supplier supplier = supplierOptional.get();
         AppService service = serviceOptional.get();
         Client client = clientOptional.get();
+        // Validation Client has not the same userId as Supplier
+        if (supplier.getUser().getId() == client.getUser().getId()) {
+            throw new RequestSameUserNotAllowed(client.getUser().getId());
+        }
+
         // Validation if service is assigned to selected Supplier
         List<AppService> listServices = supplier.getServices();
         if (!listServices.contains(service)) {
@@ -97,6 +103,7 @@ public class ServiceRequestService {
 
         return mapper.toDTOs(repository.findAllByClient(clientOptional.get()));
     }
+
     public List<ServiceRequestDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = supplierRepository.findById(supplierId);
 

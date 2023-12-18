@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,7 +36,6 @@ public class AppService {
     @ManyToMany(mappedBy = "services")
     @JsonBackReference
     private List<Supplier> suppliers;
-    
 
     public AppService(String serviceName) {
         this.service = serviceName;

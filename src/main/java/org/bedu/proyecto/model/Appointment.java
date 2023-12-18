@@ -29,15 +29,16 @@ public class Appointment {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(nullable = false)
     private StatusAppointment status;
-    @Column(nullable=false)
-    private LocalDateTime startDate;
-    @Column(nullable=false)
-    private LocalDateTime endDate;
 
     @OneToOne
-    @JoinColumn(name = "quote_id",referencedColumnName = "id")
+    @JoinColumn(name = "quote_id", referencedColumnName = "id")
     private Quote quote;
+
+    @Column(nullable = false)
+    private LocalDateTime startDate;
+    @Column(nullable = false)
+    private LocalDateTime endDate;
 
 }

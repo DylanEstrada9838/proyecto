@@ -27,7 +27,6 @@ public interface SupplierMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "services", ignore = true)
-   // @Mapping(target = "quotes", ignore = true)
     @Mapping(target = "user", ignore = true)
     void update(@MappingTarget Supplier supplier, UpdateSupplierDTO data);
 }

@@ -34,7 +34,14 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) {
         Map<String, String> userCredentials = Map.of(
                 "dylan@gmail.com", "123",
-                "dylan2@gmail.com", "456");
+                "dylan2@gmail.com", "456", "alice@yahoo.com", "p@ssw0rd",
+                "bob@hotmail.com", "securePwd",
+                "charlie@gmail.com", "letMeIn123",
+                "emma@gmail.com", "password123",
+                "frank@example.com", "pass1234",
+                "grace@gmail.com", "helloWorld",
+                "henry@yahoo.com", "qwerty",
+                "isabel@hotmail.com", "mySecretPwd");
 
         userCredentials.forEach((email, password) -> {
             User user = new User();

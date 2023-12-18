@@ -1,6 +1,7 @@
 package org.bedu.proyecto.model;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.model_enums.Urgency;
@@ -19,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +32,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table(name = "service_req")
+@Table(name = "service_requests")
 @NoArgsConstructor
 
 @Entity
@@ -65,6 +67,9 @@ public class ServiceRequest {
     @ManyToOne
     @JoinColumn(name = "service_id", nullable = false)
     private AppService service;
+
+    @OneToMany(mappedBy = "serviceRequest")
+    List <QuoteRequest> quoteRequests;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)
