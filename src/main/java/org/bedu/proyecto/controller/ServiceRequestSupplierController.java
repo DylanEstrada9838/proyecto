@@ -5,7 +5,7 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
-import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
+import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,9 +25,9 @@ public class ServiceRequestSupplierController { // Define una clase pública lla
     ServiceRequestService service; // Define una variable de instancia para el servicio.
 
     @Operation(summary="Define un método para encontrar todas las solicitudes de servicio por proveedor.")
-    @GetMapping("{supplierId}/requests") // Mapea las solicitudes GET a este método.
+    @GetMapping("{clientId}/requests") // Mapea las solicitudes GET a este método.
     @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
-    public List<ServiceRequestDTO> findAllBySupplier(@PathVariable long supplierId) throws SupplierNotFoundException{
-        return service.findAllBySupplier(supplierId); // Llama al método findAllByClient del servicio y devuelve el resultado.
+    public List<ServiceRequestDTO> findAllByClient(@PathVariable long clientId) throws ClientNotFoundException{
+        return service.findAllByClient(clientId); // Llama al método findAllByClient del servicio y devuelve el resultado.
     }
 }

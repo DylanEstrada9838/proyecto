@@ -12,13 +12,14 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface QuoteMapper {
-    @Mapping(source = "serviceRequest.id", target = "requestId")
+    @Mapping(source = "quoteRequest.id", target = "quoteRequestId")
     QuoteDTO toDTO(Quote model);
 
     @Mapping(source = "serviceRequest.id", target = "requestId")
     List<QuoteDTO> toDTOs(List <Quote> model);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "serviceRequest", ignore = true)
+    @Mapping(target = "quoteRequest", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     Quote toModel(CreateQuoteDTO dto);
 }

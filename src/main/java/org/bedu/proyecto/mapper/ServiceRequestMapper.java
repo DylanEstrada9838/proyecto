@@ -11,12 +11,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ServiceRequestMapper {
-    @Mapping(source = "supplier.id", target = "supplierId")
+    
     @Mapping(source = "service.id", target = "serviceId")
     @Mapping(source = "client.id", target = "clientId")
     ServiceRequestDTO toDTO(ServiceRequest model);
 
-    @Mapping(source = "supplier.id", target = "supplierId")
     @Mapping(source = "service.id", target = "serviceId")
     @Mapping(source = "client.id", target = "clientId")
     List<ServiceRequestDTO> toDTOs(List <ServiceRequest> model);
@@ -24,9 +23,8 @@ public interface ServiceRequestMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "client", ignore = true)
     @Mapping(target = "service", ignore = true)
-    @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "quote", ignore = true)
+    @Mapping(target = "quoteRequests", ignore = true)
     @Mapping(source = "serviceId", target = "service.id")
     ServiceRequest toModel(CreateServiceRequestDTO dto);
     

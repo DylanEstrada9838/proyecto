@@ -29,9 +29,6 @@ public class CreateServiceRequestDTO {
     @Schema(description = "Tipo de servicio que se realizara", example = "1")
     @Positive
     private long serviceId;
-    @Positive
-    @Schema(description = "ID de Proveedor que se solicita el servicio", example = "1")
-    private long supplierId;
 
     @Schema(description = "Estatus de la solicitud del servicio", example = "ASSIGNED")
     private StatusRequest status = StatusRequest.OPEN;

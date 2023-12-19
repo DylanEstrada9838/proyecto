@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class QuoteDTO {
     private long id;
-    private long requestId;
+    private long quoteRequestId;
     private BigDecimal totalCost;
     private StatusQuote status;
 }

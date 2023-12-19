@@ -45,9 +45,9 @@ public class Quote {
     private StatusQuote status;
 
     @OneToOne
-    @JoinColumn(name="request_id",referencedColumnName = "id")
+    @JoinColumn(name="quote_request_id",referencedColumnName = "id")
     @JsonBackReference
-    private ServiceRequest serviceRequest;
+    private QuoteRequest quoteRequest;
 
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;

@@ -21,7 +21,6 @@ import jakarta.persistence.JoinColumn;
 
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -43,11 +42,11 @@ public class ServiceRequest {
 
     @Column(nullable = false)
     @NotNull
-    private String address;
+    private String description;
 
     @Column(nullable = false)
     @NotNull
-    private String description;
+    private String address;
 
     @Column(nullable = false, length = 100)
     @NotNull
@@ -58,6 +57,9 @@ public class ServiceRequest {
     @Column(nullable = false, length = 100)
     @NotNull
     private StatusRequest status;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdAt;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
@@ -71,15 +73,6 @@ public class ServiceRequest {
     @OneToMany(mappedBy = "serviceRequest")
     List <QuoteRequest> quoteRequests;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
-    private Supplier supplier;
 
-    @OneToOne(mappedBy = "serviceRequest")
-    @JsonBackReference
-    private Quote quote;
-
-    @CreationTimestamp(source = SourceType.DB)
-    private Instant createdAt;
 
 }
