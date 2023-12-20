@@ -9,5 +9,5 @@ public class RemoveServiceDTO {
 
     @Schema(description = "ID de tipo de servicio que se ofrece ", example = "1")
     @Positive
-    private long serviceId;
+    private Long serviceId;
 }

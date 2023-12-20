@@ -10,7 +10,6 @@ import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
-import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.mapper.ServiceRequestMapper;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Client;
@@ -44,7 +43,7 @@ public class ServiceRequestService {
 
     @Transactional
     public ServiceRequestDTO save(long clientId, CreateServiceRequestDTO data)
-            throws ClientNotFoundException, ServiceNotFoundException, SupplierNotFoundException,
+            throws ClientNotFoundException, ServiceNotFoundException,
             ServiceNotAssignedException, ServiceRequestCreateNotAllowed, RequestSameUserNotAllowed {
         Optional<Client> clientOptional = clientRepository.findById(clientId);
         Optional<AppService> serviceOptional = serviceRepository.findById(data.getServiceId());

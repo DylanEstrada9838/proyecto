@@ -127,5 +127,11 @@ public class SupplierService {
 
         return serviceRepository.findAllBySuppliers(supplier.get());
     }
+
+    public List<SupplierDTO> findAllByService(long serviceId){
+        Optional<AppService> appServiceOptional = serviceRepository.findById(serviceId);
+
+        return mapper.toDTOs(repository.findByServices(appServiceOptional.get()));
+    }
     
 }

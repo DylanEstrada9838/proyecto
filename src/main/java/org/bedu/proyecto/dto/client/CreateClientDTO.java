@@ -36,7 +36,7 @@ public class CreateClientDTO {
 
     @Min(value=1)
     @Max(value=99)
-    private int age;
+    private Integer age;
 
     private Gender gender;
     

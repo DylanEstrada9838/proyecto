@@ -101,5 +101,11 @@ public class SupplierController {
         return service.findAllBySupplier(supplierId);
     }
 
+    @GetMapping("services/{serviceId}")
+    @ResponseStatus(HttpStatus.OK)
+    List <SupplierDTO> findAllByService(@PathVariable long serviceId){
+        return service.findAllByService(serviceId);
+    }
+
     
 }

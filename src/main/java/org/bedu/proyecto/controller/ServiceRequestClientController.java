@@ -11,7 +11,6 @@ import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
-import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +38,7 @@ public class ServiceRequestClientController { // Define una clase pública llama
     @PostMapping("{clientId}/requests") // Mapea las solicitudes POST a este método.
     @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
     public ServiceRequestDTO save(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data)
-            throws ClientNotFoundException, ServiceNotFoundException, SupplierNotFoundException,
+            throws ClientNotFoundException, ServiceNotFoundException,
             ServiceNotAssignedException, ServiceRequestCreateNotAllowed,RequestSameUserNotAllowed { // Define un método para guardar una solicitud
                                                                           // de servicio.
 
