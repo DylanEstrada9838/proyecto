@@ -59,16 +59,6 @@ public class ServiceRequestService {
        
         AppService service = serviceOptional.get();
         Client client = clientOptional.get();
-        // // Validation Client has not the same userId as Supplier
-        // if (supplier.getUser().getId() == client.getUser().getId()) {
-        //     throw new RequestSameUserNotAllowed(client.getUser().getId());
-        // }
-
-        // // Validation if service is assigned to selected Supplier
-        // List<AppService> listServices = supplier.getServices();
-        // if (!listServices.contains(service)) {
-        //     throw new ServiceNotAssignedException(service.getId());
-        // }
         // Validation if Client haven´t done the same Request(Status = Open) to the same
         // Supplier
         List<ServiceRequestDTO> existingRequests = mapper.toDTOs(repository.findAllByClient(client));
