@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 
 import org.bedu.proyecto.dto.quote_request.CreateQuoteRequestDTO;
 import org.bedu.proyecto.dto.quote_request.QuoteRequestDTO;
+import org.bedu.proyecto.exception.quote_request.QuoteRequestAlreadyExist;
 import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
@@ -34,7 +35,7 @@ public class QuoteRequestClientController { // Define una clase pública llamada
 
     @PostMapping("{serviceRequestId}/quoterequests")
     @ResponseStatus(HttpStatus.CREATED)
-    public QuoteRequestDTO save(@PathVariable long serviceRequestId,@Valid @RequestBody CreateQuoteRequestDTO data) throws ServiceRequestNotFound,SupplierNotFoundException, RequestSameUserNotAllowed, ServiceNotAssignedException{
+    public QuoteRequestDTO save(@PathVariable long serviceRequestId,@Valid @RequestBody CreateQuoteRequestDTO data) throws ServiceRequestNotFound,SupplierNotFoundException, RequestSameUserNotAllowed, ServiceNotAssignedException, QuoteRequestAlreadyExist{
         return service.save(serviceRequestId, data);
     }
 

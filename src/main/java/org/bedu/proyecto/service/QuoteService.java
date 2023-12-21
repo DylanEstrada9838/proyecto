@@ -4,9 +4,8 @@ import java.util.Optional;
 
 import org.bedu.proyecto.dto.quote.CreateQuoteDTO;
 import org.bedu.proyecto.dto.quote.QuoteDTO;
-import org.bedu.proyecto.exception.quote.QuoteServiceRequestNotAllowed;
-import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
-import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
+import org.bedu.proyecto.exception.quote.QuoteAlreadyExist;
+import org.bedu.proyecto.exception.quote_request.QuoteRequestNotFound;
 import org.bedu.proyecto.mapper.QuoteMapper;
 import org.bedu.proyecto.model.Quote;
 import org.bedu.proyecto.model.QuoteRequest;
@@ -30,18 +29,18 @@ public class QuoteService {
     @Autowired
     QuoteRequestRepository quoteRequestRepository;
     @Transactional
-    public QuoteDTO save(long supplierId,long requestId,CreateQuoteDTO data) throws ServiceRequestNotFound,SupplierNotFoundException,QuoteServiceRequestNotAllowed{
+    public QuoteDTO save(long quoteRequestId,CreateQuoteDTO data) throws QuoteAlreadyExist, QuoteRequestNotFound{
         log.info("data {}", data);
-        Optional<QuoteRequest> quoteRequestOptional = quoteRequestRepository.findById(requestId);
+        Optional<QuoteRequest> quoteRequestOptional = quoteRequestRepository.findById(quoteRequestId);
         if (quoteRequestOptional.isEmpty()) {
-            throw new ServiceRequestNotFound(requestId);
+            throw new QuoteRequestNotFound(quoteRequestId);
         }
-        QuoteRequest request = quoteRequestOptional.get();
-        if(request.getSupplier().getId() != supplierId){
-            throw new QuoteServiceRequestNotAllowed(requestId);
+        QuoteRequest quoteRequest = quoteRequestOptional.get();
+        if(quoteRequest.getQuote()!=null){
+            throw new QuoteAlreadyExist(quoteRequestId);
         }
         Quote entity = mapper.toModel(data);
-        entity.setQuoteRequest(request);
+        entity.setQuoteRequest(quoteRequest);
         repository.save(entity);
 
         return mapper.toDTO(entity);

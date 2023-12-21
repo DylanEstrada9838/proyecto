@@ -2,6 +2,7 @@ package org.bedu.proyecto.controller;
 
 import org.bedu.proyecto.dto.appointment.AppointmentDTO;
 import org.bedu.proyecto.dto.appointment.CreateAppointmentDTO;
+import org.bedu.proyecto.exception.appointment.AppointmentAlreadyExist;
 import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("quotes")
-public class ClientAppointmentController {
+public class SupplierAppointmentController {
     @Autowired
     private AppointmentService service;
 
     @PostMapping("{quoteId}/appointments")
-    public AppointmentDTO save(@PathVariable long quoteId,@RequestBody CreateAppointmentDTO data) throws QuoteNotFound{
+    public AppointmentDTO save(@PathVariable long quoteId,@RequestBody CreateAppointmentDTO data) throws QuoteNotFound, AppointmentAlreadyExist{
         return service.save(quoteId,data);
     }
 }

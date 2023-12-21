@@ -6,7 +6,6 @@ import java.time.Instant;
 import org.bedu.proyecto.model_enums.StatusQuote;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SourceType;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -49,11 +48,10 @@ public class Quote {
     @JsonBackReference
     private QuoteRequest quoteRequest;
 
+    @OneToOne(mappedBy = "quote")
+    private Appointment appointment;
+
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
 
-    // @ManyToOne
-    // @JoinColumn(name="supplier_id",referencedColumnName="id")
-    // @JsonBackReference
-    // private Supplier supplier;
 }
