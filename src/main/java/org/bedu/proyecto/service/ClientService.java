@@ -32,26 +32,20 @@ public class ClientService {
 
     public ClientDTO findById(Long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if (clientOptional.isEmpty()) {
-            throw new ClientNotFoundException(clientId);
-        }
-        return mapper.toDTO(clientOptional.get());
+        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
+        return mapper.toDTO(client);
     }
 
-    public ClientDTO save(CreateClientDTO data) throws UserNotFoundException,ClientUserAlreadyExist{
+    public ClientDTO save(CreateClientDTO data) throws UserNotFoundException, ClientUserAlreadyExist {
         Optional<User> userOptional = userRepository.findById(data.getUserId());
-        if(userOptional.isEmpty()){
-            throw new UserNotFoundException(data.getUserId());
-        }
-        
-        Optional<Client> clientOptional = repository.findByUser(userOptional.get());
+        User user = userOptional.orElseThrow(() -> new UserNotFoundException(data.getUserId()));
 
-        if(clientOptional.isPresent()){
+        Optional<Client> clientOptional = repository.findByUser(user);
+        if (clientOptional.isPresent()) {
             throw new ClientUserAlreadyExist(data.getUserId());
         }
-
         Client entity = mapper.toModel(data);
-        entity.setUser(userOptional.get());
+        entity.setUser(user);
         repository.save(entity);
 
         return mapper.toDTO(entity);
@@ -59,19 +53,14 @@ public class ClientService {
 
     public void update(long clientId, UpdateClientDTO data) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if (clientOptional.isEmpty()) {
-            throw new ClientNotFoundException(clientId);
-        }
-        Client client = clientOptional.get();
+        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
         mapper.update(client, data);
         repository.save(client);
     }
 
     public void delete(long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = repository.findById(clientId);
-        if (clientOptional.isEmpty()) {
-            throw new ClientNotFoundException(clientId);
-        }
-        repository.delete(clientOptional.get());
+        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
+        repository.delete(client);
     }
 }

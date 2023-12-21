@@ -97,13 +97,13 @@ public class SupplierController {
     @Operation(summary="Este método devuelve una lista de todos los servicios de un proveedor específico.")
     @GetMapping("{supplierId}/services") // Mapea las solicitudes GET con un ID de proveedor y "/services" a este método.
     @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
-    public List<AppService> findAllServicesBySupplier(@PathVariable long supplierId){
+    public List<AppService> findAllServicesBySupplier(@PathVariable long supplierId) throws SupplierNotFoundException{
         return service.findAllBySupplier(supplierId);
     }
 
     @GetMapping("services/{serviceId}")
     @ResponseStatus(HttpStatus.OK)
-    List <SupplierDTO> findAllByService(@PathVariable long serviceId){
+    List <SupplierDTO> findAllByService(@PathVariable long serviceId) throws ServiceNotFoundException{
         return service.findAllByService(serviceId);
     }
 

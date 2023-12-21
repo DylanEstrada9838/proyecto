@@ -15,8 +15,8 @@ import org.bedu.proyecto.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @Service
 public class QuoteService {
@@ -28,15 +28,13 @@ public class QuoteService {
     SupplierRepository supplierRepository;
     @Autowired
     QuoteRequestRepository quoteRequestRepository;
-    @Transactional
-    public QuoteDTO save(long quoteRequestId,CreateQuoteDTO data) throws QuoteAlreadyExist, QuoteRequestNotFound{
+
+    public QuoteDTO save(long quoteRequestId, CreateQuoteDTO data) throws QuoteAlreadyExist, QuoteRequestNotFound {
         log.info("data {}", data);
         Optional<QuoteRequest> quoteRequestOptional = quoteRequestRepository.findById(quoteRequestId);
-        if (quoteRequestOptional.isEmpty()) {
-            throw new QuoteRequestNotFound(quoteRequestId);
-        }
-        QuoteRequest quoteRequest = quoteRequestOptional.get();
-        if(quoteRequest.getQuote()!=null){
+        QuoteRequest quoteRequest = quoteRequestOptional.orElseThrow(() -> new QuoteRequestNotFound(quoteRequestId));
+
+        if (quoteRequest.getQuote() != null) {
             throw new QuoteAlreadyExist(quoteRequestId);
         }
         Quote entity = mapper.toModel(data);
@@ -47,4 +45,3 @@ public class QuoteService {
 
     }
 }
-

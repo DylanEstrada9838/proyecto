@@ -40,16 +40,13 @@ public class QuoteRequestService {
     public QuoteRequestDTO save(long serviceRequestId, CreateQuoteRequestDTO data)
             throws ServiceRequestNotFound, SupplierNotFoundException, RequestSameUserNotAllowed,
             ServiceNotAssignedException, QuoteRequestAlreadyExist {
+
         Optional<ServiceRequest> serviceRequestOptional = serviceRequestRepository.findById(serviceRequestId);
+        ServiceRequest serviceRequest = serviceRequestOptional
+                .orElseThrow(() -> new ServiceRequestNotFound(serviceRequestId));
+
         Optional<Supplier> supplierOptional = supplierRepository.findById(data.getSupplierId());
-        if (serviceRequestOptional.isEmpty()) {
-            throw new ServiceRequestNotFound(serviceRequestId);
-        }
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(data.getSupplierId());
-        }
-        Supplier supplier = supplierOptional.get();
-        ServiceRequest serviceRequest = serviceRequestOptional.get();
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(data.getSupplierId()));
 
         // Validation Client has not the same userId as Supplier
         if (supplier.getUser().getId() == serviceRequest.getClient().getUser().getId()) {
@@ -61,7 +58,8 @@ public class QuoteRequestService {
         if (!listServices.contains(serviceRequest.getService())) {
             throw new ServiceNotAssignedException(serviceRequest.getService().getId());
         }
-
+        // Validation if there is already an existing Quote Request for the Service
+        // Request to same Supplier
         List<QuoteRequest> existingQuoteRequests = repository.findAllByServiceRequest(serviceRequest);
         if (!existingQuoteRequests.isEmpty()) {
             for (QuoteRequest existingQuoteRequest : existingQuoteRequests) {
@@ -83,22 +81,16 @@ public class QuoteRequestService {
 
     public List<QuoteRequestDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = supplierRepository.findById(supplierId);
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
 
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(supplierId);
-        }
-
-        return mapper.toDTOs(repository.findAllBySupplier(supplierOptional.get()));
+        return mapper.toDTOs(repository.findAllBySupplier(supplier));
     }
 
     public List<QuoteRequestDTO> findAllByServiceRequest(long serviceRequestId) throws ServiceRequestNotFound {
         Optional<ServiceRequest> serviceRequestOptional = serviceRequestRepository.findById(serviceRequestId);
+        ServiceRequest serviceRequest = serviceRequestOptional.orElseThrow(() -> new ServiceRequestNotFound(serviceRequestId));
 
-        if (serviceRequestOptional.isEmpty()) {
-            throw new ServiceRequestNotFound(serviceRequestId);
-        }
-
-        return mapper.toDTOs(repository.findAllByServiceRequest(serviceRequestOptional.get()));
+        return mapper.toDTOs(repository.findAllByServiceRequest(serviceRequest));
     }
 
 }

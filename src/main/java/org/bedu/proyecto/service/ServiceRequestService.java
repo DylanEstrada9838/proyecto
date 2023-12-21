@@ -46,25 +46,17 @@ public class ServiceRequestService {
             throws ClientNotFoundException, ServiceNotFoundException,
             ServiceNotAssignedException, ServiceRequestCreateNotAllowed, RequestSameUserNotAllowed {
         Optional<Client> clientOptional = clientRepository.findById(clientId);
-        Optional<AppService> serviceOptional = serviceRepository.findById(data.getServiceId());
-        
+        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
 
-        if (clientOptional.isEmpty()) {
-            throw new ClientNotFoundException(clientId);
-        }
-        if (serviceOptional.isEmpty()) {
-            throw new ServiceNotFoundException(data.getServiceId());
-        }
-        
-       
-        AppService service = serviceOptional.get();
-        Client client = clientOptional.get();
+        Optional<AppService> serviceOptional = serviceRepository.findById(data.getServiceId());
+        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(data.getServiceId()));
+
         // Validation if Client haven´t done the same Request(Status = Open) to the same
         // Supplier
-        List<ServiceRequestDTO> existingRequests = mapper.toDTOs(repository.findAllByClient(client));
+        List<ServiceRequest> existingRequests = repository.findAllByClient(client);
         if (!existingRequests.isEmpty()) {
-            for (ServiceRequestDTO existingRequest : existingRequests) {
-                if (existingRequest.getServiceId() == service.getId()
+            for (ServiceRequest existingRequest : existingRequests) {
+                if (existingRequest.getService().getId() == service.getId()
                         & existingRequest.getStatus() == StatusRequest.OPEN) {
                     throw new ServiceRequestCreateNotAllowed(service.getId());
                 }
@@ -80,12 +72,9 @@ public class ServiceRequestService {
 
     public List<ServiceRequestDTO> findAllByClient(long clientId) throws ClientNotFoundException {
         Optional<Client> clientOptional = clientRepository.findById(clientId);
+        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
 
-        if (clientOptional.isEmpty()) {
-            throw new ClientNotFoundException(clientId);
-        }
-
-        return mapper.toDTOs(repository.findAllByClient(clientOptional.get()));
+        return mapper.toDTOs(repository.findAllByClient(client));
     }
 
 }

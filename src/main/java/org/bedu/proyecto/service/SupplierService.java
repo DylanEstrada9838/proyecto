@@ -22,8 +22,6 @@ import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 public class SupplierService {
     @Autowired
@@ -41,24 +39,20 @@ public class SupplierService {
 
     public SupplierDTO findById(Long supplierId) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(supplierId);
-        }
-        return mapper.toDTO(supplierOptional.get());
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+        return mapper.toDTO(supplier);
     }
 
-    public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException,SupplierUserAlreadyExist{
+    public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException, SupplierUserAlreadyExist {
         Optional<User> userOptional = userRepository.findById(data.getUserId());
-        if(userOptional.isEmpty()){
-            throw new UserNotFoundException(data.getUserId());
-        }
+        User user = userOptional.orElseThrow(() -> new UserNotFoundException(data.getUserId()));
 
-        Optional<Supplier> supplierOptional = repository.findByUser(userOptional.get());
-        if(supplierOptional.isPresent()){
+        Optional<Supplier> supplierOptional = repository.findByUser(user);
+        if (supplierOptional.isPresent()) {
             throw new SupplierUserAlreadyExist(data.getUserId());
         }
         Supplier entity = mapper.toModel(data);
-        entity.setUser(userOptional.get());
+        entity.setUser(user);
         repository.save(entity);
 
         return mapper.toDTO(entity);
@@ -66,72 +60,61 @@ public class SupplierService {
 
     public void update(long supplierId, UpdateSupplierDTO data) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(supplierId);
-        }
-        Supplier supplier = supplierOptional.get();
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
         mapper.update(supplier, data);
         repository.save(supplier);
     }
 
     public void delete(long supplierId) throws SupplierNotFoundException {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(supplierId);
-        }
-        repository.delete(supplierOptional.get());
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+        repository.delete(supplier);
     }
 
-    public void addService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
-         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(supplierId);
-        }
+    public void addService(long supplierId, long serviceId)
+            throws SupplierNotFoundException, ServiceNotFoundException, ServiceAlreadyAssignedException {
+        Optional<Supplier> supplierOptional = repository.findById(supplierId);
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+
         Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        if(serviceOptional.isEmpty()){
-            throw new ServiceNotFoundException(serviceId);
-        }
-        
-        Supplier supplier = supplierOptional.get();
-        List <AppService> services = supplier.getServices();
-         if (services.contains(serviceOptional.get())){
+        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
+
+        List<AppService> services = supplier.getServices();
+        if (services.contains(service)) {
             throw new ServiceAlreadyAssignedException(serviceId);
         }
-        services.add(serviceOptional.get());
-
+        services.add(service);
         repository.save(supplier);
-
     }
-    public void removeService(long supplierId,long serviceId) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
-         Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (supplierOptional.isEmpty()) {
-            throw new SupplierNotFoundException(supplierId);
-        }
-        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        if(serviceOptional.isEmpty()){
-            throw new ServiceNotFoundException(serviceId);
-        }
-        Supplier supplier = supplierOptional.get();
-        List <AppService> services = supplier.getServices();
 
-        if (!services.contains(serviceOptional.get())){
+    public void removeService(long supplierId, long serviceId)
+            throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException {
+        Optional<Supplier> supplierOptional = repository.findById(supplierId);
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+
+        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
+        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
+
+        List<AppService> services = supplier.getServices();
+        if (!services.contains(service)) {
             throw new ServiceNotAssignedException(serviceId);
         }
-        services.remove(serviceOptional.get());
+        services.remove(service);
         repository.save(supplier);
-
     }
 
-    public List<AppService> findAllBySupplier(long supplierId){
-        Optional<Supplier> supplier = repository.findById(supplierId);
+    public List<AppService> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
+        Optional<Supplier> supplierOptional = repository.findById(supplierId);
+        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
 
-        return serviceRepository.findAllBySuppliers(supplier.get());
+        return serviceRepository.findAllBySuppliers(supplier);
     }
 
-    public List<SupplierDTO> findAllByService(long serviceId){
-        Optional<AppService> appServiceOptional = serviceRepository.findById(serviceId);
+    public List<SupplierDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
+        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
+        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
 
-        return mapper.toDTOs(repository.findByServices(appServiceOptional.get()));
+        return mapper.toDTOs(repository.findByServices(service));
     }
-    
+
 }

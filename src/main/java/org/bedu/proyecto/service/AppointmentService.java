@@ -24,12 +24,8 @@ public class AppointmentService {
 
     public AppointmentDTO save(long quoteId,CreateAppointmentDTO data) throws QuoteNotFound, AppointmentAlreadyExist{
         Optional<Quote> quoteOptional = quoteRepository.findById(quoteId);
+        Quote quote = quoteOptional.orElseThrow(()-> new QuoteNotFound(quoteId));
 
-        if(quoteOptional.isEmpty()){
-            throw new QuoteNotFound(quoteId);
-        }
-        
-        Quote quote = quoteOptional.get();
         if(quote.getAppointment()!=null){
             throw new AppointmentAlreadyExist(quoteId);
         }
