@@ -3,6 +3,7 @@ package org.bedu.proyecto.service;
 import org.bedu.proyecto.dto.appointment.AppointmentDTO;
 import org.bedu.proyecto.dto.appointment.CreateAppointmentDTO;
 import org.bedu.proyecto.exception.appointment.AppointmentAlreadyExist;
+import org.bedu.proyecto.exception.appointment.AppointmentNotFound;
 import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.mapper.AppointmentMapper;
 import org.bedu.proyecto.model.Appointment;
@@ -32,5 +33,13 @@ public class AppointmentService {
         repository.save(entity);
 
         return mapper.toDTO(entity);
+    }
+    public AppointmentDTO findByQuote(long quoteId) throws QuoteNotFound, AppointmentNotFound{
+        Quote quote = Validation.quoteExist(quoteRepository, quoteId);
+        if(quote.getAppointment()==null){
+            throw new AppointmentNotFound(quoteId);
+        }
+        return mapper.toDTO(quote.getAppointment());
+
     }
 }

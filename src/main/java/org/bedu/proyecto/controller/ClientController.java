@@ -7,10 +7,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
 import org.bedu.proyecto.dto.client.UpdateClientDTO;
+import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
+import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
+import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
+import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
+import org.bedu.proyecto.exception.service.ServiceNotFoundException;
+import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.ClientService;
+import org.bedu.proyecto.service.ServiceRequestService;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +42,9 @@ public class ClientController {
 
     @Autowired  // Inyecta automáticamente la dependencia UserService.
     UserService userService;
+
+    @Autowired // Esta anotación permite la inyección automática del bean
+    ServiceRequestService serviceRequestService;
 
     @Operation(summary="Devuelve una lista de todos los clientes.")
     @GetMapping  // Maneja las solicitudes GET a la ruta base ("clients").
@@ -70,5 +80,24 @@ public class ClientController {
     @ResponseStatus(HttpStatus.NO_CONTENT)  // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
     public void delete(@PathVariable long clientId) throws ClientNotFoundException {
         service.delete(clientId);
+    }
+
+    @Operation(summary = "Crea una solicitud de Servicio a un Proveedor específico.")
+    @PostMapping("{clientId}/servicerequests") // Mapea las solicitudes POST a este método.
+    @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
+    public ServiceRequestDTO addServiceRequest(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data)
+            throws ClientNotFoundException, ServiceNotFoundException,
+            ServiceNotAssignedException, ServiceRequestCreateNotAllowed,RequestSameUserNotAllowed { // Define un método para guardar una solicitud
+                                                                          // de servicio.
+
+        return serviceRequestService.save(clientId, data); // Llama al método save del servicio y devuelve el resultado.
+    }
+
+    @Operation(summary = "Define un método para encontrar todas las solicitudes de servicio por cliente.")
+    @GetMapping("{clientId}/servicerequests") // Mapea las solicitudes GET a este método.
+    @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
+    public List<ServiceRequestDTO> findAllServiceRequestByClient(@PathVariable long clientId) throws ClientNotFoundException {
+        return serviceRequestService.findAllByClient(clientId); // Llama al método findAllByClient del servicio y devuelve el
+                                                  // resultado.
     }
 }

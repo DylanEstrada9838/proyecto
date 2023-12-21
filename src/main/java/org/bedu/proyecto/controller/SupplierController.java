@@ -4,6 +4,8 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.bedu.proyecto.dto.quote_request.QuoteRequestDTO;
 import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.service.RemoveServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
@@ -16,7 +18,7 @@ import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.model.AppService;
-import org.bedu.proyecto.service.ServiceRequestService;
+import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,7 @@ public class SupplierController {
     @Autowired // Esta anotación permite la inyección automática del bean 'UserService'.
     UserService userService;
     @Autowired 
-    ServiceRequestService serviceRequestService;
+    QuoteRequestService quoteRequestService;
 
     @Operation(summary="Este método devuelve una lista de todos los proveedores.")
     @GetMapping // Mapea las solicitudes GET a este método.
@@ -103,9 +105,14 @@ public class SupplierController {
 
     @GetMapping("services/{serviceId}")
     @ResponseStatus(HttpStatus.OK)
-    List <SupplierDTO> findAllByService(@PathVariable long serviceId) throws ServiceNotFoundException{
+    List <SupplierDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
         return service.findAllByService(serviceId);
     }
 
+    @GetMapping("{supplierId}/quoterequests")
+    @ResponseStatus(HttpStatus.OK)
+    public List<QuoteRequestDTO> findAllQuoteRequestBySupplier(@PathVariable long supplierId) throws SupplierNotFoundException{
+        return quoteRequestService.findAllBySupplier(supplierId);
+    }
     
 }

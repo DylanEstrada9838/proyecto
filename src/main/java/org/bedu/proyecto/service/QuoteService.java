@@ -4,6 +4,7 @@ package org.bedu.proyecto.service;
 import org.bedu.proyecto.dto.quote.CreateQuoteDTO;
 import org.bedu.proyecto.dto.quote.QuoteDTO;
 import org.bedu.proyecto.exception.quote.QuoteAlreadyExist;
+import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestNotFound;
 import org.bedu.proyecto.mapper.QuoteMapper;
 import org.bedu.proyecto.model.Quote;
@@ -40,5 +41,13 @@ public class QuoteService {
 
         return mapper.toDTO(entity);
 
+    }
+
+    public QuoteDTO findByQuoteRequest(long quoteRequestId) throws QuoteRequestNotFound, QuoteNotFound{
+        QuoteRequest quoteRequest = Validation.quoteRequestExist(quoteRequestRepository, quoteRequestId);
+        if (quoteRequest.getQuote()==null){
+            throw new QuoteNotFound(quoteRequestId);
+        }
+        return mapper.toDTO(quoteRequest.getQuote());
     }
 }

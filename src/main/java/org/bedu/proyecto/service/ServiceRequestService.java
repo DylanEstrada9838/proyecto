@@ -7,6 +7,7 @@ import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
+import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.mapper.ServiceRequestMapper;
@@ -70,4 +71,8 @@ public class ServiceRequestService {
         return mapper.toDTOs(repository.findAllByClient(client));
     }
 
+    public ServiceRequestDTO findById(long serviceRequestId) throws ServiceRequestNotFound{
+        ServiceRequest serviceRequest = Validation.serviceRequestExist(repository, serviceRequestId);
+        return mapper.toDTO(serviceRequest);
+    }
 }
