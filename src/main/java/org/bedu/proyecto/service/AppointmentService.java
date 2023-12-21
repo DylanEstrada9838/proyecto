@@ -1,6 +1,5 @@
 package org.bedu.proyecto.service;
 
-import java.util.Optional;
 import org.bedu.proyecto.dto.appointment.AppointmentDTO;
 import org.bedu.proyecto.dto.appointment.CreateAppointmentDTO;
 import org.bedu.proyecto.exception.appointment.AppointmentAlreadyExist;
@@ -23,8 +22,7 @@ public class AppointmentService {
     private QuoteRepository quoteRepository;
 
     public AppointmentDTO save(long quoteId,CreateAppointmentDTO data) throws QuoteNotFound, AppointmentAlreadyExist{
-        Optional<Quote> quoteOptional = quoteRepository.findById(quoteId);
-        Quote quote = quoteOptional.orElseThrow(()-> new QuoteNotFound(quoteId));
+        Quote quote = Validation.quoteExist(quoteRepository, quoteId);
 
         if(quote.getAppointment()!=null){
             throw new AppointmentAlreadyExist(quoteId);

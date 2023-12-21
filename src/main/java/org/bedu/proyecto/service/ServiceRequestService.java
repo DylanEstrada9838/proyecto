@@ -1,7 +1,6 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
@@ -45,12 +44,8 @@ public class ServiceRequestService {
     public ServiceRequestDTO save(long clientId, CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
             ServiceNotAssignedException, ServiceRequestCreateNotAllowed, RequestSameUserNotAllowed {
-        Optional<Client> clientOptional = clientRepository.findById(clientId);
-        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
-
-        Optional<AppService> serviceOptional = serviceRepository.findById(data.getServiceId());
-        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(data.getServiceId()));
-
+        Client client = Validation.clientExist(clientRepository, clientId);
+        AppService service = Validation.serviceExist(serviceRepository, data.getServiceId());
         // Validation if Client haven´t done the same Request(Status = Open) to the same
         // Supplier
         List<ServiceRequest> existingRequests = repository.findAllByClient(client);
@@ -71,9 +66,7 @@ public class ServiceRequestService {
     }
 
     public List<ServiceRequestDTO> findAllByClient(long clientId) throws ClientNotFoundException {
-        Optional<Client> clientOptional = clientRepository.findById(clientId);
-        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
-
+        Client client = Validation.clientExist(clientRepository, clientId);
         return mapper.toDTOs(repository.findAllByClient(client));
     }
 

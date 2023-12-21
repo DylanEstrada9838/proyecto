@@ -1,6 +1,5 @@
 package org.bedu.proyecto.service;
 
-import java.util.Optional;
 
 import org.bedu.proyecto.dto.quote.CreateQuoteDTO;
 import org.bedu.proyecto.dto.quote.QuoteDTO;
@@ -31,9 +30,7 @@ public class QuoteService {
 
     public QuoteDTO save(long quoteRequestId, CreateQuoteDTO data) throws QuoteAlreadyExist, QuoteRequestNotFound {
         log.info("data {}", data);
-        Optional<QuoteRequest> quoteRequestOptional = quoteRequestRepository.findById(quoteRequestId);
-        QuoteRequest quoteRequest = quoteRequestOptional.orElseThrow(() -> new QuoteRequestNotFound(quoteRequestId));
-
+        QuoteRequest quoteRequest = Validation.quoteRequestExist(quoteRequestRepository, quoteRequestId);
         if (quoteRequest.getQuote() != null) {
             throw new QuoteAlreadyExist(quoteRequestId);
         }

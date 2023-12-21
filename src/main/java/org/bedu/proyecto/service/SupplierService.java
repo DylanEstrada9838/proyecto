@@ -38,14 +38,12 @@ public class SupplierService {
     }
 
     public SupplierDTO findById(Long supplierId) throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+        Supplier supplier = Validation.supplierExist(repository, supplierId);
         return mapper.toDTO(supplier);
     }
 
     public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException, SupplierUserAlreadyExist {
-        Optional<User> userOptional = userRepository.findById(data.getUserId());
-        User user = userOptional.orElseThrow(() -> new UserNotFoundException(data.getUserId()));
+        User user = Validation.userExist(userRepository, data.getUserId());
 
         Optional<Supplier> supplierOptional = repository.findByUser(user);
         if (supplierOptional.isPresent()) {
@@ -59,25 +57,20 @@ public class SupplierService {
     }
 
     public void update(long supplierId, UpdateSupplierDTO data) throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+        Supplier supplier = Validation.supplierExist(repository, supplierId);
         mapper.update(supplier, data);
         repository.save(supplier);
     }
 
     public void delete(long supplierId) throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+        Supplier supplier = Validation.supplierExist(repository, supplierId);
         repository.delete(supplier);
     }
 
     public void addService(long supplierId, long serviceId)
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceAlreadyAssignedException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
-
-        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
+        Supplier supplier = Validation.supplierExist(repository, supplierId);
+        AppService service = Validation.serviceExist(serviceRepository, serviceId);
 
         List<AppService> services = supplier.getServices();
         if (services.contains(service)) {
@@ -89,11 +82,8 @@ public class SupplierService {
 
     public void removeService(long supplierId, long serviceId)
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
-
-        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
+        Supplier supplier = Validation.supplierExist(repository, supplierId);
+        AppService service = Validation.serviceExist(serviceRepository, serviceId);
 
         List<AppService> services = supplier.getServices();
         if (!services.contains(service)) {
@@ -104,16 +94,12 @@ public class SupplierService {
     }
 
     public List<AppService> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
-
+        Supplier supplier = Validation.supplierExist(repository, supplierId);
         return serviceRepository.findAllBySuppliers(supplier);
     }
 
     public List<SupplierDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
-        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        AppService service = serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
-
+        AppService service = Validation.serviceExist(serviceRepository, serviceId);
         return mapper.toDTOs(repository.findByServices(service));
     }
 

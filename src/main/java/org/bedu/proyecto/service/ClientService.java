@@ -31,14 +31,12 @@ public class ClientService {
     }
 
     public ClientDTO findById(Long clientId) throws ClientNotFoundException {
-        Optional<Client> clientOptional = repository.findById(clientId);
-        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
+        Client client = Validation.clientExist(repository, clientId);
         return mapper.toDTO(client);
     }
 
     public ClientDTO save(CreateClientDTO data) throws UserNotFoundException, ClientUserAlreadyExist {
-        Optional<User> userOptional = userRepository.findById(data.getUserId());
-        User user = userOptional.orElseThrow(() -> new UserNotFoundException(data.getUserId()));
+        User user = Validation.userExist(userRepository, data.getUserId());
 
         Optional<Client> clientOptional = repository.findByUser(user);
         if (clientOptional.isPresent()) {
@@ -52,15 +50,13 @@ public class ClientService {
     }
 
     public void update(long clientId, UpdateClientDTO data) throws ClientNotFoundException {
-        Optional<Client> clientOptional = repository.findById(clientId);
-        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
+        Client client = Validation.clientExist(repository, clientId);
         mapper.update(client, data);
         repository.save(client);
     }
 
     public void delete(long clientId) throws ClientNotFoundException {
-        Optional<Client> clientOptional = repository.findById(clientId);
-        Client client = clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
-        repository.delete(client);
+        Client client = Validation.clientExist(repository, clientId);
+         repository.delete(client);
     }
 }

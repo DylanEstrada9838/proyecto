@@ -1,8 +1,6 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.bedu.proyecto.dto.quote_request.CreateQuoteRequestDTO;
 import org.bedu.proyecto.dto.quote_request.QuoteRequestDTO;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestAlreadyExist;
@@ -41,13 +39,8 @@ public class QuoteRequestService {
             throws ServiceRequestNotFound, SupplierNotFoundException, RequestSameUserNotAllowed,
             ServiceNotAssignedException, QuoteRequestAlreadyExist {
 
-        Optional<ServiceRequest> serviceRequestOptional = serviceRequestRepository.findById(serviceRequestId);
-        ServiceRequest serviceRequest = serviceRequestOptional
-                .orElseThrow(() -> new ServiceRequestNotFound(serviceRequestId));
-
-        Optional<Supplier> supplierOptional = supplierRepository.findById(data.getSupplierId());
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(data.getSupplierId()));
-
+        ServiceRequest serviceRequest = Validation.serviceRequestExist(serviceRequestRepository, serviceRequestId);
+        Supplier supplier = Validation.supplierExist(supplierRepository, data.getSupplierId());
         // Validation Client has not the same userId as Supplier
         if (supplier.getUser().getId() == serviceRequest.getClient().getUser().getId()) {
             throw new RequestSameUserNotAllowed(serviceRequest.getClient().getUser().getId());
@@ -80,16 +73,12 @@ public class QuoteRequestService {
     }
 
     public List<QuoteRequestDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = supplierRepository.findById(supplierId);
-        Supplier supplier = supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
-
+        Supplier supplier = Validation.supplierExist(supplierRepository, supplierId);
         return mapper.toDTOs(repository.findAllBySupplier(supplier));
     }
 
     public List<QuoteRequestDTO> findAllByServiceRequest(long serviceRequestId) throws ServiceRequestNotFound {
-        Optional<ServiceRequest> serviceRequestOptional = serviceRequestRepository.findById(serviceRequestId);
-        ServiceRequest serviceRequest = serviceRequestOptional.orElseThrow(() -> new ServiceRequestNotFound(serviceRequestId));
-
+        ServiceRequest serviceRequest = Validation.serviceRequestExist(serviceRequestRepository, serviceRequestId);
         return mapper.toDTOs(repository.findAllByServiceRequest(serviceRequest));
     }
 

@@ -22,13 +22,11 @@ public class UserService {
     private UserMapper mapper;
 
     public List<UserDTO> findAll() {
-        List<User> data = repository.findAll();
-        return mapper.toDTOs(data);
+        return mapper.toDTOs(repository.findAll());
     }
 
     public UserDTO findById(Long userId) throws UserNotFoundException {
-        Optional<User> optionalUser = repository.findById(userId);
-        User user = optionalUser.orElseThrow(() -> new UserNotFoundException(userId));
+        User user = Validation.userExist(repository, userId);
         return mapper.toDTO(user);
     }
 
@@ -43,15 +41,13 @@ public class UserService {
     }
 
     public void update(long userId, UpdateUserDTO data) throws UserNotFoundException {
-        Optional<User> optionalUser = repository.findById(userId);
-        User user = optionalUser.orElseThrow(() -> new UserNotFoundException(userId));
+        User user = Validation.userExist(repository, userId);
         mapper.update(user, data);
         repository.save(user);
     }
 
     public void deleteById(Long userId) throws UserNotFoundException {
-        Optional<User> optionalUser = repository.findById(userId);
-        User user = optionalUser.orElseThrow(() -> new UserNotFoundException(userId));
+        User user = Validation.userExist(repository, userId);
         repository.delete(user);
     }
 
