@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,16 +30,15 @@ public class Appointment {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(length = 100)
+    @NotNull
     private StatusAppointment status;
+
+    @NotNull
+    private LocalDateTime startDate;
 
     @OneToOne
     @JoinColumn(name = "quote_id", referencedColumnName = "id")
     private Quote quote;
-
-    @Column(nullable = false)
-    private LocalDateTime startDate;
-    @Column(nullable = false)
-    private LocalDateTime endDate;
 
 }

@@ -12,11 +12,11 @@ import lombok.Data;
 public class UpdateClientDTO {
 
     @Schema(description = "Nombre del Cliente", example = "Jonh")
-    @Size(min = 5,max = 50)
+    @Size(min = 3,max = 50)
     private String name;
 
     @Schema(description = "Apellido del Cliente", example = "Doe")
-    @Size(min = 5,max = 50)
+    @Size(min = 3,max = 50)
     private String lastName;
 
     @Schema(description = "Numero de telefono", example = "0123456789")

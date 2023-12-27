@@ -10,8 +10,10 @@ import lombok.Data;
 public class CreateUserDTO {
 
     @Schema(description = "Correo del Usuario", example = "usuario@dominio")
-    @NotBlank
+
     @Email
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String email;
 
     @Schema(description = "Contraseña del usuario", example = "123456")

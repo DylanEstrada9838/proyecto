@@ -47,13 +47,13 @@ public class ServiceRequestService {
             ServiceNotAssignedException, ServiceRequestCreateNotAllowed, RequestSameUserNotAllowed {
         Client client = Validation.clientExist(clientRepository, clientId);
         AppService service = Validation.serviceExist(serviceRepository, data.getServiceId());
-        // Validation if Client haven´t done the same Request(Status = Open) to the same
+        // Validation if Client haven´t done the same Request(Status = Pending) to the same
         // Supplier
         List<ServiceRequest> existingRequests = repository.findAllByClient(client);
         if (!existingRequests.isEmpty()) {
             for (ServiceRequest existingRequest : existingRequests) {
                 if (existingRequest.getService().getId() == service.getId()
-                        & existingRequest.getStatus() == StatusRequest.OPEN) {
+                        & existingRequest.getStatus() == StatusRequest.PENDING) {
                     throw new ServiceRequestCreateNotAllowed(service.getId());
                 }
             }

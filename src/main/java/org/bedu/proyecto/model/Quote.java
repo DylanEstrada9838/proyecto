@@ -20,6 +20,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -34,14 +35,18 @@ public class Quote {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @NotNull
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer=5, fraction=2)
     private BigDecimal totalCost;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
+    @Column(length = 100)
+    @NotNull
     private StatusQuote status;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdAt;
 
     @OneToOne
     @JoinColumn(name="quote_request_id",referencedColumnName = "id")
@@ -51,7 +56,6 @@ public class Quote {
     @OneToOne(mappedBy = "quote")
     private Appointment appointment;
 
-    @CreationTimestamp(source = SourceType.DB)
-    private Instant createdAt;
+    
 
 }

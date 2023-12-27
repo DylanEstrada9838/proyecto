@@ -29,6 +29,14 @@ public class Validation {
         Optional<Supplier> supplierOptional = repository.findById(supplierId);
         return supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
     }
+    public static void verifySupplierExists(SupplierRepository repository, long supplierId) throws SupplierNotFoundException {
+        if (repository.existsById(supplierId)) {
+            // Supplier exists, do nothing
+        } else {
+            throw new SupplierNotFoundException(supplierId);
+        }
+    }
+    
     public static User userExist(UserRepository repository, long userId) throws UserNotFoundException {
         Optional<User> userOptional = repository.findById(userId);
         return userOptional.orElseThrow(() -> new UserNotFoundException(userId));
@@ -36,6 +44,13 @@ public class Validation {
     public static AppService serviceExist(ServiceRepository repository, long serviceId) throws ServiceNotFoundException {
        Optional<AppService> serviceOptional = repository.findById(serviceId);
         return serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
+    }
+    public static void verifyServiceExists(ServiceRepository repository, long serviceId) throws ServiceNotFoundException {
+        if (repository.existsById(serviceId)) {
+            // Service exists, do nothing
+        } else {
+            throw new ServiceNotFoundException(serviceId);
+        }
     }
     public static Client clientExist(ClientRepository repository,long clientId) throws ClientNotFoundException{
         Optional<Client> clientOptional = repository.findById(clientId);

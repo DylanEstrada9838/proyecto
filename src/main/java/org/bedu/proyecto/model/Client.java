@@ -17,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,24 +34,28 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(length = 100)
+    @NotNull
     private String name;
 
-    @Column(nullable = false)
+    @Column(length = 100)
+    @NotNull
     private String lastName;
 
-    @Column(nullable = false, length = 15, unique = true)
+    @Column(length = 15, unique = true)
     @NotNull
     private String phone;
 
-    @Column(nullable = true, length = 15, unique = true)
+    @Column(length = 15, unique = true)
     private String phone_2;
 
-    @Column(nullable = false)
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 99)
     private int age;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @NotNull
     private Gender gender;
 
     @OneToOne
@@ -59,4 +65,5 @@ public class Client {
     @OneToMany(mappedBy = "client")
     @JsonBackReference
     List<ServiceRequest> serviceRequests;
+
 }

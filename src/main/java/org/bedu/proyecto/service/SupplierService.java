@@ -3,6 +3,7 @@ package org.bedu.proyecto.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
@@ -12,10 +13,14 @@ import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
+import org.bedu.proyecto.keys.SupplierServiceKey;
+import org.bedu.proyecto.mapper.SupllierServiceJoinMapper;
 import org.bedu.proyecto.mapper.SupplierMapper;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Supplier;
+import org.bedu.proyecto.model.SupplierServiceJoin;
 import org.bedu.proyecto.model.User;
+import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.UserRepository;
@@ -32,6 +37,10 @@ public class SupplierService {
     UserRepository userRepository;
     @Autowired
     ServiceRepository serviceRepository;
+    @Autowired
+    SupplierServiceJoinRepository supplierServiceJoinRepository;
+    @Autowired
+    SupllierServiceJoinMapper supplierServiceJoinMapper;
 
     public List<SupplierDTO> findAll() {
         return mapper.toDTOs(repository.findAll());
@@ -67,40 +76,45 @@ public class SupplierService {
         repository.delete(supplier);
     }
 
-    public void addService(long supplierId, long serviceId)
+    public void addService(long supplierId, AddServiceDTO data)
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceAlreadyAssignedException {
-        Supplier supplier = Validation.supplierExist(repository, supplierId);
-        AppService service = Validation.serviceExist(serviceRepository, serviceId);
-
-        List<AppService> services = supplier.getServices();
-        if (services.contains(service)) {
-            throw new ServiceAlreadyAssignedException(serviceId);
+        Validation.verifySupplierExists(repository, supplierId);
+        Validation.verifyServiceExists(serviceRepository, data.getServiceId());
+        
+        SupplierServiceKey supplierServiceKey = new SupplierServiceKey(supplierId,data.getServiceId()); 
+        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById(supplierServiceKey);
+        if (supplierServiceJoin.isPresent()) {
+            throw new ServiceAlreadyAssignedException(data.getServiceId());
         }
-        services.add(service);
-        repository.save(supplier);
+        supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data));
     }
 
     public void removeService(long supplierId, long serviceId)
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException {
-        Supplier supplier = Validation.supplierExist(repository, supplierId);
-        AppService service = Validation.serviceExist(serviceRepository, serviceId);
-
-        List<AppService> services = supplier.getServices();
-        if (!services.contains(service)) {
+        Validation.verifySupplierExists(repository, supplierId);
+        Validation.verifyServiceExists(serviceRepository, serviceId);
+        SupplierServiceKey supplierServiceKey = new SupplierServiceKey(supplierId,serviceId); 
+        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById(supplierServiceKey);
+        if (supplierServiceJoin.isEmpty()) {
             throw new ServiceNotAssignedException(serviceId);
         }
-        services.remove(service);
-        repository.save(supplier);
+        supplierServiceJoinRepository.delete(supplierServiceJoin.get());
     }
 
     public List<AppService> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
-        Supplier supplier = Validation.supplierExist(repository, supplierId);
-        return serviceRepository.findAllBySuppliers(supplier);
+        Optional<Supplier> supplierOptional = repository.findById(supplierId);
+        if (supplierOptional.isEmpty()){
+            throw new SupplierNotFoundException(supplierId);
+        }
+        return supplierServiceJoinRepository.findServicesBySupplier(supplierId);
     }
 
-    public List<SupplierDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
-        AppService service = Validation.serviceExist(serviceRepository, serviceId);
-        return mapper.toDTOs(repository.findByServices(service));
+    public List<Supplier> findAllByService(long serviceId) throws ServiceNotFoundException {
+        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
+        if(serviceOptional.isEmpty()){
+            throw new ServiceNotFoundException(serviceId);
+        }
+        return supplierServiceJoinRepository.findSuppliersByService(serviceId);
     }
 
 }

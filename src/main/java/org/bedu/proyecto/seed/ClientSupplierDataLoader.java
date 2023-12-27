@@ -1,17 +1,13 @@
 package org.bedu.proyecto.seed;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Client;
 import org.bedu.proyecto.model.Supplier;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.model_enums.Gender;
 import org.bedu.proyecto.repository.ClientRepository;
-import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -28,15 +24,15 @@ public class ClientSupplierDataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
     private final SupplierRepository supplierRepository;
-    private final ServiceRepository serviceRepository;
+    
 
     @Autowired
     public ClientSupplierDataLoader(UserRepository userRepository, ClientRepository clientRepository,
-            SupplierRepository supplierRepository, ServiceRepository serviceRepository) {
+            SupplierRepository supplierRepository) {
         this.userRepository = userRepository;
         this.clientRepository = clientRepository;
         this.supplierRepository = supplierRepository;
-        this.serviceRepository = serviceRepository;
+       
     }
 
     @Transactional
@@ -57,53 +53,32 @@ public class ClientSupplierDataLoader implements CommandLineRunner {
                 "404 Birch Lane Hamletown, UV 97531", "505 Redwood Road Cityville, RS 86420",
                 "606 Spruce Lane Countryside, WX 75309", "707 Pine Road Mountainview, NM 36912"
         );
-        List<List<Long>> serviceIdsList = List.of(
-                List.of(1L, 2L), // Services for Supplier 1
-                List.of(3L, 4L), // Services for Supplier 2
-                List.of(2L, 5L),
-                List.of(3L, 6L),
-                List.of(4L, 7L),
-                List.of(5L, 8L),
-                List.of(6L, 9L),
-                List.of(7L, 1L),
-                List.of(8L, 2L),
-                List.of(9L, 3L)
-        );
 
-        int i = 0;
-        for (Long userId : userIds) {
-            Optional<User> userOptional = userRepository.findById(userId);
+         int i = 0;
+    for (Long userId : userIds) {
+        Optional<User> userOptional = userRepository.findById(userId);
 
-            if (userOptional.isPresent()) {
-                // Create Client
-                Client client = new Client();
-                client.setName(clientNames.get(i));
-                client.setLastName(clientLastNames.get(i));
-                client.setPhone(clientPhones.get(i));
-                client.setAge(clientAges.get(i));
-                client.setGender(clientGenders.get(i));
-                client.setUser(userOptional.get());
-                clientRepository.save(client);
+        if (userOptional.isPresent()) {
+            // Create Client
+            Client client = new Client();
+            client.setName(clientNames.get(i));
+            client.setLastName(clientLastNames.get(i));
+            client.setPhone(clientPhones.get(i));
+            client.setAge(clientAges.get(i));
+            client.setGender(clientGenders.get(i));
+            client.setUser(userOptional.get());
+            clientRepository.save(client);
 
-                // Create Supplier
-                Supplier supplier = new Supplier();
-                supplier.setBusinessName(businessNames.get(i));
-                supplier.setPhone(supplierPhones.get(i));
-                supplier.setAddress(supplierAddresses.get(i));
-                supplier.setUser(userOptional.get());
-                supplierRepository.save(supplier);
-
-                // Create Services
-                List<Long> serviceIds = serviceIdsList.get(i);
-                List<AppService> services = serviceIds.stream()
-                        .map(serviceId -> serviceRepository.findById(serviceId).orElse(null))
-                        .filter(Objects::nonNull)
-                        .collect(Collectors.toList());
-                supplier.setServices(services);
-
-                i++; // Increment the index for the next iteration
+            // Create Supplier
+            Supplier supplier = new Supplier();
+            supplier.setBusinessName(businessNames.get(i));
+            supplier.setPhone(supplierPhones.get(i));
+            supplier.setAddress(supplierAddresses.get(i));
+            supplier.setUser(userOptional.get());
+            supplierRepository.save(supplier);
             }
-        }
 
+            i++; // Increment the index for the next iteration
+        }
     }
 }

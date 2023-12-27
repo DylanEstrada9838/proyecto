@@ -9,7 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -29,13 +29,17 @@ public class AppService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     @NotNull
     private String service;
 
-    @ManyToMany(mappedBy = "services")
+    // @ManyToMany(mappedBy = "services")
+    // @JsonBackReference
+    // private List<Supplier> suppliers;
+
+    @OneToMany(mappedBy = "service")
     @JsonBackReference
-    private List<Supplier> suppliers;
+    List<SupplierServiceJoin> suppliers;
 
     public AppService(String serviceName) {
         this.service = serviceName;

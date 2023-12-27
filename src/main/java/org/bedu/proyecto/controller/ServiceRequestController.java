@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.quote_request.CreateQuoteRequestDTO;
 import org.bedu.proyecto.dto.quote_request.QuoteRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
+import org.bedu.proyecto.exception.quote_request.QuoteRequestAcceptedExist;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestAlreadyExist;
 import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
@@ -47,7 +48,7 @@ public class ServiceRequestController { // Define una clase pública llamada Ser
 
     @PostMapping("{serviceRequestId}/quoterequests")
     @ResponseStatus(HttpStatus.CREATED)
-    public QuoteRequestDTO addQuoteRequest(@PathVariable long serviceRequestId,@Valid @RequestBody CreateQuoteRequestDTO data) throws ServiceRequestNotFound,SupplierNotFoundException, RequestSameUserNotAllowed, ServiceNotAssignedException, QuoteRequestAlreadyExist{
+    public QuoteRequestDTO addQuoteRequest(@PathVariable long serviceRequestId,@Valid @RequestBody CreateQuoteRequestDTO data) throws ServiceRequestNotFound,SupplierNotFoundException, RequestSameUserNotAllowed, ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist{
         return quoteRequestService.save(serviceRequestId, data);
     }
 

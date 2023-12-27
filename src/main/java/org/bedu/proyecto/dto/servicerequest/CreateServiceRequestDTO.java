@@ -2,6 +2,7 @@ package org.bedu.proyecto.dto.servicerequest;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
@@ -13,7 +14,7 @@ import lombok.Data;
 @Data
 public class CreateServiceRequestDTO {
     @Schema(description = "Descripcion de el servicio ", example = "Broken desk")
-    @Size(min = 5, max = 500)
+    @Size(min = 5, max = 300)
     @NotBlank
     private String description;
 
@@ -22,13 +23,16 @@ public class CreateServiceRequestDTO {
     @NotBlank
     private String address;
 
-    @Schema(description = "Nivel de urgencia del servicio", example = "HiGH")
+    @Schema(description = "Nivel de urgencia del servicio", example = "High")
+    @NotNull
     private Urgency urgency;
     
     @Schema(description = "Tipo de servicio que se realizara", example = "1")
     @Positive
+    @NotNull
     private Long serviceId;
 
     @Schema(description = "Estatus de la solicitud del servicio", example = "ASSIGNED")
-    private StatusRequest status = StatusRequest.OPEN;
+    @NotNull
+    private StatusRequest status = StatusRequest.PENDING;
 }

@@ -40,21 +40,21 @@ public class ServiceRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(length = 300)
     @NotNull
     private String description;
 
-    @Column(nullable = false)
+    @Column(length = 100)
     @NotNull
     private String address;
 
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     @NotNull
     @Enumerated(EnumType.STRING)
     private Urgency urgency;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     @NotNull
     private StatusRequest status;
 
@@ -62,17 +62,14 @@ public class ServiceRequest {
     private Instant createdAt;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "client_id", nullable = false,referencedColumnName = "id")
     @JsonBackReference
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "service_id", nullable = false)
+    @JoinColumn(name = "service_id", nullable = false,referencedColumnName = "id")
     private AppService service;
 
     @OneToMany(mappedBy = "serviceRequest")
-    List <QuoteRequest> quoteRequests;
-
-
-
+    List<QuoteRequest> quoteRequests;
 }

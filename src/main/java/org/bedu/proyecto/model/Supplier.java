@@ -11,8 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -30,17 +29,18 @@ public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false,unique=true)
+    @Column(unique=true,length = 100)
     @NotNull
     private String businessName;
-    @Column(nullable = false, length = 15,unique=true)
+
+    @Column(length = 20,unique=true)
     @NotNull
     private String phone;
 
-    @Column(nullable = true, length = 15,unique=true)
+    @Column(length = 20,unique=true)
     private String phone_2;
 
-    @Column(nullable = false)
+    @Column(length=100)
     @NotNull
     private String address;
 
@@ -48,12 +48,16 @@ public class Supplier {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-     name = "supplier_service", 
-    joinColumns = @JoinColumn(name = "supplier_id"), 
-    inverseJoinColumns = @JoinColumn(name = "service_id"))
+    // @ManyToMany
+    // @JoinTable(
+    //  name = "supplier_service", 
+    // joinColumns = @JoinColumn(name = "supplier_id"), 
+    // inverseJoinColumns = @JoinColumn(name = "service_id"))
+    // @JsonBackReference
+    // List<AppService> services;
+
+    @OneToMany(mappedBy = "supplier")
     @JsonBackReference
-    List<AppService> services;
+    List<SupplierServiceJoin> services;
 
 }

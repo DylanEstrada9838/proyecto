@@ -4,9 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("quotes")
+@RequestMapping("quote")
 public class AppointmentController {
-    
 
     
 }

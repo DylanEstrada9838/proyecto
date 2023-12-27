@@ -11,5 +11,4 @@ public class AppointmentDTO {
     private StatusAppointment status;
     private long quoteId;
     private LocalDateTime startDate;
-    private LocalDateTime endDate;
 }

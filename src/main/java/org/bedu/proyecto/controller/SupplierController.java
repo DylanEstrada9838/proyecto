@@ -18,6 +18,7 @@ import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.model.AppService;
+import org.bedu.proyecto.model.Supplier;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
@@ -85,8 +86,8 @@ public class SupplierController {
     @Operation(summary="Este método agrega un servicio a un proveedor existente.")
     @PostMapping("{supplierId}/services") // Mapea las solicitudes POST con un ID de proveedor y "/services" a este método.
     @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
-    public void addService(@PathVariable long supplierId,@RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
-        service.addService(supplierId, data.getServiceId());
+    public void addService(@PathVariable long supplierId,@Valid @RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
+        service.addService(supplierId, data);
     }
 
     @Operation(summary="Este método elimina un servicio de un proveedor existente.")
@@ -105,7 +106,7 @@ public class SupplierController {
 
     @GetMapping("services/{serviceId}")
     @ResponseStatus(HttpStatus.OK)
-    List <SupplierDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
+    List <Supplier> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
         return service.findAllByService(serviceId);
     }
 

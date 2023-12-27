@@ -1,5 +1,5 @@
 package org.bedu.proyecto.model_enums;
 
 public enum StatusRequest {
-    OPEN,ASSIGNED,IN_PROGRESS,COMPLETED,CANCELED
+    PENDING,IN_PROGRESS,COMPLETED,CANCELED
 }
