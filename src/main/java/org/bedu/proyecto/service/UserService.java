@@ -2,10 +2,13 @@ package org.bedu.proyecto.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Objects;
+
 
 import org.bedu.proyecto.dto.user.CreateUserDTO;
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
+import org.bedu.proyecto.exception.user.PasswordNotAllowed;
 import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.UserMapper;
@@ -14,6 +17,8 @@ import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class UserService {
     @Autowired
@@ -40,8 +45,14 @@ public class UserService {
         return mapper.toDTO(entity);
     }
 
-    public void update(long userId, UpdateUserDTO data) throws UserNotFoundException {
+    public void update(long userId, UpdateUserDTO data) throws UserNotFoundException, PasswordNotAllowed {
         User user = Validation.userExist(repository, userId);
+        log.info("data {}", user.getPassword());
+        log.info("data {}", data.getPassword());
+        //Validation password is not the same
+        if(Objects.equals(user.getPassword(), data.getPassword())){
+            throw new PasswordNotAllowed(userId);
+        }
         mapper.update(user, data);
         repository.save(user);
     }

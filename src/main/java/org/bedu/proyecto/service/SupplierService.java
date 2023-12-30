@@ -14,7 +14,7 @@ import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.keys.SupplierServiceKey;
-import org.bedu.proyecto.mapper.SupllierServiceJoinMapper;
+import org.bedu.proyecto.mapper.SupplierServiceJoinMapper;
 import org.bedu.proyecto.mapper.SupplierMapper;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Supplier;
@@ -40,7 +40,7 @@ public class SupplierService {
     @Autowired
     SupplierServiceJoinRepository supplierServiceJoinRepository;
     @Autowired
-    SupllierServiceJoinMapper supplierServiceJoinMapper;
+    SupplierServiceJoinMapper supplierServiceJoinMapper;
 
     public List<SupplierDTO> findAll() {
         return mapper.toDTOs(repository.findAll());

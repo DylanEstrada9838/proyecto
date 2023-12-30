@@ -34,5 +34,5 @@ public class CreateServiceRequestDTO {
 
     @Schema(description = "Estatus de la solicitud del servicio", example = "ASSIGNED")
     @NotNull
-    private StatusRequest status = StatusRequest.PENDING;
+    private StatusRequest status = StatusRequest.OPEN;
 }

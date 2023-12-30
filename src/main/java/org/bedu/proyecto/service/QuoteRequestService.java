@@ -14,7 +14,6 @@ import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.QuoteRequest;
 import org.bedu.proyecto.model.Supplier;
-import org.bedu.proyecto.model_enums.StatusQuote;
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.QuoteRequestRepository;
@@ -51,37 +50,44 @@ public class QuoteRequestService {
         if (supplier.getUser().getId() == serviceRequest.getClient().getUser().getId()) {
             throw new RequestSameUserNotAllowed(serviceRequest.getClient().getUser().getId());
         }
-        List<AppService> services = supplierServiceJoinRepository.findServicesBySupplier(data.getSupplierId());
-        // Validation if service is assigned to selected Supplier
 
+        //Validation ServiceRequest is not in ASSIGNED Status, meaning there is already a Quote with ACCEPTED status
+        //so the creation of a Quote Request is not allowed
+        if (serviceRequest.getStatus()==StatusRequest.ASSIGNED || serviceRequest.getStatus()==StatusRequest.SCHEDULED || serviceRequest.getStatus()==StatusRequest.COMPLETED){
+            throw new QuoteRequestAcceptedExist(serviceRequest.getId());
+        }
+
+
+         // Validation if service is assigned to selected Supplier
+        List<AppService> services = supplierServiceJoinRepository.findServicesBySupplier(data.getSupplierId());
         if (!services.contains(serviceRequest.getService())) {
             throw new ServiceNotAssignedException(serviceRequest.getService().getId());
         }
 
-        // Validation if there is already an existing Quote Request for the Service
-        // Request to same Supplier
+        //Gets all existing QuoteRequests
         List<QuoteRequest> existingQuoteRequests = repository.findAllByServiceRequest(serviceRequest);
+
+
+        //Only for first QuoteRequest change ServiceRequest Status to IN_PROCESS
+        if(existingQuoteRequests.isEmpty()){
+            serviceRequest.setStatus(StatusRequest.IN_PROCESS);
+            serviceRequestRepository.save(serviceRequest);
+        }
+
+        // Validation if there is already an existing Quote Request to same Supplier
         if (!existingQuoteRequests.isEmpty()) {
             for (QuoteRequest existingQuoteRequest : existingQuoteRequests) {
-                if (existingQuoteRequest.getSupplier().getId() == supplier.getId()
-                        & serviceRequest.getStatus() == StatusRequest.PENDING) {
+                if (existingQuoteRequest.getSupplier().getId() == supplier.getId()){
                     throw new QuoteRequestAlreadyExist(serviceRequest.getId(), supplier.getId());
-                }
-                // Validation there is not a Quote already in status ACCEPTED for ServiceRequest
-                if (existingQuoteRequest.getQuote() != null) {
-                    if (existingQuoteRequest.getQuote().getStatus() == StatusQuote.ACCEPTED
-                            || existingQuoteRequest.getQuote().getStatus() == StatusQuote.ASSIGNED) {
-                        throw new QuoteRequestAcceptedExist(existingQuoteRequest.getId());
-                    }
                 }
             }
         }
 
         QuoteRequest entity = mapper.toModel(data);
-
         entity.setServiceRequest(serviceRequest);
         entity.setSupplier(supplier);
         repository.save(entity);
+
         return mapper.toDTO(entity);
 
     }

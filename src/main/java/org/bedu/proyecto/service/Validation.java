@@ -2,6 +2,7 @@ package org.bedu.proyecto.service;
 
 import java.util.Optional;
 
+import org.bedu.proyecto.exception.appointment.AppointmentNotFound;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestNotFound;
@@ -10,12 +11,14 @@ import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.model.AppService;
+import org.bedu.proyecto.model.Appointment;
 import org.bedu.proyecto.model.Client;
 import org.bedu.proyecto.model.Quote;
 import org.bedu.proyecto.model.QuoteRequest;
 import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.model.Supplier;
 import org.bedu.proyecto.model.User;
+import org.bedu.proyecto.repository.AppointmentRepository;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.QuoteRepository;
 import org.bedu.proyecto.repository.QuoteRequestRepository;
@@ -68,6 +71,10 @@ public class Validation {
     public static Quote quoteExist(QuoteRepository repository,long quoteId) throws QuoteNotFound{
         Optional<Quote> quoteOptional = repository.findById(quoteId);
         return quoteOptional.orElseThrow(() -> new QuoteNotFound(quoteId));
+    }
+    public static Appointment appointmentExist(AppointmentRepository repository,long appointmentId) throws AppointmentNotFound{
+        Optional<Appointment> appointmenOptional = repository.findById(appointmentId);
+        return appointmenOptional.orElseThrow(()-> new AppointmentNotFound(appointmentId));
     }
        
 

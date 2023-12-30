@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring",injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface SupllierServiceJoinMapper {
+public interface SupplierServiceJoinMapper {
 
     //Los mapper no aceptan tipos de datos primitivos como entrada
     //Se cambia de long a Long

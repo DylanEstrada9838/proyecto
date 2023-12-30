@@ -11,7 +11,6 @@ import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
-import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
@@ -87,7 +86,7 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
     public ServiceRequestDTO addServiceRequest(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed,RequestSameUserNotAllowed { // Define un método para guardar una solicitud
+            ServiceNotAssignedException, ServiceRequestCreateNotAllowed { // Define un método para guardar una solicitud
                                                                           // de servicio.
 
         return serviceRequestService.save(clientId, data); // Llama al método save del servicio y devuelve el resultado.

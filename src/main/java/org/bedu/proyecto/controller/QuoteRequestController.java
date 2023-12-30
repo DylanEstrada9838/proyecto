@@ -8,6 +8,7 @@ import org.bedu.proyecto.dto.quote.CreateQuoteDTO;
 import org.bedu.proyecto.dto.quote.QuoteDTO;
 import org.bedu.proyecto.exception.quote.QuoteAlreadyExist;
 import org.bedu.proyecto.exception.quote.QuoteNotFound;
+import org.bedu.proyecto.exception.quote_request.QuoteRequestClosed;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestNotFound;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.QuoteService;
@@ -36,7 +37,7 @@ public class QuoteRequestController { // Define una clase pública llamada Servi
     @Operation(summary="Crea una cotización a un ServiceRequest")
     @PostMapping("{quoteRequestId}/quote") 
     @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 200 (OK).
-    public QuoteDTO addQuote(@PathVariable long quoteRequestId,@Valid @RequestBody CreateQuoteDTO dto) throws QuoteAlreadyExist, QuoteRequestNotFound{
+    public QuoteDTO addQuote(@PathVariable long quoteRequestId,@Valid @RequestBody CreateQuoteDTO dto) throws QuoteAlreadyExist, QuoteRequestNotFound, QuoteRequestClosed{
         return quoteService.save(quoteRequestId,dto); 
     }
 

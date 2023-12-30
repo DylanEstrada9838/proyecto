@@ -33,7 +33,6 @@ public class CreateClientDTO {
     private String phone;
 
     @Schema(description = "Numero de telefono", example = "0123456789")
-    @NotBlank
     @Size(min = 5)
     private String phone_2;
 

@@ -3,7 +3,7 @@ package org.bedu.proyecto.seed;
 import java.util.List;
 
 import org.bedu.proyecto.dto.service.AddServiceDTO;
-import org.bedu.proyecto.mapper.SupllierServiceJoinMapper;
+import org.bedu.proyecto.mapper.SupplierServiceJoinMapper;
 import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -18,11 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SupplierServiceDataLoader implements CommandLineRunner {
 
     private final SupplierServiceJoinRepository interpretationRepository;
-    private final SupllierServiceJoinMapper interpretationMapper;
+    private final SupplierServiceJoinMapper interpretationMapper;
 
     @Autowired
     public SupplierServiceDataLoader(SupplierServiceJoinRepository interpretationRepository,
-            SupllierServiceJoinMapper interpretationMapper) {
+            SupplierServiceJoinMapper interpretationMapper) {
         this.interpretationRepository = interpretationRepository;
         this.interpretationMapper = interpretationMapper;
     }
@@ -35,7 +35,7 @@ public class SupplierServiceDataLoader implements CommandLineRunner {
         List<Integer> yearsExperience2 = List.of(2, 3, 4, 4, 3, 5, 6, 3, 2, 5);
 
         List<Long> serviceIds = List.of(2L, 4L, 6L, 9L, 4L, 3L, 6L, 1L, 8L, 3L);
-        List<Long> serviceIds2 = List.of(3L, 5L, 1L, 3L, 8L, 9L, 3L, 4L, 1L, 5L);
+        List<Long> serviceIds2 = List.of(3L, 5L, 1L, 3L, 8L, 9L, 7L, 4L, 1L, 5L);
 
         int i = 0;
         for (Long supplierId : supplierIds) {

@@ -9,7 +9,7 @@ import org.bedu.proyecto.model_enums.StatusAppointment;
 
 @Data
 public class CreateAppointmentDTO {
-    private StatusAppointment status = StatusAppointment.PENDING;
+    private StatusAppointment status = StatusAppointment.SCHEDULED;
     @Future
     @NotNull
     private LocalDateTime startDate;
