@@ -59,6 +59,13 @@ public class Validation {
         Optional<Client> clientOptional = repository.findById(clientId);
         return clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
     }
+    public static void verifyClientExists(ClientRepository repository, long clientId) throws ClientNotFoundException {
+        if (repository.existsById(clientId)) {
+            // Service exists, do nothing
+        } else {
+            throw new ClientNotFoundException(clientId);
+        }
+    }
     public static ServiceRequest serviceRequestExist(ServiceRequestRepository repository,long serviceRequestId) throws ServiceRequestNotFound{
         Optional<ServiceRequest> serviceRequestOptional = repository.findById(serviceRequestId);
         return serviceRequestOptional

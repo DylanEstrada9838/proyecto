@@ -1,6 +1,7 @@
 package org.bedu.proyecto.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bedu.proyecto.keys.SupplierServiceKey;
 import org.bedu.proyecto.model.AppService;
@@ -16,4 +17,6 @@ public interface SupplierServiceJoinRepository extends JpaRepository <SupplierSe
     List<AppService> findServicesBySupplier(Long supplierId);
     @Query("SELECT i.supplier FROM SupplierServiceJoin i WHERE i.service.id = :serviceId")
     List<Supplier> findSuppliersByService(Long serviceId);
+
+    Optional<SupplierServiceJoin> findById(SupplierServiceKey id);
 }

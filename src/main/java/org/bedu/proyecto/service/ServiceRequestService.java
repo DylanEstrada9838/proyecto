@@ -58,8 +58,6 @@ public class ServiceRequestService {
         }
         ServiceRequest entity = mapper.toModel(data);
         entity.setClient(client);
-        entity.setService(service);
-        entity.setUrgency(data.getUrgency());
         repository.save(entity);
         return mapper.toDTO(entity);
     }

@@ -15,13 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 @Order(3)
-public class SupplierServiceDataLoader implements CommandLineRunner {
+public class SupplierServiceAssignationsData implements CommandLineRunner {
 
     private final SupplierServiceJoinRepository interpretationRepository;
     private final SupplierServiceJoinMapper interpretationMapper;
 
     @Autowired
-    public SupplierServiceDataLoader(SupplierServiceJoinRepository interpretationRepository,
+    public SupplierServiceAssignationsData(SupplierServiceJoinRepository interpretationRepository,
             SupplierServiceJoinMapper interpretationMapper) {
         this.interpretationRepository = interpretationRepository;
         this.interpretationMapper = interpretationMapper;

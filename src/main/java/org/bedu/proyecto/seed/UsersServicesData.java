@@ -17,13 +17,13 @@ import jakarta.transaction.Transactional;
 
 @Component
 @Order(1)
-public class DataLoader implements CommandLineRunner {
+public class UsersServicesData implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final ServiceRepository serviceRepository;
 
     @Autowired
-    public DataLoader(UserRepository userRepository, ServiceRepository serviceRepository) {
+    public UsersServicesData(UserRepository userRepository, ServiceRepository serviceRepository) {
         this.userRepository = userRepository;
         this.serviceRepository = serviceRepository;
 

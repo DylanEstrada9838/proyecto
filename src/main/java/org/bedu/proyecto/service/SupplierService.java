@@ -59,7 +59,6 @@ public class SupplierService {
             throw new SupplierUserAlreadyExist(data.getUserId());
         }
         Supplier entity = mapper.toModel(data);
-        entity.setUser(user);
         repository.save(entity);
 
         return mapper.toDTO(entity);
@@ -79,10 +78,8 @@ public class SupplierService {
     public void addService(long supplierId, AddServiceDTO data)
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceAlreadyAssignedException {
         Validation.verifySupplierExists(repository, supplierId);
-        Validation.verifyServiceExists(serviceRepository, data.getServiceId());
-        
-        SupplierServiceKey supplierServiceKey = new SupplierServiceKey(supplierId,data.getServiceId()); 
-        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById(supplierServiceKey);
+        Validation.verifyServiceExists(serviceRepository, data.getServiceId()); 
+        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById( new SupplierServiceKey(supplierId,data.getServiceId()));
         if (supplierServiceJoin.isPresent()) {
             throw new ServiceAlreadyAssignedException(data.getServiceId());
         }
@@ -102,18 +99,12 @@ public class SupplierService {
     }
 
     public List<AppService> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        if (supplierOptional.isEmpty()){
-            throw new SupplierNotFoundException(supplierId);
-        }
+        Validation.verifySupplierExists(repository, supplierId);
         return supplierServiceJoinRepository.findServicesBySupplier(supplierId);
     }
 
     public List<Supplier> findAllByService(long serviceId) throws ServiceNotFoundException {
-        Optional<AppService> serviceOptional = serviceRepository.findById(serviceId);
-        if(serviceOptional.isEmpty()){
-            throw new ServiceNotFoundException(serviceId);
-        }
+        Validation.verifyServiceExists(serviceRepository, serviceId);
         return supplierServiceJoinRepository.findSuppliersByService(serviceId);
     }
 

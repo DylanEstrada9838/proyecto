@@ -7,15 +7,19 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
 import org.bedu.proyecto.dto.client.UpdateClientDTO;
+import org.bedu.proyecto.dto.rating.CreateRatingDTO;
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
+import org.bedu.proyecto.exception.rating.RatingNotAlllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
+import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.ClientService;
+import org.bedu.proyecto.service.RatingService;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +48,9 @@ public class ClientController {
 
     @Autowired // Esta anotación permite la inyección automática del bean
     ServiceRequestService serviceRequestService;
+
+    @Autowired
+    RatingService ratingService;
 
     @Operation(summary="Devuelve una lista de todos los clientes.")
     @GetMapping  // Maneja las solicitudes GET a la ruta base ("clients").
@@ -98,5 +105,11 @@ public class ClientController {
     public List<ServiceRequestDTO> findAllServiceRequestByClient(@PathVariable long clientId) throws ClientNotFoundException {
         return serviceRequestService.findAllByClient(clientId); // Llama al método findAllByClient del servicio y devuelve el
                                                   // resultado.
+    }
+
+    @PostMapping("{clientId}/suppliers/{supplierId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void addRating(@PathVariable long clientId,@PathVariable long supplierId,@Valid @RequestBody CreateRatingDTO data) throws ServiceNotAssignedException, SupplierNotFoundException, ServiceNotFoundException, ClientNotFoundException, RatingNotAlllowed{
+        ratingService.save(clientId, supplierId, data);
     }
 }

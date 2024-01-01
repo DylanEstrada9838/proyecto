@@ -43,7 +43,6 @@ public class ClientService {
             throw new ClientUserAlreadyExist(data.getUserId());
         }
         Client entity = mapper.toModel(data);
-        entity.setUser(user);
         repository.save(entity);
 
         return mapper.toDTO(entity);

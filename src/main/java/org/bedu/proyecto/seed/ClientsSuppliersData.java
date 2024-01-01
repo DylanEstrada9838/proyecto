@@ -20,14 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 @Order(2)
-public class ClientSupplierDataLoader implements CommandLineRunner {
+public class ClientsSuppliersData implements CommandLineRunner {
     private final UserRepository userRepository;
     private final ClientRepository clientRepository;
     private final SupplierRepository supplierRepository;
     
 
     @Autowired
-    public ClientSupplierDataLoader(UserRepository userRepository, ClientRepository clientRepository,
+    public ClientsSuppliersData(UserRepository userRepository, ClientRepository clientRepository,
             SupplierRepository supplierRepository) {
         this.userRepository = userRepository;
         this.clientRepository = clientRepository;
