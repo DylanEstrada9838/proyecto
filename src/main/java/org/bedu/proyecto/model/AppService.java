@@ -33,10 +33,6 @@ public class AppService {
     @NotNull
     private String service;
 
-    // @ManyToMany(mappedBy = "services")
-    // @JsonBackReference
-    // private List<Supplier> suppliers;
-
     @OneToMany(mappedBy = "service")
     @JsonBackReference
     List<SupplierServiceJoin> suppliers;

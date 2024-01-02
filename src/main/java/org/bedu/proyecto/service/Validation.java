@@ -8,8 +8,10 @@ import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestNotFound;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
+import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
+import org.bedu.proyecto.keys.SupplierServiceKey;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Appointment;
 import org.bedu.proyecto.model.Client;
@@ -17,6 +19,7 @@ import org.bedu.proyecto.model.Quote;
 import org.bedu.proyecto.model.QuoteRequest;
 import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.model.Supplier;
+import org.bedu.proyecto.model.SupplierServiceJoin;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.AppointmentRepository;
 import org.bedu.proyecto.repository.ClientRepository;
@@ -25,6 +28,7 @@ import org.bedu.proyecto.repository.QuoteRequestRepository;
 import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
+import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.bedu.proyecto.repository.UserRepository;
 
 public class Validation {
@@ -83,7 +87,18 @@ public class Validation {
         Optional<Appointment> appointmenOptional = repository.findById(appointmentId);
         return appointmenOptional.orElseThrow(()-> new AppointmentNotFound(appointmentId));
     }
-       
+    
+    public static SupplierServiceJoin supplierServiceJoinExist(SupplierServiceJoinRepository repository,SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException{
+        Optional<SupplierServiceJoin> appointmenOptional = repository.findById(supplierServiceKey);
+        return appointmenOptional.orElseThrow(()-> new ServiceNotAssignedException(supplierServiceKey.getServiceId()));
+    }
+    public static void verifySupplierServiceJoinExists(SupplierServiceJoinRepository repository, SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
+        if (repository.existsById(supplierServiceKey)) {
+            // Service exists, do nothing
+        } else {
+            throw new ServiceNotAssignedException(supplierServiceKey.getServiceId());
+        }
+    }
 
 
    

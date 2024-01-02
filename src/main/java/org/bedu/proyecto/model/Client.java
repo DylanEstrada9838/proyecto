@@ -66,4 +66,7 @@ public class Client {
     @JsonBackReference
     List<ServiceRequest> serviceRequests;
 
+    @OneToMany(mappedBy = "client")
+    @JsonBackReference
+    List<Address> addresses;
 }

@@ -1,8 +1,11 @@
 package org.bedu.proyecto.model;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 import org.bedu.proyecto.model_enums.StatusAppointment;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +39,9 @@ public class Appointment {
 
     @NotNull
     private LocalDateTime startDate;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdAt;
 
     @OneToOne
     @JoinColumn(name = "quote_id", referencedColumnName = "id")

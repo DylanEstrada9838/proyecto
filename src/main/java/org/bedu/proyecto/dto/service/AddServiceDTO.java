@@ -20,4 +20,5 @@ public class AddServiceDTO {
     @Max(value = 99)
     private int yearsExperience;
     private BigDecimal averageRating = null;
+    private Integer countRating = 0;
 }

@@ -4,6 +4,9 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.bedu.proyecto.dto.address.AddressDTO;
+import org.bedu.proyecto.dto.address.CreateAddressDTO;
 import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
 import org.bedu.proyecto.dto.client.UpdateClientDTO;
@@ -18,6 +21,7 @@ import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
+import org.bedu.proyecto.service.AddressService;
 import org.bedu.proyecto.service.ClientService;
 import org.bedu.proyecto.service.RatingService;
 import org.bedu.proyecto.service.ServiceRequestService;
@@ -51,6 +55,9 @@ public class ClientController {
 
     @Autowired
     RatingService ratingService;
+
+    @Autowired
+    AddressService addressService;
 
     @Operation(summary="Devuelve una lista de todos los clientes.")
     @GetMapping  // Maneja las solicitudes GET a la ruta base ("clients").
@@ -111,5 +118,17 @@ public class ClientController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addRating(@PathVariable long clientId,@PathVariable long supplierId,@Valid @RequestBody CreateRatingDTO data) throws ServiceNotAssignedException, SupplierNotFoundException, ServiceNotFoundException, ClientNotFoundException, RatingNotAlllowed{
         ratingService.save(clientId, supplierId, data);
+    }
+
+    @PostMapping("{clientId}/addresses")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public AddressDTO addAddress(@PathVariable long clientId,@Valid @RequestBody CreateAddressDTO data) throws ClientNotFoundException{
+        return addressService.save(clientId, data);
+    }
+
+    @GetMapping("{clientId}/addresses")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AddressDTO> findAllAddresses(@PathVariable long clientId) throws ClientNotFoundException{
+        return addressService.findAllByClient(clientId);
     }
 }

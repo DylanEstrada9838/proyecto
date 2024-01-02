@@ -48,14 +48,6 @@ public class Supplier {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    // @ManyToMany
-    // @JoinTable(
-    //  name = "supplier_service", 
-    // joinColumns = @JoinColumn(name = "supplier_id"), 
-    // inverseJoinColumns = @JoinColumn(name = "service_id"))
-    // @JsonBackReference
-    // List<AppService> services;
-
     @OneToMany(mappedBy = "supplier")
     @JsonBackReference
     List<SupplierServiceJoin> services;

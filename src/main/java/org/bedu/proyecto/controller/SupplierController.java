@@ -18,7 +18,6 @@ import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.model.AppService;
-import org.bedu.proyecto.model.Supplier;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
@@ -106,7 +105,7 @@ public class SupplierController {
 
     @GetMapping("services/{serviceId}")
     @ResponseStatus(HttpStatus.OK)
-    List <Supplier> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
+    List <SupplierDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
         return service.findAllByService(serviceId);
     }
 

@@ -1,7 +1,6 @@
 package org.bedu.proyecto.service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 import java.math.RoundingMode;
 
 import org.bedu.proyecto.dto.rating.CreateRatingDTO;
@@ -52,28 +51,21 @@ public class RatingService {
         SupplierServiceKey supplierServiceKey = new SupplierServiceKey(supplier.getId(), service.getId());
 
         // Validates Service is provided by Supplier
-        Optional<SupplierServiceJoin> supplierServiceJoinOptional = supplierServiceJoinRepository
-                .findById(supplierServiceKey);
-        if (supplierServiceJoinOptional.isEmpty()) {
-            throw new ServiceNotAssignedException(service.getId());
-        }
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository, supplierServiceKey);
         // Validation Client is not rating itself as Supplier
         if (supplier.getUser().getId() == client.getUser().getId()) {
             throw new RatingNotAlllowed(supplierId);
         }
 
         repository.save(mapper.toModel(clientId, supplierId, data));
-        
-        // Set averageRating for SupplierServiceJoin
+
+        // Set averageRating and count for SupplierServiceJoin
         BigDecimal averageRating = repository.calculateAverageRatingBySupplierServiceKey(supplierServiceKey);
+        Integer countRating = repository.calculateCountRatingBySupplierServiceKey(supplierServiceKey);
         log.info("data {}", averageRating);
-        SupplierServiceJoin supplierServiceJoin = supplierServiceJoinOptional.get();
-        if (averageRating == null) {
-            supplierServiceJoin.setAverageRating(new BigDecimal(data.getRating()).setScale(1));
-        }
-        if (averageRating != null) {
-            supplierServiceJoin.setAverageRating(averageRating.setScale(1, RoundingMode.HALF_UP));
-            supplierServiceJoinRepository.save(supplierServiceJoin);
-        }
+        log.info("data {}", averageRating);
+        supplierServiceJoin.setAverageRating(averageRating.setScale(1, RoundingMode.HALF_UP));
+        supplierServiceJoin.setCountRating(countRating);
+        supplierServiceJoinRepository.save(supplierServiceJoin);
     }
 }

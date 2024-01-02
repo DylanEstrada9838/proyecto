@@ -20,10 +20,12 @@ public interface AppointmentMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "quote", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     Appointment toModel(CreateAppointmentDTO dto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "quote", ignore = true)
     @Mapping(target = "startDate", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     void update(@MappingTarget Appointment appointment,ChangeStatusAppointmentDTO status);
 }

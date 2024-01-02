@@ -48,5 +48,7 @@ public class SupplierServiceJoin {
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 1, fraction = 1)
     private BigDecimal averageRating;
-
+    
+    @Min(value = 0)
+    private int countRating;
 }

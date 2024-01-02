@@ -17,7 +17,7 @@ public interface QuoteMapper {
     @Mapping(source = "quoteRequest.id", target = "quoteRequestId")
     QuoteDTO toDTO(Quote model);
 
-    @Mapping(source = "serviceRequest.id", target = "requestId")
+    @Mapping(source = "quoteRequest.id", target = "quoteRequestId")
     List<QuoteDTO> toDTOs(List <Quote> model);
 
     @Mapping(target = "id", ignore = true)

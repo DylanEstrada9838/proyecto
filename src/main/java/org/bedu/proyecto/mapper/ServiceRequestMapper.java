@@ -21,11 +21,10 @@ public interface ServiceRequestMapper {
     List<ServiceRequestDTO> toDTOs(List <ServiceRequest> model);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "client", ignore = true)
-    @Mapping(target = "service", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "quoteRequests", ignore = true)
+    @Mapping(target = "client", ignore = true)
     @Mapping(source = "serviceId", target = "service.id")
+    @Mapping(target = "quoteRequests", ignore = true)
     ServiceRequest toModel(CreateServiceRequestDTO dto);
     
 }

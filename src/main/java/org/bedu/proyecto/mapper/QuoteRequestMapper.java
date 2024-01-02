@@ -21,8 +21,8 @@ public interface QuoteRequestMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "serviceRequest", ignore = true)
-    @Mapping(target = "supplier", ignore = true)
     @Mapping(target = "quote", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(source = "supplierId", target = "supplier.id")
     QuoteRequest toModel(CreateQuoteRequestDTO dto);
 }

@@ -4,6 +4,7 @@ import org.bedu.proyecto.model_enums.StatusAppointment;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 public class AppointmentDTO {
@@ -11,4 +12,5 @@ public class AppointmentDTO {
     private StatusAppointment status;
     private long quoteId;
     private LocalDateTime startDate;
+    private Instant createdAt;
 }

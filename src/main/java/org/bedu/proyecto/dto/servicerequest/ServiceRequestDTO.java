@@ -27,10 +27,10 @@ public class ServiceRequestDTO {
     private Urgency urgency;
 
     @Schema(description = "Tipo de Servicio que se realizara", example = "1")
-    private long serviceId;
+    private Long serviceId;
 
     @Schema(description = "ID de Cliente que se solicita el servicio", example = "1")
-    private long clientId;
+    private Long clientId;
 
     @Schema(description = "Fecha de servicio", example = "date-time")
     private Instant createdAt;

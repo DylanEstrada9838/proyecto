@@ -56,6 +56,4 @@ public class Quote {
     @OneToOne(mappedBy = "quote")
     private Appointment appointment;
 
-    
-
 }

@@ -48,9 +48,9 @@ public class ServiceRequest {
     @NotNull
     private String address;
 
+    @Enumerated(EnumType.STRING)
     @Column(length = 100)
     @NotNull
-    @Enumerated(EnumType.STRING)
     private Urgency urgency;
 
     @Enumerated(EnumType.STRING)

@@ -90,12 +90,8 @@ public class SupplierService {
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException {
         Validation.verifySupplierExists(repository, supplierId);
         Validation.verifyServiceExists(serviceRepository, serviceId);
-        SupplierServiceKey supplierServiceKey = new SupplierServiceKey(supplierId,serviceId); 
-        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById(supplierServiceKey);
-        if (supplierServiceJoin.isEmpty()) {
-            throw new ServiceNotAssignedException(serviceId);
-        }
-        supplierServiceJoinRepository.delete(supplierServiceJoin.get());
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,new SupplierServiceKey(supplierId,serviceId));
+        supplierServiceJoinRepository.delete(supplierServiceJoin);
     }
 
     public List<AppService> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
@@ -103,9 +99,9 @@ public class SupplierService {
         return supplierServiceJoinRepository.findServicesBySupplier(supplierId);
     }
 
-    public List<Supplier> findAllByService(long serviceId) throws ServiceNotFoundException {
+    public List<SupplierDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
         Validation.verifyServiceExists(serviceRepository, serviceId);
-        return supplierServiceJoinRepository.findSuppliersByService(serviceId);
+        return mapper.toDTOs(supplierServiceJoinRepository.findSuppliersByService(serviceId));
     }
 
 }

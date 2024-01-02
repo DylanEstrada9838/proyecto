@@ -1,7 +1,6 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bedu.proyecto.dto.quote_request.CreateQuoteRequestDTO;
 import org.bedu.proyecto.dto.quote_request.QuoteRequestDTO;
@@ -16,7 +15,6 @@ import org.bedu.proyecto.mapper.QuoteRequestMapper;
 import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.model.QuoteRequest;
 import org.bedu.proyecto.model.Supplier;
-import org.bedu.proyecto.model.SupplierServiceJoin;
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.QuoteRequestRepository;
@@ -62,10 +60,8 @@ public class QuoteRequestService {
 
 
          // Validation if service is assigned to selected Supplier
-        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById(new SupplierServiceKey(data.getSupplierId(),serviceRequest.getService().getId()));
-        if (supplierServiceJoin.isEmpty()) {
-            throw new ServiceNotAssignedException(serviceRequest.getService().getId());
-        }
+         Validation.verifySupplierServiceJoinExists(supplierServiceJoinRepository, new SupplierServiceKey(data.getSupplierId(),serviceRequest.getService().getId()));
+        
         //Gets all existing QuoteRequests
         List<QuoteRequest> existingQuoteRequests = repository.findAllByServiceRequest(serviceRequest);
 
@@ -87,7 +83,6 @@ public class QuoteRequestService {
 
         QuoteRequest entity = mapper.toModel(data);
         entity.setServiceRequest(serviceRequest);
-        entity.setSupplier(supplier);
         repository.save(entity);
 
         return mapper.toDTO(entity);
