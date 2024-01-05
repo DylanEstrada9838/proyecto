@@ -11,13 +11,14 @@ import org.bedu.proyecto.dto.service.RemoveServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
+import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
+import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierUserAlreadyExist;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
-import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
@@ -99,13 +100,13 @@ public class SupplierController {
     @Operation(summary="Este método devuelve una lista de todos los servicios de un proveedor específico.")
     @GetMapping("{supplierId}/services") // Mapea las solicitudes GET con un ID de proveedor y "/services" a este método.
     @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
-    public List<AppService> findAllServicesBySupplier(@PathVariable long supplierId) throws SupplierNotFoundException{
+    public List<ServicesBySupplierDTO> findAllServicesBySupplier(@PathVariable long supplierId) throws SupplierNotFoundException{
         return service.findAllBySupplier(supplierId);
     }
 
     @GetMapping("services/{serviceId}")
     @ResponseStatus(HttpStatus.OK)
-    List <SupplierDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
+    List<SuppliersByServicesDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
         return service.findAllByService(serviceId);
     }
 

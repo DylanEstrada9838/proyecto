@@ -7,6 +7,8 @@ import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
+import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
+import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
@@ -16,7 +18,6 @@ import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.keys.SupplierServiceKey;
 import org.bedu.proyecto.mapper.SupplierServiceJoinMapper;
 import org.bedu.proyecto.mapper.SupplierMapper;
-import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Supplier;
 import org.bedu.proyecto.model.SupplierServiceJoin;
 import org.bedu.proyecto.model.User;
@@ -94,14 +95,15 @@ public class SupplierService {
         supplierServiceJoinRepository.delete(supplierServiceJoin);
     }
 
-    public List<AppService> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
+    public List<ServicesBySupplierDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
         Validation.verifySupplierExists(repository, supplierId);
-        return supplierServiceJoinRepository.findServicesBySupplier(supplierId);
+        
+        return supplierServiceJoinMapper.toServicesBySupplierDTO(supplierServiceJoinRepository.findServicesBySupplier(supplierId));
     }
 
-    public List<SupplierDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
+    public List<SuppliersByServicesDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
         Validation.verifyServiceExists(serviceRepository, serviceId);
-        return mapper.toDTOs(supplierServiceJoinRepository.findSuppliersByService(serviceId));
+        return supplierServiceJoinMapper.toSuppliersByServicesDTO(supplierServiceJoinRepository.findSuppliersByService(serviceId));
     }
 
 }
