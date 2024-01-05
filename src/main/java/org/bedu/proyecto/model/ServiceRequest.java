@@ -44,9 +44,9 @@ public class ServiceRequest {
     @NotNull
     private String description;
 
-    @Column(length = 100)
-    @NotNull
-    private String address;
+    // @Column(length = 100)
+    // @NotNull
+    // private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 100)
@@ -60,6 +60,10 @@ public class ServiceRequest {
 
     @CreationTimestamp(source = SourceType.DB)
     private Instant createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id",nullable = false,referencedColumnName = "id")
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false,referencedColumnName = "id")

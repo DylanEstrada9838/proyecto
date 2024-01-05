@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
     List<Quote> findAll();
-    List<Quote> findByQuoteRequest(QuoteRequest quoteRequest);
-
+    Quote findByQuoteRequest(QuoteRequest quoteRequest);
 }

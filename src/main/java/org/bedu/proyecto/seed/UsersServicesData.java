@@ -34,7 +34,7 @@ public class UsersServicesData implements CommandLineRunner {
     public void run(String... args) {
         Map<String, String> userCredentials = Map.of(
                 "dylan@gmail.com", "123",
-                "dylan2@gmail.com", "456", 
+                "ivy@gmail.com", "456", 
                 "alice@yahoo.com", "p@ssw0rd",
                 "bob@hotmail.com", "securePwd",
                 "charlie@gmail.com", "letMeIn123",

@@ -18,7 +18,7 @@ public class ServiceRequestDTO {
     private String description;
 
     @Schema(description = "Direccion de domicilio donde se solicita el servicio", example = "Calle 5 de Mayo ")
-    private String address;
+    private Long addressId;
 
     @Schema(description = "Estatus de la solicitud del servicio", example = "OPEN")
     private StatusRequest status;

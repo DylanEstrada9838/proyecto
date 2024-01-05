@@ -23,10 +23,8 @@ import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class RatingService {
     @Autowired
     RatingRepository repository;
@@ -62,8 +60,6 @@ public class RatingService {
         // Set averageRating and count for SupplierServiceJoin
         BigDecimal averageRating = repository.calculateAverageRatingBySupplierServiceKey(supplierServiceKey);
         Integer countRating = repository.calculateCountRatingBySupplierServiceKey(supplierServiceKey);
-        log.info("data {}", averageRating);
-        log.info("data {}", averageRating);
         supplierServiceJoin.setAverageRating(averageRating.setScale(1, RoundingMode.HALF_UP));
         supplierServiceJoin.setCountRating(countRating);
         supplierServiceJoinRepository.save(supplierServiceJoin);

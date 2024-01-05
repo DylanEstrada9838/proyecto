@@ -21,8 +21,9 @@ public interface QuoteMapper {
     List<QuoteDTO> toDTOs(List <Quote> model);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "quoteRequest", ignore = true)
+    
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "quoteRequest", ignore = true)
     @Mapping(target = "appointment", ignore = true)
     Quote toModel(CreateQuoteDTO dto);
 

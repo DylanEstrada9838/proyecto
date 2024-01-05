@@ -1,19 +1,24 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
+import org.bedu.proyecto.exception.address.AddressNotAssignedToClient;
+import org.bedu.proyecto.exception.address.AddressNotFound;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.mapper.ServiceRequestMapper;
+import org.bedu.proyecto.model.Address;
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.Client;
 import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.model_enums.StatusRequest;
+import org.bedu.proyecto.repository.AddressRepository;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
@@ -38,9 +43,12 @@ public class ServiceRequestService {
     @Autowired
     SupplierRepository supplierRepository;
 
+    @Autowired
+    AddressRepository addressRepository;
+
     public ServiceRequestDTO save(long clientId, CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed {
+            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
 
         Client client = Validation.clientExist(clientRepository, clientId);
         AppService service = Validation.serviceExist(serviceRepository, data.getServiceId());
@@ -56,6 +64,17 @@ public class ServiceRequestService {
                 }
             }
         }
+
+        //Validation Address exists and belongs to Client
+        Optional<Address> address = addressRepository.findById(data.getAddressId());
+        if (address.isEmpty()){
+            throw new AddressNotFound(data.getAddressId());
+        }
+        List<Address> addresses = addressRepository.findAllByClient(client);
+        if(!addresses.contains(address.get())){
+            throw new AddressNotAssignedToClient(data.getAddressId());
+        }
+
         ServiceRequest entity = mapper.toModel(data);
         entity.setClient(client);
         repository.save(entity);

@@ -13,6 +13,8 @@ import org.bedu.proyecto.dto.client.UpdateClientDTO;
 import org.bedu.proyecto.dto.rating.CreateRatingDTO;
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
+import org.bedu.proyecto.exception.address.AddressNotAssignedToClient;
+import org.bedu.proyecto.exception.address.AddressNotFound;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
 import org.bedu.proyecto.exception.rating.RatingNotAlllowed;
@@ -100,7 +102,7 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
     public ServiceRequestDTO addServiceRequest(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed { // Define un método para guardar una solicitud
+            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound { // Define un método para guardar una solicitud
                                                                           // de servicio.
 
         return serviceRequestService.save(clientId, data); // Llama al método save del servicio y devuelve el resultado.
@@ -131,4 +133,7 @@ public class ClientController {
     public List<AddressDTO> findAllAddresses(@PathVariable long clientId) throws ClientNotFoundException{
         return addressService.findAllByClient(clientId);
     }
+
+    
+
 }

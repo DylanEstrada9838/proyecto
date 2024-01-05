@@ -17,14 +17,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Order(3)
 public class SupplierServiceAssignationsData implements CommandLineRunner {
 
-    private final SupplierServiceJoinRepository interpretationRepository;
-    private final SupplierServiceJoinMapper interpretationMapper;
+    private final SupplierServiceJoinRepository supplierServiceJoinRepository;
+    private final SupplierServiceJoinMapper supplierServiceJoinMapper;
 
     @Autowired
-    public SupplierServiceAssignationsData(SupplierServiceJoinRepository interpretationRepository,
-            SupplierServiceJoinMapper interpretationMapper) {
-        this.interpretationRepository = interpretationRepository;
-        this.interpretationMapper = interpretationMapper;
+    public SupplierServiceAssignationsData(SupplierServiceJoinRepository supplierServiceJoinRepository,
+            SupplierServiceJoinMapper supplierServiceJoinMapper) {
+        this.supplierServiceJoinRepository = supplierServiceJoinRepository;
+        this.supplierServiceJoinMapper = supplierServiceJoinMapper;
     }
 
     @Transactional
@@ -42,11 +42,11 @@ public class SupplierServiceAssignationsData implements CommandLineRunner {
             AddServiceDTO data = new AddServiceDTO();
             data.setServiceId(serviceIds.get(i));
             data.setYearsExperience(yearsExperience.get(i));
-            interpretationRepository.save(interpretationMapper.toModel(supplierId, data));
+            supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data));
             AddServiceDTO data2 = new AddServiceDTO();
             data2.setServiceId(serviceIds2.get(i));
             data2.setYearsExperience(yearsExperience2.get(i));
-            interpretationRepository.save(interpretationMapper.toModel(supplierId, data2));
+            supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data2));
 
             i++;
         }

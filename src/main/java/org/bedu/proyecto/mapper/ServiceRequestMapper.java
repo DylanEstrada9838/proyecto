@@ -14,16 +14,19 @@ public interface ServiceRequestMapper {
     
     @Mapping(source = "service.id", target = "serviceId")
     @Mapping(source = "client.id", target = "clientId")
+    @Mapping(source = "address.id", target = "addressId")
     ServiceRequestDTO toDTO(ServiceRequest model);
 
     @Mapping(source = "service.id", target = "serviceId")
     @Mapping(source = "client.id", target = "clientId")
+    @Mapping(source = "address.id", target = "addressId")
     List<ServiceRequestDTO> toDTOs(List <ServiceRequest> model);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "client", ignore = true)
     @Mapping(source = "serviceId", target = "service.id")
+    @Mapping(source = "addressId", target = "address.id")
     @Mapping(target = "quoteRequests", ignore = true)
     ServiceRequest toModel(CreateServiceRequestDTO dto);
     

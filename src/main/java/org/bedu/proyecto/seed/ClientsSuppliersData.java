@@ -42,11 +42,11 @@ public class ClientsSuppliersData implements CommandLineRunner {
     @Override
     public void run(String... args) {
         List<Long> userIds = List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L);
-        List<String> clientNames = List.of("Dylan", "Dylan2", "Alice", "Bob", "Charlie", "Emma", "Frank", "Grace", "Henry", "Isabel");
-        List<String> clientLastNames = List.of("Estrada", "Estrada2", "Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson");
-        List<String> clientPhones = List.of("123456", "1234567", "987654", "987653", "987652", "987651", "987650", "987649", "987648", "987647");
+        List<String> clientNames = List.of("Dylan", "Ivy", "Alice", "Bob", "Charlie", "Emma", "Frank", "Grace", "Henry", "Isabel");
+        List<String> clientLastNames = List.of("Estrada", "Moore", "Smith", "Johnson", "Williams", "Jones", "Brown", "Davis", "Miller", "Wilson");
+        List<String> clientPhones = List.of("123-456-7890", "234-567-8901", "345-678-9012", "456-789-0123", "567-890-1234", "678-901-2345", "789-012-3456", "890-123-4567", "901-234-5678", "012-345-6789");
         List<Integer> clientAges = List.of(25, 25, 30, 35, 40, 22, 28, 31, 27, 29);
-        List<Gender> clientGenders = List.of(Gender.MALE, Gender.MALE, Gender.FEMALE, Gender.MALE, Gender.MALE, Gender.FEMALE, Gender.MALE, Gender.FEMALE, Gender.MALE, Gender.FEMALE);
+        List<Gender> clientGenders = List.of(Gender.MALE, Gender.FEMALE, Gender.FEMALE, Gender.MALE, Gender.MALE, Gender.FEMALE, Gender.MALE, Gender.FEMALE, Gender.MALE, Gender.FEMALE);
         List<String> addressLine_1 = List.of("123 Main St", "456 Oak Ave", "789 Pine Rd", "101 Maple Blvd", "202 Cedar Ln", "303 Elm St", "404 Birch Ave", "505 Spruce Rd", "606 Pine Ln", "707 Oak Blvd");
         List<String> addressLine_2 = List.of("Apt 101", "Suite 202", "Unit 303", "Apt 404", "Suite 505", "Unit 606", "Apt 707", "Suite 808", "Unit 909", "Apt 1010");
         List<String> addressCity = List.of("CityA", "CityB", "CityC", "CityD", "CityE", "CityF", "CityG", "CityH", "CityI", "CityJ");
@@ -54,7 +54,7 @@ public class ClientsSuppliersData implements CommandLineRunner {
         List<String> addressPostalCode = List.of("12345", "67890", "34567", "89012", "45678", "90123", "56789", "23456", "78901", "01234");
         
         List<String> businessNames = List.of("Supplier 1", "Supplier 2", "Supplier 3", "Supplier 4", "Supplier 5", "Supplier 6", "Supplier 7", "Supplier 8", "Supplier 9", "Supplier 10");
-        List<String> supplierPhones = List.of("123456", "1234567", "987654", "987653", "987652", "987651", "987650", "987649", "987648", "987647");
+        List<String> supplierPhones = List.of("123-456-7890", "234-567-8901", "345-678-9012", "456-789-0123", "567-890-1234", "678-901-2345", "789-012-3456", "890-123-4567", "901-234-5678", "012-345-6789");
         List<String> supplierAddresses = List.of(
                 "123 Main Street Citytown, ST 54321", "456 Elm Avenue Villageland, AB 98765",
                 "789 Oak Lane Hamletville, XY 12345", "101 Pine Road Metropolis, ZW 67890",
@@ -77,6 +77,7 @@ public class ClientsSuppliersData implements CommandLineRunner {
             client.setGender(clientGenders.get(i));
             client.setUser(userOptional.get());
             clientRepository.save(client);
+            //Create Address and set Client
             Address address = new Address();
             address.setLine_1(addressLine_1.get(i));
             address.setLine_2(addressLine_2.get(i));
