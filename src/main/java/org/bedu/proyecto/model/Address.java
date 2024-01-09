@@ -48,4 +48,19 @@ public class Address {
     @JoinColumn(name = "client_id", nullable = false,referencedColumnName = "id")
     @JsonBackReference
     private Client client;
+
+    public Address() {
+    }
+
+    public Address(@NotNull String line_1, String line_2, @NotNull String city, @NotNull String state,
+            String postalCode, Client client) {
+        this.line_1 = line_1;
+        this.line_2 = line_2;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+        this.client = client;
+    }
+
+    
 }

@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
+import org.bedu.proyecto.dto.servicerequest.UpdateServiceRequestDTO;
 import org.bedu.proyecto.exception.address.AddressNotAssignedToClient;
 import org.bedu.proyecto.exception.address.AddressNotFound;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
+import org.bedu.proyecto.exception.request.UpdateServiceRequestNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.mapper.ServiceRequestMapper;
@@ -79,6 +81,16 @@ public class ServiceRequestService {
         entity.setClient(client);
         repository.save(entity);
         return mapper.toDTO(entity);
+    }
+
+    public void update(long serviceRequestId,UpdateServiceRequestDTO data) throws ServiceRequestNotFound, UpdateServiceRequestNotAllowed{
+        ServiceRequest serviceRequest = Validation.serviceRequestExist(repository, serviceRequestId);
+        //Validation ServiceRequest is in OPEN status
+        if(serviceRequest.getStatus() != StatusRequest.OPEN){
+            throw new UpdateServiceRequestNotAllowed(serviceRequestId);
+        }
+        mapper.update(serviceRequest, data);
+        repository.save(serviceRequest);
     }
 
     public List<ServiceRequestDTO> findAllByClient(long clientId) throws ClientNotFoundException {

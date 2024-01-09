@@ -35,4 +35,14 @@ public class CreateServiceRequestDTO {
     @Schema(description = "Estatus de la solicitud del servicio", example = "ASSIGNED")
     @NotNull
     private StatusRequest status = StatusRequest.OPEN;
+
+    public CreateServiceRequestDTO(@Size(min = 5, max = 300) @NotBlank String description,
+            @Positive @NotNull Long addressId, @NotNull Urgency urgency, @Positive @NotNull Long serviceId) {
+        this.description = description;
+        this.addressId = addressId;
+        this.urgency = urgency;
+        this.serviceId = serviceId;
+    }
+
+    
 }

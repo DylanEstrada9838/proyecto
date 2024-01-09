@@ -45,12 +45,10 @@ public class UsersServicesData implements CommandLineRunner {
                 "isabel@hotmail.com", "mySecretPwd");
 
         userCredentials.forEach((email, password) -> {
-            User user = new User();
-            user.setPassword(password);
-            user.setEmail(email);
+            User user = new User(email,password);
             userRepository.save(user);
         });
-
+        //Services data
         List<String> stringList = List.of("Plumbing", "Electrical", "Carpentry", "Painting","HVAC","Cleaning","Pest Control","Roofing","Home Security");
 
         // Using Stream and map to create instances

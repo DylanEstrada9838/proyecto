@@ -8,10 +8,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.quote_request.CreateQuoteRequestDTO;
 import org.bedu.proyecto.dto.quote_request.QuoteRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
+import org.bedu.proyecto.dto.servicerequest.UpdateServiceRequestDTO;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestAcceptedExist;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestAlreadyExist;
 import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
+import org.bedu.proyecto.exception.request.UpdateServiceRequestNotAllowed;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.service.QuoteRequestService;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,5 +60,11 @@ public class ServiceRequestController { // Define una clase pública llamada Ser
     @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
     public List<QuoteRequestDTO> findAllQuoteRequestByServiceRequest(@PathVariable long serviceRequestId) throws ServiceRequestNotFound{
         return quoteRequestService.findAllByServiceRequest(serviceRequestId); // Llama al método findAllByServiceRequest del servicio y devuelve el resultado.
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(long serviceRequestId,UpdateServiceRequestDTO data) throws ServiceRequestNotFound, UpdateServiceRequestNotAllowed{
+        service.update(serviceRequestId, data);
     }
 }

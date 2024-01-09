@@ -52,4 +52,15 @@ public class Supplier {
     @JsonBackReference
     List<SupplierServiceJoin> services;
 
+    public Supplier() {
+    }
+
+    public Supplier(@NotNull String businessName, @NotNull String phone, @NotNull String address, User user) {
+        this.businessName = businessName;
+        this.phone = phone;
+        this.address = address;
+        this.user = user;
+    }
+    
+    
 }

@@ -30,4 +30,14 @@ public class User {
     @Column(length = 50)
     @NotNull
     private String password;
+
+    public User() {
+    }
+
+    public User(@Email @NotNull String email, @NotNull String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    
 }

@@ -39,15 +39,10 @@ public class SupplierServiceAssignationsData implements CommandLineRunner {
 
         int i = 0;
         for (Long supplierId : supplierIds) {
-            AddServiceDTO data = new AddServiceDTO();
-            data.setServiceId(serviceIds.get(i));
-            data.setYearsExperience(yearsExperience.get(i));
+            AddServiceDTO data = new AddServiceDTO(serviceIds.get(i),yearsExperience.get(i));
             supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data));
-            AddServiceDTO data2 = new AddServiceDTO();
-            data2.setServiceId(serviceIds2.get(i));
-            data2.setYearsExperience(yearsExperience2.get(i));
+            AddServiceDTO data2 = new AddServiceDTO(serviceIds2.get(i),yearsExperience2.get(i));
             supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data2));
-
             i++;
         }
 

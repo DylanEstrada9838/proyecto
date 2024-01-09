@@ -21,4 +21,12 @@ public class AddServiceDTO {
     private int yearsExperience;
     private BigDecimal averageRating = null;
     private Integer countRating = 0;
+
+
+    public AddServiceDTO(@Positive @NotNull Long serviceId, @Positive @NotNull @Min(1) @Max(99) int yearsExperience) {
+        this.serviceId = serviceId;
+        this.yearsExperience = yearsExperience;
+    }
+
+    
 }

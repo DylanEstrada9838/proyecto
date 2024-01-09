@@ -76,4 +76,7 @@ public class ServiceRequest {
 
     @OneToMany(mappedBy = "serviceRequest")
     List<QuoteRequest> quoteRequests;
+
+
+    
 }
