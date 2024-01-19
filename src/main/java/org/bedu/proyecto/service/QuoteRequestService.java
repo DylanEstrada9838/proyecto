@@ -10,12 +10,15 @@ import org.bedu.proyecto.exception.request.RequestSameUserNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
+import org.bedu.proyecto.exception.supplier.SupplierServiceNotActive;
 import org.bedu.proyecto.keys.SupplierServiceKey;
 import org.bedu.proyecto.mapper.QuoteRequestMapper;
 import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.model.QuoteRequest;
 import org.bedu.proyecto.model.Supplier;
+import org.bedu.proyecto.model.SupplierServiceJoin;
 import org.bedu.proyecto.model_enums.StatusRequest;
+import org.bedu.proyecto.model_enums.StatusSupplierServiceJoin;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.QuoteRequestRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
@@ -43,13 +46,21 @@ public class QuoteRequestService {
 
     public QuoteRequestDTO save(long serviceRequestId, CreateQuoteRequestDTO data)
             throws ServiceRequestNotFound, SupplierNotFoundException, RequestSameUserNotAllowed,
-            ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist {
+            ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist, SupplierServiceNotActive {
 
         ServiceRequest serviceRequest = Validation.serviceRequestExist(serviceRequestRepository, serviceRequestId);
         Supplier supplier = Validation.supplierExist(supplierRepository, data.getSupplierId());
         // Validation Client has not the same userId as Supplier
         if (supplier.getUser().getId() == serviceRequest.getClient().getUser().getId()) {
             throw new RequestSameUserNotAllowed(serviceRequest.getClient().getUser().getId());
+        }
+        //SupplierServiceKey
+        SupplierServiceKey key = new SupplierServiceKey(data.getSupplierId(),serviceRequest.getService().getId());
+        // Validation if service is assigned to selected Supplier
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,key);
+        //Validation Supplier has ACTIVE its Service
+        if(supplierServiceJoin.getStatus()!= StatusSupplierServiceJoin.ACTIVE){
+            throw new SupplierServiceNotActive(key);
         }
 
         //Validation ServiceRequest is not in ASSIGNED Status, meaning there is already a Quote with ACCEPTED status
@@ -59,9 +70,7 @@ public class QuoteRequestService {
         }
 
 
-         // Validation if service is assigned to selected Supplier
-         Validation.verifySupplierServiceJoinExists(supplierServiceJoinRepository, new SupplierServiceKey(data.getSupplierId(),serviceRequest.getService().getId()));
-        
+         
         //Gets all existing QuoteRequests
         List<QuoteRequest> existingQuoteRequests = repository.findAllByServiceRequest(serviceRequest);
 

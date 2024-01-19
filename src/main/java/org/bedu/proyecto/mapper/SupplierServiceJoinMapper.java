@@ -3,12 +3,14 @@ package org.bedu.proyecto.mapper;
 import java.util.List;
 
 import org.bedu.proyecto.dto.service.AddServiceDTO;
+import org.bedu.proyecto.dto.supplier_service.ChangeStatusDTO;
 import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
 import org.bedu.proyecto.model.SupplierServiceJoin;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring",injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
@@ -34,4 +36,12 @@ public interface SupplierServiceJoinMapper {
 
     @Mapping(source = "supplier.businessName", target = "supplier")
     List<SuppliersByServicesDTO> toSuppliersByServicesDTO(List<SupplierServiceJoin> model);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "supplier", ignore = true)
+    @Mapping(target = "service", ignore = true)
+    @Mapping(target = "yearsExperience", ignore = true)
+    @Mapping(target = "averageRating", ignore = true)
+    @Mapping(target = "countRating", ignore = true)
+    void update(@MappingTarget SupplierServiceJoin supplierServiceJoin,ChangeStatusDTO status);
 }

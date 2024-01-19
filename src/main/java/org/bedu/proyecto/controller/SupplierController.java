@@ -11,6 +11,7 @@ import org.bedu.proyecto.dto.service.RemoveServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
+import org.bedu.proyecto.dto.supplier_service.ChangeStatusDTO;
 import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
@@ -96,6 +97,13 @@ public class SupplierController {
     public void removeService(@PathVariable long supplierId,@RequestBody RemoveServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
         service.removeService(supplierId, data.getServiceId());
     }
+
+    @PutMapping("{supplierId}/services/{serviceId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateService(@PathVariable long supplierId,@PathVariable long serviceId,@RequestBody ChangeStatusDTO status) throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException{
+        service.changeServiceStatus(status, supplierId, serviceId);
+    }
+    
 
     @Operation(summary="Este método devuelve una lista de todos los servicios de un proveedor específico.")
     @GetMapping("{supplierId}/services") // Mapea las solicitudes GET con un ID de proveedor y "/services" a este método.

@@ -7,6 +7,7 @@ import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
 import org.bedu.proyecto.dto.supplier.SupplierDTO;
 import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
+import org.bedu.proyecto.dto.supplier_service.ChangeStatusDTO;
 import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
@@ -93,6 +94,14 @@ public class SupplierService {
         Validation.verifyServiceExists(serviceRepository, serviceId);
         SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,new SupplierServiceKey(supplierId,serviceId));
         supplierServiceJoinRepository.delete(supplierServiceJoin);
+    }
+
+    public void changeServiceStatus(ChangeStatusDTO status,long supplierId, long serviceId) throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException{
+        Validation.verifySupplierExists(repository, supplierId);
+        Validation.verifyServiceExists(serviceRepository, serviceId);
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,new SupplierServiceKey(supplierId,serviceId));
+        supplierServiceJoinMapper.update(supplierServiceJoin, status);
+        supplierServiceJoinRepository.save(supplierServiceJoin);
     }
 
     public List<ServicesBySupplierDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {

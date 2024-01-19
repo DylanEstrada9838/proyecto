@@ -16,6 +16,7 @@ import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.request.UpdateServiceRequestNotAllowed;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
+import org.bedu.proyecto.exception.supplier.SupplierServiceNotActive;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class ServiceRequestController { // Define una clase pública llamada Ser
 
     @PostMapping("{serviceRequestId}/quoterequests")
     @ResponseStatus(HttpStatus.CREATED)
-    public QuoteRequestDTO addQuoteRequest(@PathVariable long serviceRequestId,@Valid @RequestBody CreateQuoteRequestDTO data) throws ServiceRequestNotFound,SupplierNotFoundException, RequestSameUserNotAllowed, ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist{
+    public QuoteRequestDTO addQuoteRequest(@PathVariable long serviceRequestId,@Valid @RequestBody CreateQuoteRequestDTO data) throws ServiceRequestNotFound,SupplierNotFoundException, RequestSameUserNotAllowed, ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist, SupplierServiceNotActive{
         return quoteRequestService.save(serviceRequestId, data);
     }
 

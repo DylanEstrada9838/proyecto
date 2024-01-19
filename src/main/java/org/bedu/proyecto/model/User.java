@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -16,6 +17,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -30,14 +32,9 @@ public class User {
     @Column(length = 50)
     @NotNull
     private String password;
-
-    public User() {
-    }
-
+    
     public User(@Email @NotNull String email, @NotNull String password) {
         this.email = email;
         this.password = password;
     }
-
-    
 }

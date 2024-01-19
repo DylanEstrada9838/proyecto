@@ -33,6 +33,7 @@ import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.bedu.proyecto.repository.UserRepository;
+import org.springframework.lang.NonNull;
 
 public class Validation {
     public static Supplier supplierExist(SupplierRepository repository, long supplierId)
@@ -108,13 +109,13 @@ public class Validation {
     }
 
     public static SupplierServiceJoin supplierServiceJoinExist(SupplierServiceJoinRepository repository,
-            SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
+            @NonNull SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
         Optional<SupplierServiceJoin> appointmentOptional = repository.findById(supplierServiceKey);
         return appointmentOptional
                 .orElseThrow(() -> new ServiceNotAssignedException(supplierServiceKey.getServiceId()));
     }
 
-    public static void verifySupplierServiceJoinExists(SupplierServiceJoinRepository repository, SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
+    public static void verifySupplierServiceJoinExists(SupplierServiceJoinRepository repository, @NonNull SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
         if (repository.existsById(supplierServiceKey)) {
             // Service exists, do nothing
         } else {

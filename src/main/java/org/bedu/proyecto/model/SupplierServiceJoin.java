@@ -3,11 +3,14 @@ package org.bedu.proyecto.model;
 import java.math.BigDecimal;
 
 import org.bedu.proyecto.keys.SupplierServiceKey;
+import org.bedu.proyecto.model_enums.StatusSupplierServiceJoin;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
@@ -51,4 +54,8 @@ public class SupplierServiceJoin {
     
     @Min(value = 0)
     private int countRating;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private StatusSupplierServiceJoin status;
 }

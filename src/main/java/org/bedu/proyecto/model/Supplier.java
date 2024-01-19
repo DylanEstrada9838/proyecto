@@ -16,6 +16,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -24,6 +25,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "suppliers")
 @Entity
+@NoArgsConstructor
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,9 +53,6 @@ public class Supplier {
     @OneToMany(mappedBy = "supplier")
     @JsonBackReference
     List<SupplierServiceJoin> services;
-
-    public Supplier() {
-    }
 
     public Supplier(@NotNull String businessName, @NotNull String phone, @NotNull String address, User user) {
         this.businessName = businessName;

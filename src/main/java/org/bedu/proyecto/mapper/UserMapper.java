@@ -11,6 +11,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.springframework.lang.NonNull;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface UserMapper {
@@ -18,6 +19,7 @@ public interface UserMapper {
 
     List<UserDTO> toDTOs(List<User> model);
 
+    @NonNull
     @Mapping(target = "id", ignore = true)
     User toModel(CreateUserDTO dto);
 

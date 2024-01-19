@@ -42,6 +42,7 @@ public class ClientService {
         if (clientOptional.isPresent()) {
             throw new ClientUserAlreadyExist(data.getUserId());
         }
+
         Client entity = mapper.toModel(data);
         repository.save(entity);
 
