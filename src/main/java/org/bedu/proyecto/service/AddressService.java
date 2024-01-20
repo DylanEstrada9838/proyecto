@@ -17,7 +17,6 @@ import org.bedu.proyecto.repository.AddressRepository;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,7 @@ public class AddressService {
     ServiceRequestRepository serviceRequestRepository;
 
     public AddressDTO save(long clientId,CreateAddressDTO data) throws ClientNotFoundException{
-        Client client = Validation.clientExist(clientRepository, clientId);
+        Client client = Validation.clientExists(clientRepository, clientId);
 
         Address entity = mapper.toModel(data);
         entity.setClient(client);
@@ -45,7 +44,7 @@ public class AddressService {
     }
 
     public void update(long addressId,UpdateAddressDTO data) throws AddressNotFound, UpdateOrDeleteNotAllowed{
-        Address address = Validation.addressExist(repository, addressId);
+        Address address = Validation.addressExists(repository, addressId);
         log.info("data {}", data);
         //Validation Address is not currently used by ServiceRequest
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findAllByAddress(addressId);
@@ -59,7 +58,7 @@ public class AddressService {
     }
 
     public void delete(long addressId) throws AddressNotFound, UpdateOrDeleteNotAllowed{
-        Address address = Validation.addressExist(repository, addressId);
+        Address address = Validation.addressExists(repository, addressId);
         //Validation Address is not currently used by ServiceRequest
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findAllByAddress(addressId);
         for (ServiceRequest serviceRequest : serviceRequests){
@@ -71,7 +70,7 @@ public class AddressService {
     }
 
     public List<AddressDTO> findAllByClient(long clientId) throws ClientNotFoundException{
-        Client client = Validation.clientExist(clientRepository, clientId);
+        Client client = Validation.clientExists(clientRepository, clientId);
         return mapper.toDTOs(repository.findAllByClient(client));
     }
 }

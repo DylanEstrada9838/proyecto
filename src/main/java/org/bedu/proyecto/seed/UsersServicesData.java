@@ -45,7 +45,7 @@ public class UsersServicesData implements CommandLineRunner {
                 "isabel@hotmail.com", "mySecretPwd");
 
         userCredentials.forEach((email, password) -> {
-            User user = new User(email,password);
+            User user = User.builder().email(email).password(password).build();
             userRepository.save(user);
         });
         //Services data

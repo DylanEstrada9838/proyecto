@@ -42,14 +42,14 @@ public class RatingService {
     public void save(long clientId, long supplierId, CreateRatingDTO data) throws ServiceNotAssignedException,
             SupplierNotFoundException, ServiceNotFoundException, ClientNotFoundException, RatingNotAlllowed {
         // Validates existence
-        Supplier supplier = Validation.supplierExist(supplierRepository, supplierId);
-        AppService service = Validation.serviceExist(serviceRepository, data.getServiceId());
-        Client client = Validation.clientExist(clientRepository, clientId);
+        Supplier supplier = Validation.supplierExists(supplierRepository, supplierId);
+        AppService service = Validation.serviceExists(serviceRepository, data.getServiceId());
+        Client client = Validation.clientExists(clientRepository, clientId);
 
         SupplierServiceKey supplierServiceKey = new SupplierServiceKey(supplier.getId(), service.getId());
 
         // Validates Service is provided by Supplier
-        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository, supplierServiceKey);
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExists(supplierServiceJoinRepository, supplierServiceKey);
         // Validation Client is not rating itself as Supplier
         if (supplier.getUser().getId() == client.getUser().getId()) {
             throw new RatingNotAlllowed(supplierId);

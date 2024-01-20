@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +21,9 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "adresses")
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,15 +55,4 @@ public class Address {
     @JsonBackReference
     private Client client;
 
-    public Address(@NotNull String line_1, String line_2, @NotNull String city, @NotNull String state,
-            String postalCode, Client client) {
-        this.line_1 = line_1;
-        this.line_2 = line_2;
-        this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
-        this.client = client;
-    }
-
-    
 }

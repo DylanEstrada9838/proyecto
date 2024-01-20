@@ -34,7 +34,7 @@ public class AppointmentService {
     private ServiceRequestRepository serviceRequestRepository;
 
     public AppointmentDTO save(long quoteId,CreateAppointmentDTO data) throws QuoteNotFound, AppointmentAlreadyExist, AppointmentCreationNotAllowed{
-        Quote quote = Validation.quoteExist(quoteRepository, quoteId);
+        Quote quote = Validation.quoteExists(quoteRepository, quoteId);
 
         //Validation Quote have ACCEPTED status
         if(quote.getStatus() != StatusQuote.ACCEPTED){
@@ -64,7 +64,7 @@ public class AppointmentService {
     }
 
     public AppointmentDTO findByQuote(long quoteId) throws QuoteNotFound, AppointmentNotFound{
-        Quote quote = Validation.quoteExist(quoteRepository, quoteId);
+        Quote quote = Validation.quoteExists(quoteRepository, quoteId);
         if(quote.getAppointment()==null){
             throw new AppointmentNotFound(quoteId);
         }
@@ -73,7 +73,7 @@ public class AppointmentService {
     }
 
     public void update (long appointmentId, ChangeStatusAppointmentDTO data) throws AppointmentNotFound, AppointmentAlreadyCompleted, CannotChangeStatus{
-        Appointment appointment=Validation.appointmentExist(repository, appointmentId);
+        Appointment appointment=Validation.appointmentExists(repository, appointmentId);
 
         //Validation, Supplier can only change status to COMPLETED
         if(data.getStatus()!= StatusAppointment.COMPLETED){

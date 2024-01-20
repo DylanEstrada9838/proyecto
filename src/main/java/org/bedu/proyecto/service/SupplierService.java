@@ -1,7 +1,6 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.dto.supplier.CreateSupplierDTO;
@@ -49,40 +48,35 @@ public class SupplierService {
     }
 
     public SupplierDTO findById(Long supplierId) throws SupplierNotFoundException {
-        Supplier supplier = Validation.supplierExist(repository, supplierId);
-        return mapper.toDTO(supplier);
+        return mapper.toDTO(Validation.supplierExists(repository, supplierId));
     }
 
     public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException, SupplierUserAlreadyExist {
-        User user = Validation.userExist(userRepository, data.getUserId());
-
-        Optional<Supplier> supplierOptional = repository.findByUser(user);
-        if (supplierOptional.isPresent()) {
+        User user = Validation.userExists(userRepository, data.getUserId());
+        if (repository.findByUser(user).isPresent()) {
             throw new SupplierUserAlreadyExist(data.getUserId());
         }
         Supplier entity = mapper.toModel(data);
         repository.save(entity);
-
         return mapper.toDTO(entity);
     }
 
     public void update(long supplierId, UpdateSupplierDTO data) throws SupplierNotFoundException {
-        Supplier supplier = Validation.supplierExist(repository, supplierId);
+        Supplier supplier = Validation.supplierExists(repository, supplierId);
         mapper.update(supplier, data);
         repository.save(supplier);
     }
 
     public void delete(long supplierId) throws SupplierNotFoundException {
-        Supplier supplier = Validation.supplierExist(repository, supplierId);
-        repository.delete(supplier);
+        repository.delete(Validation.supplierExists(repository, supplierId));
     }
 
     public void addService(long supplierId, AddServiceDTO data)
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceAlreadyAssignedException {
         Validation.verifySupplierExists(repository, supplierId);
-        Validation.verifyServiceExists(serviceRepository, data.getServiceId()); 
-        Optional<SupplierServiceJoin> supplierServiceJoin = supplierServiceJoinRepository.findById( new SupplierServiceKey(supplierId,data.getServiceId()));
-        if (supplierServiceJoin.isPresent()) {
+        Validation.verifyServiceExists(serviceRepository, data.getServiceId());
+        if (supplierServiceJoinRepository
+        .findById(new SupplierServiceKey(supplierId, data.getServiceId())).isPresent()) {
             throw new ServiceAlreadyAssignedException(data.getServiceId());
         }
         supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data));
@@ -92,27 +86,32 @@ public class SupplierService {
             throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException {
         Validation.verifySupplierExists(repository, supplierId);
         Validation.verifyServiceExists(serviceRepository, serviceId);
-        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,new SupplierServiceKey(supplierId,serviceId));
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExists(supplierServiceJoinRepository,
+                new SupplierServiceKey(supplierId, serviceId));
         supplierServiceJoinRepository.delete(supplierServiceJoin);
     }
 
-    public void changeServiceStatus(ChangeStatusDTO status,long supplierId, long serviceId) throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException{
+    public void changeServiceStatus(ChangeStatusDTO status, long supplierId, long serviceId)
+            throws SupplierNotFoundException, ServiceNotFoundException, ServiceNotAssignedException {
         Validation.verifySupplierExists(repository, supplierId);
         Validation.verifyServiceExists(serviceRepository, serviceId);
-        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,new SupplierServiceKey(supplierId,serviceId));
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExists(supplierServiceJoinRepository,
+                new SupplierServiceKey(supplierId, serviceId));
         supplierServiceJoinMapper.update(supplierServiceJoin, status);
         supplierServiceJoinRepository.save(supplierServiceJoin);
     }
 
     public List<ServicesBySupplierDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
         Validation.verifySupplierExists(repository, supplierId);
-        
-        return supplierServiceJoinMapper.toServicesBySupplierDTO(supplierServiceJoinRepository.findServicesBySupplier(supplierId));
+
+        return supplierServiceJoinMapper
+                .toServicesBySupplierDTO(supplierServiceJoinRepository.findServicesBySupplier(supplierId));
     }
 
     public List<SuppliersByServicesDTO> findAllByService(long serviceId) throws ServiceNotFoundException {
         Validation.verifyServiceExists(serviceRepository, serviceId);
-        return supplierServiceJoinMapper.toSuppliersByServicesDTO(supplierServiceJoinRepository.findSuppliersByService(serviceId));
+        return supplierServiceJoinMapper
+                .toSuppliersByServicesDTO(supplierServiceJoinRepository.findSuppliersByService(serviceId));
     }
 
 }

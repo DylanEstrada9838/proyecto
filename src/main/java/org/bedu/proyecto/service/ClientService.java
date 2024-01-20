@@ -1,7 +1,6 @@
 package org.bedu.proyecto.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.dto.client.CreateClientDTO;
@@ -31,15 +30,13 @@ public class ClientService {
     }
 
     public ClientDTO findById(Long clientId) throws ClientNotFoundException {
-        Client client = Validation.clientExist(repository, clientId);
-        return mapper.toDTO(client);
+        return mapper.toDTO(Validation.clientExists(repository, clientId));
     }
 
     public ClientDTO save(CreateClientDTO data) throws UserNotFoundException, ClientUserAlreadyExist {
-        User user = Validation.userExist(userRepository, data.getUserId());
+        User user = Validation.userExists(userRepository, data.getUserId());
 
-        Optional<Client> clientOptional = repository.findByUser(user);
-        if (clientOptional.isPresent()) {
+        if (repository.findByUser(user).isPresent()) {
             throw new ClientUserAlreadyExist(data.getUserId());
         }
 
@@ -50,13 +47,12 @@ public class ClientService {
     }
 
     public void update(long clientId, UpdateClientDTO data) throws ClientNotFoundException {
-        Client client = Validation.clientExist(repository, clientId);
+        Client client = Validation.clientExists(repository, clientId);
         mapper.update(client, data);
         repository.save(client);
     }
 
     public void delete(long clientId) throws ClientNotFoundException {
-        Client client = Validation.clientExist(repository, clientId);
-         repository.delete(client);
+         repository.delete(Validation.clientExists(repository, clientId));
     }
 }

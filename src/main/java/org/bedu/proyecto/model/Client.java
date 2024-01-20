@@ -20,6 +20,8 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +32,8 @@ import lombok.ToString;
 @ToString
 @Table(name = "clients")
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Client {
     @Id
@@ -71,16 +75,4 @@ public class Client {
     @OneToMany(mappedBy = "client")
     @JsonBackReference
     List<Address> addresses;
-
-    public Client(@NotNull String name, @NotNull String lastName, @NotNull String phone,
-            @NotNull @Min(1) @Max(99) int age, @NotNull Gender gender, User user) {
-        this.name = name;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.age = age;
-        this.gender = gender;
-        this.user = user;
-    }
-
-    
 }

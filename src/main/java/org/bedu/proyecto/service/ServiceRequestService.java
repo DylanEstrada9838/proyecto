@@ -32,19 +32,14 @@ import org.springframework.stereotype.Service;
 public class ServiceRequestService {
     @Autowired
     ServiceRequestRepository repository;
-
     @Autowired
     ServiceRequestMapper mapper;
-
     @Autowired
     ClientRepository clientRepository;
-
     @Autowired
     ServiceRepository serviceRepository;
-
     @Autowired
     SupplierRepository supplierRepository;
-
     @Autowired
     AddressRepository addressRepository;
 
@@ -52,8 +47,8 @@ public class ServiceRequestService {
             throws ClientNotFoundException, ServiceNotFoundException,
             ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
 
-        Client client = Validation.clientExist(clientRepository, clientId);
-        AppService service = Validation.serviceExist(serviceRepository, data.getServiceId());
+        Client client = Validation.clientExists(clientRepository, clientId);
+        AppService service = Validation.serviceExists(serviceRepository, data.getServiceId());
 
         // Validation if Client haven´t done the a Request to the
         // same Supplier with status OPEN, IN_PROCESS OR SCHEDULED
@@ -84,7 +79,7 @@ public class ServiceRequestService {
     }
 
     public void update(long serviceRequestId,UpdateServiceRequestDTO data) throws ServiceRequestNotFound, UpdateServiceRequestNotAllowed{
-        ServiceRequest serviceRequest = Validation.serviceRequestExist(repository, serviceRequestId);
+        ServiceRequest serviceRequest = Validation.serviceRequestExists(repository, serviceRequestId);
         //Validation ServiceRequest is in OPEN status
         if(serviceRequest.getStatus() != StatusRequest.OPEN){
             throw new UpdateServiceRequestNotAllowed(serviceRequestId);
@@ -94,12 +89,12 @@ public class ServiceRequestService {
     }
 
     public List<ServiceRequestDTO> findAllByClient(long clientId) throws ClientNotFoundException {
-        Client client = Validation.clientExist(clientRepository, clientId);
+        Client client = Validation.clientExists(clientRepository, clientId);
         return mapper.toDTOs(repository.findAllByClient(client));
     }
 
     public ServiceRequestDTO findById(long serviceRequestId) throws ServiceRequestNotFound {
-        ServiceRequest serviceRequest = Validation.serviceRequestExist(repository, serviceRequestId);
+        ServiceRequest serviceRequest = Validation.serviceRequestExists(repository, serviceRequestId);
         return mapper.toDTO(serviceRequest);
     }
 }

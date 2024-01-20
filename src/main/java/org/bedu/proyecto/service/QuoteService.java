@@ -43,7 +43,7 @@ public class QuoteService {
     public QuoteDTO save(long quoteRequestId, CreateQuoteDTO data)
             throws QuoteAlreadyExist, QuoteRequestNotFound, QuoteRequestClosed {
         log.info("data {}", data);
-        QuoteRequest quoteRequest = Validation.quoteRequestExist(quoteRequestRepository, quoteRequestId);
+        QuoteRequest quoteRequest = Validation.quoteRequestExists(quoteRequestRepository, quoteRequestId);
         // Validation an existing QuoteRequest is not in CLOSED Status(meaning a Quote
         // of another Supplier have been accepted)
         if (quoteRequest.getStatus() == StatusQuoteRequest.CLOSED) {
@@ -67,7 +67,7 @@ public class QuoteService {
     }
 
     public QuoteDTO findByQuoteRequest(long quoteRequestId) throws QuoteRequestNotFound, QuoteNotFound {
-        QuoteRequest quoteRequest = Validation.quoteRequestExist(quoteRequestRepository, quoteRequestId);
+        QuoteRequest quoteRequest = Validation.quoteRequestExists(quoteRequestRepository, quoteRequestId);
         if (quoteRequest.getQuote() == null) {
             throw new QuoteNotFound(quoteRequestId);
         }
@@ -75,7 +75,7 @@ public class QuoteService {
     }
 
     public void update(long quoteId, ChangeStatusQuoteDTO data) throws QuoteNotFound, CannotChangeQuoteStatus {
-        Quote quote = Validation.quoteExist(repository, quoteId);
+        Quote quote = Validation.quoteExists(repository, quoteId);
 
         // Validation, Client can only change to ACCEPTED status
         if (data.getStatus() != StatusQuote.ACCEPTED) {

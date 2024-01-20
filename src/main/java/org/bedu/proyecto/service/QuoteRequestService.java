@@ -28,19 +28,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuoteRequestService {
-
     @Autowired
     QuoteRequestRepository repository;
-
     @Autowired
     QuoteRequestMapper mapper;
-
     @Autowired
     SupplierRepository supplierRepository;
-
     @Autowired
     ServiceRequestRepository serviceRequestRepository;
-
     @Autowired
     SupplierServiceJoinRepository supplierServiceJoinRepository;
 
@@ -48,35 +43,36 @@ public class QuoteRequestService {
             throws ServiceRequestNotFound, SupplierNotFoundException, RequestSameUserNotAllowed,
             ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist, SupplierServiceNotActive {
 
-        ServiceRequest serviceRequest = Validation.serviceRequestExist(serviceRequestRepository, serviceRequestId);
-        Supplier supplier = Validation.supplierExist(supplierRepository, data.getSupplierId());
+        ServiceRequest serviceRequest = Validation.serviceRequestExists(serviceRequestRepository, serviceRequestId);
+        Supplier supplier = Validation.supplierExists(supplierRepository, data.getSupplierId());
         // Validation Client has not the same userId as Supplier
         if (supplier.getUser().getId() == serviceRequest.getClient().getUser().getId()) {
             throw new RequestSameUserNotAllowed(serviceRequest.getClient().getUser().getId());
         }
-        //SupplierServiceKey
-        SupplierServiceKey key = new SupplierServiceKey(data.getSupplierId(),serviceRequest.getService().getId());
+        // SupplierServiceKey
+        SupplierServiceKey key = new SupplierServiceKey(data.getSupplierId(), serviceRequest.getService().getId());
         // Validation if service is assigned to selected Supplier
-        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExist(supplierServiceJoinRepository,key);
-        //Validation Supplier has ACTIVE its Service
-        if(supplierServiceJoin.getStatus()!= StatusSupplierServiceJoin.ACTIVE){
+        SupplierServiceJoin supplierServiceJoin = Validation.supplierServiceJoinExists(supplierServiceJoinRepository,
+                key);
+        // Validation Supplier has ACTIVE its Service
+        if (supplierServiceJoin.getStatus() != StatusSupplierServiceJoin.ACTIVE) {
             throw new SupplierServiceNotActive(key);
         }
 
-        //Validation ServiceRequest is not in ASSIGNED Status, meaning there is already a Quote with ACCEPTED status
-        //so the creation of a Quote Request is not allowed
-        if (serviceRequest.getStatus()==StatusRequest.ASSIGNED || serviceRequest.getStatus()==StatusRequest.SCHEDULED || serviceRequest.getStatus()==StatusRequest.COMPLETED){
+        // Validation ServiceRequest is not in ASSIGNED Status, meaning there is already
+        // a Quote with ACCEPTED status
+        // so the creation of a Quote Request is not allowed
+        if (serviceRequest.getStatus() == StatusRequest.ASSIGNED
+                || serviceRequest.getStatus() == StatusRequest.SCHEDULED
+                || serviceRequest.getStatus() == StatusRequest.COMPLETED) {
             throw new QuoteRequestAcceptedExist(serviceRequest.getId());
         }
 
-
-         
-        //Gets all existing QuoteRequests
+        // Gets all existing QuoteRequests
         List<QuoteRequest> existingQuoteRequests = repository.findAllByServiceRequest(serviceRequest);
 
-
-        //Only for first QuoteRequest change ServiceRequest Status to IN_PROCESS
-        if(existingQuoteRequests.isEmpty()){
+        // Only for first QuoteRequest change ServiceRequest Status to IN_PROCESS
+        if (existingQuoteRequests.isEmpty()) {
             serviceRequest.setStatus(StatusRequest.IN_PROCESS);
             serviceRequestRepository.save(serviceRequest);
         }
@@ -84,7 +80,7 @@ public class QuoteRequestService {
         // Validation if there is already an existing Quote Request to same Supplier
         if (!existingQuoteRequests.isEmpty()) {
             for (QuoteRequest existingQuoteRequest : existingQuoteRequests) {
-                if (existingQuoteRequest.getSupplier().getId() == supplier.getId()){
+                if (existingQuoteRequest.getSupplier().getId() == supplier.getId()) {
                     throw new QuoteRequestAlreadyExist(serviceRequest.getId(), supplier.getId());
                 }
             }
@@ -99,12 +95,12 @@ public class QuoteRequestService {
     }
 
     public List<QuoteRequestDTO> findAllBySupplier(long supplierId) throws SupplierNotFoundException {
-        Supplier supplier = Validation.supplierExist(supplierRepository, supplierId);
+        Supplier supplier = Validation.supplierExists(supplierRepository, supplierId);
         return mapper.toDTOs(repository.findAllBySupplier(supplier));
     }
 
     public List<QuoteRequestDTO> findAllByServiceRequest(long serviceRequestId) throws ServiceRequestNotFound {
-        ServiceRequest serviceRequest = Validation.serviceRequestExist(serviceRequestRepository, serviceRequestId);
+        ServiceRequest serviceRequest = Validation.serviceRequestExists(serviceRequestRepository, serviceRequestId);
         return mapper.toDTOs(repository.findAllByServiceRequest(serviceRequest));
     }
 

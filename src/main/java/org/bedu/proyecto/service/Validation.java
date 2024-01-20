@@ -1,7 +1,5 @@
 package org.bedu.proyecto.service;
 
-import java.util.Optional;
-
 import org.bedu.proyecto.exception.address.AddressNotFound;
 import org.bedu.proyecto.exception.appointment.AppointmentNotFound;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
@@ -33,99 +31,91 @@ import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.bedu.proyecto.repository.UserRepository;
-import org.springframework.lang.NonNull;
 
 public class Validation {
-    public static Supplier supplierExist(SupplierRepository repository, long supplierId)
+    // Supplier
+    public static Supplier supplierExists(SupplierRepository repository, long supplierId)
             throws SupplierNotFoundException {
-        Optional<Supplier> supplierOptional = repository.findById(supplierId);
-        return supplierOptional.orElseThrow(() -> new SupplierNotFoundException(supplierId));
+        return repository.findById(supplierId).orElseThrow(() -> new SupplierNotFoundException(supplierId));
     }
 
     public static void verifySupplierExists(SupplierRepository repository, long supplierId)
             throws SupplierNotFoundException {
-        if (repository.existsById(supplierId)) {
-            // Supplier exists, do nothing
-        } else {
+        if (!repository.existsById(supplierId)) {
             throw new SupplierNotFoundException(supplierId);
         }
     }
 
-    public static User userExist(UserRepository repository, long userId) throws UserNotFoundException {
-        Optional<User> userOptional = repository.findById(userId);
-        return userOptional.orElseThrow(() -> new UserNotFoundException(userId));
+    // User
+    public static User userExists(UserRepository repository, long userId) throws UserNotFoundException {
+        return repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
-    public static AppService serviceExist(ServiceRepository repository, long serviceId)
+    // Service
+    public static AppService serviceExists(ServiceRepository repository, long serviceId)
             throws ServiceNotFoundException {
-        Optional<AppService> serviceOptional = repository.findById(serviceId);
-        return serviceOptional.orElseThrow(() -> new ServiceNotFoundException(serviceId));
+        return repository.findById(serviceId).orElseThrow(() -> new ServiceNotFoundException(serviceId));
     }
 
     public static void verifyServiceExists(ServiceRepository repository, long serviceId)
             throws ServiceNotFoundException {
-        if (repository.existsById(serviceId)) {
-            // Service exists, do nothing
-        } else {
+        if (!repository.existsById(serviceId)) {
             throw new ServiceNotFoundException(serviceId);
         }
     }
 
-    public static Client clientExist(ClientRepository repository, long clientId) throws ClientNotFoundException {
-        Optional<Client> clientOptional = repository.findById(clientId);
-        return clientOptional.orElseThrow(() -> new ClientNotFoundException(clientId));
+    // Client
+    public static Client clientExists(ClientRepository repository, long clientId) throws ClientNotFoundException {
+        return repository.findById(clientId).orElseThrow(() -> new ClientNotFoundException(clientId));
     }
 
     public static void verifyClientExists(ClientRepository repository, long clientId) throws ClientNotFoundException {
-        if (repository.existsById(clientId)) {
-            // Service exists, do nothing
-        } else {
+        if (!repository.existsById(clientId)) {
             throw new ClientNotFoundException(clientId);
         }
     }
 
-    public static ServiceRequest serviceRequestExist(ServiceRequestRepository repository, long serviceRequestId)
+    // ServiceRequest
+    public static ServiceRequest serviceRequestExists(ServiceRequestRepository repository, long serviceRequestId)
             throws ServiceRequestNotFound {
-        Optional<ServiceRequest> serviceRequestOptional = repository.findById(serviceRequestId);
-        return serviceRequestOptional
+        return repository.findById(serviceRequestId)
                 .orElseThrow(() -> new ServiceRequestNotFound(serviceRequestId));
     }
 
-    public static QuoteRequest quoteRequestExist(QuoteRequestRepository repository, long quoteRequestId)
+    // QuoteRequest
+    public static QuoteRequest quoteRequestExists(QuoteRequestRepository repository, long quoteRequestId)
             throws QuoteRequestNotFound {
-        Optional<QuoteRequest> quoteRequestOptional = repository.findById(quoteRequestId);
-        return quoteRequestOptional.orElseThrow(() -> new QuoteRequestNotFound(quoteRequestId));
+        return repository.findById(quoteRequestId).orElseThrow(() -> new QuoteRequestNotFound(quoteRequestId));
     }
 
-    public static Quote quoteExist(QuoteRepository repository, long quoteId) throws QuoteNotFound {
-        Optional<Quote> quoteOptional = repository.findById(quoteId);
-        return quoteOptional.orElseThrow(() -> new QuoteNotFound(quoteId));
+    // Quote
+    public static Quote quoteExists(QuoteRepository repository, long quoteId) throws QuoteNotFound {
+        return repository.findById(quoteId).orElseThrow(() -> new QuoteNotFound(quoteId));
     }
 
-    public static Appointment appointmentExist(AppointmentRepository repository, long appointmentId)
+    // Appointment
+    public static Appointment appointmentExists(AppointmentRepository repository, long appointmentId)
             throws AppointmentNotFound {
-        Optional<Appointment> appointmenOptional = repository.findById(appointmentId);
-        return appointmenOptional.orElseThrow(() -> new AppointmentNotFound(appointmentId));
+        return repository.findById(appointmentId).orElseThrow(() -> new AppointmentNotFound(appointmentId));
     }
 
-    public static SupplierServiceJoin supplierServiceJoinExist(SupplierServiceJoinRepository repository,
-            @NonNull SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
-        Optional<SupplierServiceJoin> appointmentOptional = repository.findById(supplierServiceKey);
-        return appointmentOptional
+    // SupplierServiceJoin
+    public static SupplierServiceJoin supplierServiceJoinExists(SupplierServiceJoinRepository repository,
+            SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
+        return repository.findById(supplierServiceKey)
                 .orElseThrow(() -> new ServiceNotAssignedException(supplierServiceKey.getServiceId()));
     }
 
-    public static void verifySupplierServiceJoinExists(SupplierServiceJoinRepository repository, @NonNull SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
-        if (repository.existsById(supplierServiceKey)) {
-            // Service exists, do nothing
-        } else {
+    public static void verifySupplierServiceJoinExists(SupplierServiceJoinRepository repository,
+            SupplierServiceKey supplierServiceKey) throws ServiceNotAssignedException {
+        if (!repository.existsById(supplierServiceKey)) {
             throw new ServiceNotAssignedException(supplierServiceKey.getServiceId());
         }
     }
-    public static Address addressExist(AddressRepository repository,long addressId) throws AddressNotFound{
-        Optional<Address> addressOptional = repository.findById(addressId);
-        return addressOptional.orElseThrow(()-> new AddressNotFound(addressId));
-    
+
+    // Address
+    public static Address addressExists(AddressRepository repository, long addressId) throws AddressNotFound {
+        return repository.findById(addressId).orElseThrow(() -> new AddressNotFound(addressId));
     }
-    
+
 }
