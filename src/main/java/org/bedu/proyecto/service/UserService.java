@@ -4,11 +4,9 @@ import java.util.List;
 import java.util.Objects;
 
 
-import org.bedu.proyecto.dto.user.CreateUserDTO;
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.exception.user.PasswordNotAllowed;
-import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.UserMapper;
 import org.bedu.proyecto.model.User;
@@ -31,12 +29,14 @@ public class UserService {
         return mapper.toDTO(Validation.userExists(repository, userId));
     }
 
-    public UserDTO save(CreateUserDTO data) throws UserEmailAlreadyCreated {
-        if (repository.findByEmail(data.getEmail()).isPresent()) {
-            throw new UserEmailAlreadyCreated(data.getEmail());
-        }
-        return mapper.toDTO(repository.save(mapper.toModel(data)));
-    }
+    // public UserDTO save(CreateUserDTO data) throws UserEmailAlreadyCreated {
+    //     if (repository.findByEmail(data.getEmail()).isPresent()) {
+    //         throw new UserEmailAlreadyCreated(data.getEmail());
+    //     }
+    //     User user = mapper.toModel(data);
+    //     user.setRole(Role.USER);
+    //     return mapper.toDTO(repository.save(user));
+    // }
 
     public void update(long userId, UpdateUserDTO data) throws UserNotFoundException, PasswordNotAllowed {
         User user = Validation.userExists(repository, userId);

@@ -22,12 +22,8 @@ import jakarta.transaction.Transactional;
 @Component
 @Order(4)
 public class ServiceRequestsData implements CommandLineRunner {
-    private final ServiceRequestService service;
-
     @Autowired
-    public ServiceRequestsData(ServiceRequestService service) {
-        this.service = service;
-    }
+    ServiceRequestService service;
 
     @Transactional
     @Override

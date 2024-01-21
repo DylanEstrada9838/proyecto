@@ -4,6 +4,6 @@ import org.bedu.proyecto.exception.RuntimeException;
 
 public class QuoteAlreadyExist extends RuntimeException{
     public QuoteAlreadyExist (long quoteRequestId){
-        super("ERR_BAD_REQUEST","Quote for QuoteRequest already exist",quoteRequestId);
+        super("ERR_DUPLICATE_ENTRY","Quote for QuoteRequest already exist",quoteRequestId);
     }
 }

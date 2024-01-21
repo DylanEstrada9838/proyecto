@@ -6,11 +6,13 @@ import java.util.stream.Collectors;
 
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.User;
+import org.bedu.proyecto.model_enums.Role;
 import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
@@ -18,16 +20,12 @@ import jakarta.transaction.Transactional;
 @Component
 @Order(1)
 public class UsersServicesData implements CommandLineRunner {
-
-    private final UserRepository userRepository;
-    private final ServiceRepository serviceRepository;
-
     @Autowired
-    public UsersServicesData(UserRepository userRepository, ServiceRepository serviceRepository) {
-        this.userRepository = userRepository;
-        this.serviceRepository = serviceRepository;
-
-    }
+    UserRepository userRepository;
+    @Autowired
+    ServiceRepository serviceRepository;
+    @Autowired
+    PasswordEncoder encoder;
 
     @Transactional
     @Override
@@ -45,7 +43,7 @@ public class UsersServicesData implements CommandLineRunner {
                 "isabel@hotmail.com", "mySecretPwd");
 
         userCredentials.forEach((email, password) -> {
-            User user = User.builder().email(email).password(password).build();
+            User user = User.builder().email(email).password(encoder.encode(password)).role(Role.USER).build();
             userRepository.save(user);
         });
         //Services data

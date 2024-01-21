@@ -16,16 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Component
 @Order(3)
 public class SupplierServiceAssignationsData implements CommandLineRunner {
-
-    private final SupplierServiceJoinRepository supplierServiceJoinRepository;
-    private final SupplierServiceJoinMapper supplierServiceJoinMapper;
-
     @Autowired
-    public SupplierServiceAssignationsData(SupplierServiceJoinRepository supplierServiceJoinRepository,
-            SupplierServiceJoinMapper supplierServiceJoinMapper) {
-        this.supplierServiceJoinRepository = supplierServiceJoinRepository;
-        this.supplierServiceJoinMapper = supplierServiceJoinMapper;
-    }
+    SupplierServiceJoinRepository supplierServiceJoinRepository;
+    @Autowired
+    SupplierServiceJoinMapper supplierServiceJoinMapper;
 
     @Transactional
     @Override

@@ -4,11 +4,9 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.bedu.proyecto.dto.user.CreateUserDTO;
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.exception.user.PasswordNotAllowed;
-import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,12 +29,12 @@ public class UserController {
     @Autowired // Esta anotación permite la inyección automática del bean 'UserService'.
     private UserService service;
 
-    @Operation(summary="Este método guarda un nuevo usuario en la base de datos.")
-    @PostMapping // Mapea las solicitudes POST a este método.
-    @ResponseStatus(HttpStatus.CREATED) // Si el método se ejecuta con éxito, devuelve un estado HTTP 201 (CREADO).
-    public UserDTO save(@Valid @RequestBody CreateUserDTO data) throws UserEmailAlreadyCreated{
-        return service.save(data);
-    }
+    // @Operation(summary="Este método guarda un nuevo usuario en la base de datos.")
+    // @PostMapping // Mapea las solicitudes POST a este método.
+    // @ResponseStatus(HttpStatus.CREATED) // Si el método se ejecuta con éxito, devuelve un estado HTTP 201 (CREADO).
+    // public UserDTO save(@Valid @RequestBody CreateUserDTO data) throws UserEmailAlreadyCreated{
+    //     return service.save(data);
+    // }
     
     @Operation(summary="Este método devuelve una lista de todos los usuarios.")
     @GetMapping // Mapea las solicitudes GET a este método.
