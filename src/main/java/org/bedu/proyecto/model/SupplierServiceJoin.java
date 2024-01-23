@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import org.bedu.proyecto.keys.SupplierServiceKey;
 import org.bedu.proyecto.model_enums.StatusSupplierServiceJoin;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -34,6 +36,7 @@ public class SupplierServiceJoin {
     @ManyToOne
     @MapsId("supplierId")
     @JoinColumn(name = "supplier_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Supplier supplier;
 

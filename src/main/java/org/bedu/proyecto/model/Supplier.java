@@ -2,9 +2,12 @@ package org.bedu.proyecto.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -53,10 +56,11 @@ public class Supplier {
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     // @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToMany(mappedBy = "supplier")
+    @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     List<SupplierServiceJoin> services;
 

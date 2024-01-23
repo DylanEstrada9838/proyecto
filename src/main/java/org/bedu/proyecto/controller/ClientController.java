@@ -41,7 +41,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Tag(name="Endpoints de Clientes",description="CRUD de Clientes")
 @RestController  // Indica que la clase es un controlador REST.
 @RequestMapping("clients")  // Mapea las solicitudes web a este controlador.
@@ -61,10 +62,12 @@ public class ClientController {
     @Autowired
     AddressService addressService;
 
+
     @Operation(summary="Devuelve una lista de todos los clientes.")
     @GetMapping  // Maneja las solicitudes GET a la ruta base ("clients").
     @ResponseStatus(HttpStatus.OK)  // Devuelve un estado HTTP 200 (OK) si el método se ejecuta con éxito.
     public List<ClientDTO> findAll() {
+        log.info("data {}",userService.retrieveUserId());
         return service.findAll();
     }
 

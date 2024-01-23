@@ -47,6 +47,7 @@ public class AuthenticationService {
             .token(jwtToken)
             .build();
       }
+      
       public AuthenticationResponse authenticate(AuthenticationRequest request) throws UserEmailNotFound, UserOrPasswordIncorrect{
         try {
             manager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));

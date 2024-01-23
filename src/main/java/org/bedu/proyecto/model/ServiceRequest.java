@@ -6,9 +6,13 @@ import java.util.List;
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.model_enums.Urgency;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +37,6 @@ import lombok.ToString;
 @ToString
 @Table(name = "service_requests")
 @NoArgsConstructor
-
 @Entity
 public class ServiceRequest {
     @Id
@@ -43,10 +46,6 @@ public class ServiceRequest {
     @Column(length = 300)
     @NotNull
     private String description;
-
-    // @Column(length = 100)
-    // @NotNull
-    // private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 100)
@@ -59,7 +58,12 @@ public class ServiceRequest {
     private StatusRequest status;
 
     @CreationTimestamp(source = SourceType.DB)
+    @Column(updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Instant createdAt;
+
+    @UpdateTimestamp(source = SourceType.DB)
+    private Instant updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "address_id",nullable = false,referencedColumnName = "id")
@@ -67,6 +71,7 @@ public class ServiceRequest {
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false,referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Client client;
 

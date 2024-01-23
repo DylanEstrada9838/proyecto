@@ -1,7 +1,6 @@
 package org.bedu.proyecto.seed;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.bedu.proyecto.model.AppService;
@@ -30,22 +29,36 @@ public class UsersServicesData implements CommandLineRunner {
     @Transactional
     @Override
     public void run(String... args) {
-        Map<String, String> userCredentials = Map.of(
-                "dylan@gmail.com", "123",
-                "ivy@gmail.com", "456", 
-                "alice@yahoo.com", "p@ssw0rd",
-                "bob@hotmail.com", "securePwd",
-                "charlie@gmail.com", "letMeIn123",
-                "emma@gmail.com", "password123",
-                "frank@example.com", "pass1234",
-                "grace@gmail.com", "helloWorld",
-                "henry@yahoo.com", "qwerty",
-                "isabel@hotmail.com", "mySecretPwd");
 
-        userCredentials.forEach((email, password) -> {
-            User user = User.builder().email(email).password(encoder.encode(password)).role(Role.USER).build();
+                List<String> emails = List.of(
+                "dylan@gmail.com",
+                "ivy@gmail.com",  
+                "alice@yahoo.com",
+                "bob@hotmail.com", 
+                "charlie@gmail.com", 
+                "emma@gmail.com", 
+                "frank@example.com", 
+                "grace@gmail.com", 
+                "henry@yahoo.com",
+                "isabel@hotmail.com");
+                List<String> passwords = List.of( 
+                "123",
+                "456", 
+                 "p@ssw0rd",
+                 "securePwd",
+                 "letMeIn123",
+                "password123",
+                 "pass1234",
+                 "helloWorld",
+                 "qwerty",
+                 "mySecretPwd");
+    
+        int i = 0;
+        for (String email:emails) {
+            User user = User.builder().email(email).password(encoder.encode(passwords.get(i))).role(Role.USER).build();
             userRepository.save(user);
-        });
+            i++;
+        };
         //Services data
         List<String> stringList = List.of("Plumbing", "Electrical", "Carpentry", "Painting","HVAC","Cleaning","Pest Control","Roofing","Home Security");
 

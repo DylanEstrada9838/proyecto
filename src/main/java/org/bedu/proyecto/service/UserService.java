@@ -2,7 +2,7 @@ package org.bedu.proyecto.service;
 
 import java.util.List;
 import java.util.Objects;
-
+import java.util.Optional;
 
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
@@ -12,6 +12,8 @@ import org.bedu.proyecto.mapper.UserMapper;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,6 +52,12 @@ public class UserService {
 
     public void deleteById(Long userId) throws UserNotFoundException {
         repository.delete(Validation.userExists(repository, userId));
+    }
+
+    public Long retrieveUserId(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = repository.findByEmail(authentication.getName());
+        return user.get().getId();
     }
 
 }

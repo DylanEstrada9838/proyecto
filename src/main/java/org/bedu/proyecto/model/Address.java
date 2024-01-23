@@ -1,5 +1,8 @@
 package org.bedu.proyecto.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
@@ -52,6 +55,7 @@ public class Address {
 
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false,referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Client client;
 

@@ -26,6 +26,7 @@ public interface ServiceRequestMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "client", ignore = true)
     @Mapping(source = "serviceId", target = "service.id")
     @Mapping(source = "addressId", target = "address.id")
@@ -35,6 +36,7 @@ public interface ServiceRequestMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "client", ignore = true)
     @Mapping(target = "service", ignore = true)
     @Mapping(target = "quoteRequests", ignore = true)
