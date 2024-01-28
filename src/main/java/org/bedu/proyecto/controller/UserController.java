@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
+import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
 import org.bedu.proyecto.exception.user.PasswordNotAllowed;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.UserService;
@@ -23,44 +24,52 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @Tag(name="Endpoints de Usuarios",description="CRUD de Usuarios")
-@RestController // Esta anotación indica que esta clase es un controlador REST.
-@RequestMapping("users") // Esta anotación mapea las solicitudes HTTP a "/users" a los métodos en esta clase.
+@RestController
+@RequestMapping("users")
 public class UserController {
-    @Autowired // Esta anotación permite la inyección automática del bean 'UserService'.
+    @Autowired 
     private UserService service;
 
-    // @Operation(summary="Este método guarda un nuevo usuario en la base de datos.")
-    // @PostMapping // Mapea las solicitudes POST a este método.
-    // @ResponseStatus(HttpStatus.CREATED) // Si el método se ejecuta con éxito, devuelve un estado HTTP 201 (CREADO).
-    // public UserDTO save(@Valid @RequestBody CreateUserDTO data) throws UserEmailAlreadyCreated{
-    //     return service.save(data);
-    // }
-    
     @Operation(summary="Este método devuelve una lista de todos los usuarios.")
-    @GetMapping // Mapea las solicitudes GET a este método.
-    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
+    @GetMapping 
+    @ResponseStatus(HttpStatus.OK) 
     public List<UserDTO> findAll() {
         return service.findAll();
     }
 
     @Operation(summary="Este método devuelve un usuario específico por su ID.")
-    @GetMapping("{id}") // Mapea las solicitudes GET con un ID de usuario a este método.
-    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
-    public UserDTO findById(@PathVariable Long id) throws UserNotFoundException {
-        return service.findById(id);
+    @GetMapping("{id}") 
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO findById(@PathVariable Long id) throws UserNotFoundException, UnauthorizedAction {
+        if (service.retrieveUserId() != id) {
+            throw new UnauthorizedAction();
+        } else {
+            return service.findById(id);
+        }
+       
+        
     }
 
     @Operation(summary="Este método elimina un usuario existente en la base de datos deacuerdo a el ID de el path.")
-    @DeleteMapping("{id}") // Mapea las solicitudes DELETE con un ID de usuario a este método.
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
-    public void deleteById(@PathVariable Long id) throws UserNotFoundException {
-        service.deleteById(id);
+    @DeleteMapping("{id}") 
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
+    public void deleteById(@PathVariable Long id) throws UserNotFoundException, UnauthorizedAction {
+        if (service.retrieveUserId() != id) {
+            throw new UnauthorizedAction();
+        } else {
+            service.deleteById(id);
+        }
+        
     }
 
     @Operation(summary="Este método actualiza un usuario existente en la base de datos datos deacuerdo a el ID de el path.")
-    @PutMapping("{id}") // Mapea las solicitudes PUT con un ID de usuario a este método.
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
-    public void update(@PathVariable long id, @Valid @RequestBody UpdateUserDTO data) throws UserNotFoundException, PasswordNotAllowed {
-        service.update(id, data);
+    @PutMapping("{id}") 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@PathVariable long id, @Valid @RequestBody UpdateUserDTO data) throws UserNotFoundException, PasswordNotAllowed, UnauthorizedAction {
+        if (service.retrieveUserId() != id) {
+            throw new UnauthorizedAction();
+        } else {
+            service.update(id,data);
+        }
     }
 }

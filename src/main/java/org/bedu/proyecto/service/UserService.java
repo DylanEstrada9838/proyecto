@@ -14,6 +14,7 @@ import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,8 @@ public class UserService {
     private UserRepository repository;
     @Autowired
     private UserMapper mapper;
+    @Autowired
+    PasswordEncoder encoder;
 
     public List<UserDTO> findAll() {
         return mapper.toDTOs(repository.findAll());
@@ -31,21 +34,16 @@ public class UserService {
         return mapper.toDTO(Validation.userExists(repository, userId));
     }
 
-    // public UserDTO save(CreateUserDTO data) throws UserEmailAlreadyCreated {
-    //     if (repository.findByEmail(data.getEmail()).isPresent()) {
-    //         throw new UserEmailAlreadyCreated(data.getEmail());
-    //     }
-    //     User user = mapper.toModel(data);
-    //     user.setRole(Role.USER);
-    //     return mapper.toDTO(repository.save(user));
-    // }
-
     public void update(long userId, UpdateUserDTO data) throws UserNotFoundException, PasswordNotAllowed {
         User user = Validation.userExists(repository, userId);
         //Validation password is not the same
         if(Objects.equals(user.getPassword(), data.getPassword())){
             throw new PasswordNotAllowed(userId);
         }
+        //Hashing password
+        String hashedPassword = encoder.encode(data.getPassword());
+        data.setPassword(hashedPassword);
+
         mapper.update(user, data);
         repository.save(user);
     }

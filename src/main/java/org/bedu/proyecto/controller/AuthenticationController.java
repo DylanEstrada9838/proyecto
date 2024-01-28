@@ -4,6 +4,7 @@ import org.bedu.proyecto.dto.authentication.AuthenticationRequest;
 import org.bedu.proyecto.dto.authentication.AuthenticationResponse;
 import org.bedu.proyecto.dto.authentication.RegisterRequest;
 import org.bedu.proyecto.exception.authentication.UserOrPasswordIncorrect;
+import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
 import org.bedu.proyecto.exception.user.UserEmailNotFound;
 import org.bedu.proyecto.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class AuthenticationController {
     }
     @PostMapping("sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public AuthenticationResponse register(@RequestBody @Valid RegisterRequest request){
+    public AuthenticationResponse register(@RequestBody @Valid RegisterRequest request) throws UserEmailAlreadyCreated{
         return service.register(request);
     }
 }

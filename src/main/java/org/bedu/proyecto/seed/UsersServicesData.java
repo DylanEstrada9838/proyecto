@@ -52,13 +52,15 @@ public class UsersServicesData implements CommandLineRunner {
                  "helloWorld",
                  "qwerty",
                  "mySecretPwd");
-    
+
         int i = 0;
         for (String email:emails) {
-            User user = User.builder().email(email).password(encoder.encode(passwords.get(i))).role(Role.USER).build();
+            User user = User.builder().email(email).password(encoder.encode(passwords.get(i))).role(Role.ROLE_USER).build();
             userRepository.save(user);
             i++;
         };
+        User admin = User.builder().email("admin@admin").password(encoder.encode("123")).role(Role.ROLE_ADMIN).build();
+                 userRepository.save(admin);
         //Services data
         List<String> stringList = List.of("Plumbing", "Electrical", "Carpentry", "Painting","HVAC","Cleaning","Pest Control","Roofing","Home Security");
 

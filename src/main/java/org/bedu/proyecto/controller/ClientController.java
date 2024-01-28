@@ -41,19 +41,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
+
 @Tag(name="Endpoints de Clientes",description="CRUD de Clientes")
-@RestController  // Indica que la clase es un controlador REST.
-@RequestMapping("clients")  // Mapea las solicitudes web a este controlador.
+@RestController 
+@RequestMapping("clients")  
 public class ClientController {
-    @Autowired  // Inyecta automáticamente la dependencia ClientService.
+    @Autowired
     ClientService service;
 
-    @Autowired  // Inyecta automáticamente la dependencia UserService.
+    @Autowired  
     UserService userService;
 
-    @Autowired // Esta anotación permite la inyección automática del bean
+    @Autowired 
     ServiceRequestService serviceRequestService;
 
     @Autowired
@@ -64,23 +63,22 @@ public class ClientController {
 
 
     @Operation(summary="Devuelve una lista de todos los clientes.")
-    @GetMapping  // Maneja las solicitudes GET a la ruta base ("clients").
-    @ResponseStatus(HttpStatus.OK)  // Devuelve un estado HTTP 200 (OK) si el método se ejecuta con éxito.
+    @GetMapping 
+    @ResponseStatus(HttpStatus.OK)
     public List<ClientDTO> findAll() {
-        log.info("data {}",userService.retrieveUserId());
         return service.findAll();
     }
 
     @Operation(summary="Devuelve el cliente con el ID especificado.")
-    @GetMapping("{clientId}")  // Maneja las solicitudes GET a "clients/{clientId}".
-    @ResponseStatus(HttpStatus.OK)  // Devuelve un estado HTTP 200 (OK) si el método se ejecuta con éxito.
+    @GetMapping("{clientId}")  
+    @ResponseStatus(HttpStatus.OK)
     public ClientDTO findById(@PathVariable long clientId) throws ClientNotFoundException {
         return service.findById(clientId);
     }
 
     @Operation(summary="Crea un nuevo cliente con los datos proporcionados.")
-    @PostMapping  // Maneja las solicitudes POST a la ruta base ("clients").
-    @ResponseStatus(HttpStatus.CREATED)  // Devuelve un estado HTTP 201 (CREATED) si el método se ejecuta con éxito.
+    @PostMapping 
+    @ResponseStatus(HttpStatus.CREATED)
     public ClientDTO save(@Valid @RequestBody CreateClientDTO data) throws UserNotFoundException,ClientUserAlreadyExist{
         return service.save(data);
     }

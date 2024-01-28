@@ -4,6 +4,7 @@ import org.bedu.proyecto.dto.authentication.AuthenticationRequest;
 import org.bedu.proyecto.dto.authentication.AuthenticationResponse;
 import org.bedu.proyecto.dto.authentication.RegisterRequest;
 import org.bedu.proyecto.exception.authentication.UserOrPasswordIncorrect;
+import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
 import org.bedu.proyecto.exception.user.UserEmailNotFound;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.model_enums.Role;
@@ -34,11 +35,14 @@ public class AuthenticationService {
     @Autowired
     AuthenticationManager manager;
     
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws UserEmailAlreadyCreated {
+        if (repository.findByEmail(request.getEmail()).isPresent()) {
+                     throw new UserEmailAlreadyCreated(request.getEmail());
+        }
         var user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
-            .role(Role.USER)
+            .role(Role.ROLE_USER)
             .build();
         log.info( "data {}", user);
         repository.save(user);

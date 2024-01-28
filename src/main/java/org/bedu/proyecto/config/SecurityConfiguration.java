@@ -25,9 +25,8 @@ public class SecurityConfiguration {
        http.cors(cors->cors.disable());
        http.authorizeHttpRequests(request->{
         request.requestMatchers("/users/sign-in","/users/sign-up").permitAll();
-        request
-        .anyRequest()
-        .authenticated();
+        request.requestMatchers("/users","/clients").hasRole("ADMIN");
+        request.anyRequest().authenticated();
        });
        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
        http.authenticationProvider(authenticationProvider);
