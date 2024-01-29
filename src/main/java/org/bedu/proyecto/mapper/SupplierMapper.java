@@ -21,7 +21,7 @@ public interface SupplierMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "services", ignore = true)
-    @Mapping(source = "userId", target = "user.id")
+    @Mapping(target = "user", ignore = true)
     Supplier toModel(CreateSupplierDTO dto);
 
     @Mapping(target = "id", ignore = true)

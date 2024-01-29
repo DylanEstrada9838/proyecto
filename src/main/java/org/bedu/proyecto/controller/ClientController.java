@@ -15,6 +15,7 @@ import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.address.AddressNotAssignedToClient;
 import org.bedu.proyecto.exception.address.AddressNotFound;
+import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
 import org.bedu.proyecto.exception.rating.RatingNotAlllowed;
@@ -61,7 +62,6 @@ public class ClientController {
     @Autowired
     AddressService addressService;
 
-
     @Operation(summary="Devuelve una lista de todos los clientes.")
     @GetMapping 
     @ResponseStatus(HttpStatus.OK)
@@ -80,41 +80,49 @@ public class ClientController {
     @PostMapping 
     @ResponseStatus(HttpStatus.CREATED)
     public ClientDTO save(@Valid @RequestBody CreateClientDTO data) throws UserNotFoundException,ClientUserAlreadyExist{
-        return service.save(data);
+        return service.save(data,userService.retrieveUserId());
     }
 
     @Operation(summary="Actualiza el cliente con el ID especificado.")
-    @PutMapping("{clientId}")  // Maneja las solicitudes PUT a "clients/{clientId}".
-    @ResponseStatus(HttpStatus.NO_CONTENT)  // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
+    @PutMapping("{clientId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long clientId, @Valid @RequestBody UpdateClientDTO data)
-            throws ClientNotFoundException {
-        service.update(clientId, data);
+            throws ClientNotFoundException, UnauthorizedAction {
+                if(userService.retrieveUserId()!= clientId){
+                    throw new UnauthorizedAction();
+                } else {
+                    service.update(clientId, data);
+                }
+        
     }
 
     @Operation(summary="Elimina el cliente con el ID especificado.")
-    @DeleteMapping("{clientId}")  // Maneja las solicitudes DELETE a "clients/{clientId}".
-    @ResponseStatus(HttpStatus.NO_CONTENT)  // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
-    public void delete(@PathVariable long clientId) throws ClientNotFoundException {
-        service.delete(clientId);
+    @DeleteMapping("{clientId}") 
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
+    public void delete(@PathVariable long clientId) throws ClientNotFoundException, UnauthorizedAction {
+        if(userService.retrieveUserId()!= clientId){
+            throw new UnauthorizedAction();
+        } else {
+            service.delete(clientId);
+        }
+        
     }
 
     @Operation(summary = "Crea una solicitud de Servicio a un Proveedor específico.")
-    @PostMapping("{clientId}/servicerequests") // Mapea las solicitudes POST a este método.
-    @ResponseStatus(HttpStatus.CREATED) // En caso de éxito, devuelve un estado HTTP 201 (CREADO).
+    @PostMapping("{clientId}/servicerequests")
+    @ResponseStatus(HttpStatus.CREATED)
     public ServiceRequestDTO addServiceRequest(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound { // Define un método para guardar una solicitud
-                                                                          // de servicio.
+            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
 
-        return serviceRequestService.save(clientId, data); // Llama al método save del servicio y devuelve el resultado.
+        return serviceRequestService.save(clientId, data);
     }
 
     @Operation(summary = "Define un método para encontrar todas las solicitudes de servicio por cliente.")
-    @GetMapping("{clientId}/servicerequests") // Mapea las solicitudes GET a este método.
-    @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
+    @GetMapping("{clientId}/servicerequests")
+    @ResponseStatus(HttpStatus.OK)
     public List<ServiceRequestDTO> findAllServiceRequestByClient(@PathVariable long clientId) throws ClientNotFoundException {
-        return serviceRequestService.findAllByClient(clientId); // Llama al método findAllByClient del servicio y devuelve el
-                                                  // resultado.
+        return serviceRequestService.findAllByClient(clientId); 
     }
 
     @PostMapping("{clientId}/suppliers/{supplierId}")
@@ -134,7 +142,4 @@ public class ClientController {
     public List<AddressDTO> findAllAddresses(@PathVariable long clientId) throws ClientNotFoundException{
         return addressService.findAllByClient(clientId);
     }
-
-    
-
 }

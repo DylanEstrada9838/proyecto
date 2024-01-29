@@ -14,6 +14,7 @@ import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.ChangeStatusDTO;
 import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
+import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
@@ -38,62 +39,72 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @Tag(name="Endpoints de Provedores y Servicios",description="CRUD de Usuarios y asignacion de servicios a provedores")
-@RestController // Esta anotación indica que esta clase es un controlador REST.
-@RequestMapping("suppliers") // Esta anotación mapea las solicitudes HTTP a "/suppliers" a los métodos en esta clase.
+@RestController
+@RequestMapping("suppliers") 
 public class SupplierController {
-    @Autowired // Esta anotación permite la inyección automática del bean 'SupplierService'.
+    @Autowired 
     SupplierService service;
-    @Autowired // Esta anotación permite la inyección automática del bean 'UserService'.
+    @Autowired 
     UserService userService;
     @Autowired 
     QuoteRequestService quoteRequestService;
 
     @Operation(summary="Este método devuelve una lista de todos los proveedores.")
-    @GetMapping // Mapea las solicitudes GET a este método.
-    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
+    @GetMapping 
+    @ResponseStatus(HttpStatus.OK) 
     public List<SupplierDTO> findAll() {
         return service.findAll();
     }
 
     @Operation(summary="Este método devuelve un proveedor específico por su ID.")
-    @GetMapping("{supplierId}") // Mapea las solicitudes GET con un ID de proveedor a este método.
-    @ResponseStatus(HttpStatus.OK) // Si el método se ejecuta con éxito, devuelve un estado HTTP 200 (OK).
+    @GetMapping("{supplierId}") 
+    @ResponseStatus(HttpStatus.OK)
     public SupplierDTO findById(@PathVariable long supplierId) throws SupplierNotFoundException {
         return service.findById(supplierId);
     }
 
     @Operation(summary="Este método guarda un nuevo proveedor en la base de datos.")
-    @PostMapping // Mapea las solicitudes POST a este método.
-    @ResponseStatus(HttpStatus.CREATED) // Si el método se ejecuta con éxito, devuelve un estado HTTP 201 (CREADO).
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED) 
     public SupplierDTO save(@Valid @RequestBody CreateSupplierDTO data) throws UserNotFoundException,SupplierUserAlreadyExist{
-        return service.save(data);
+        return service.save(data,userService.retrieveUserId());
     }
 
     @Operation(summary="Este método actualiza un proveedor existente en la base de datos deacuerdo a el ID de el path..")
-    @PutMapping("{supplierId}") // Mapea las solicitudes PUT con un ID de proveedor a este método.
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
+    @PutMapping("{supplierId}") 
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long supplierId, @Valid @RequestBody UpdateSupplierDTO data)
-            throws SupplierNotFoundException {
-        service.update(supplierId, data);
+            throws SupplierNotFoundException, UnauthorizedAction {
+                if(userService.retrieveUserId()!= supplierId){
+                    throw new UnauthorizedAction();
+                } else {
+                    service.update(supplierId, data);
+                }
+        
     }
 
     @Operation(summary="Este método elimina un proveedor existente en la base de datos deacuerdo a el ID de el path.")
-    @DeleteMapping("{supplierId}") // Mapea las solicitudes DELETE con un ID de proveedor a este método.
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
-    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException {
-        service.delete(supplierId);
+    @DeleteMapping("{supplierId}") 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException, UnauthorizedAction {
+        if(userService.retrieveUserId()!= supplierId){
+            throw new UnauthorizedAction();
+        } else {
+           service.delete(supplierId);
+        }
+        
     }
 
     @Operation(summary="Este método agrega un servicio a un proveedor existente.")
-    @PostMapping("{supplierId}/services") // Mapea las solicitudes POST con un ID de proveedor y "/services" a este método.
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
+    @PostMapping("{supplierId}/services") 
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void addService(@PathVariable long supplierId,@Valid @RequestBody AddServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceAlreadyAssignedException{
         service.addService(supplierId, data);
     }
 
     @Operation(summary="Este método elimina un servicio de un proveedor existente.")
-    @DeleteMapping("{supplierId}/services") // Mapea las solicitudes DELETE con un ID de proveedor y "/services" a este método.
-    @ResponseStatus(HttpStatus.NO_CONTENT) // Si el método se ejecuta con éxito, pero no va a devolver ningún contenido HTTP 204 (NO CONTENT).
+    @DeleteMapping("{supplierId}/services") 
+    @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void removeService(@PathVariable long supplierId,@RequestBody RemoveServiceDTO data) throws SupplierNotFoundException,ServiceNotFoundException,ServiceNotAssignedException{
         service.removeService(supplierId, data.getServiceId());
     }

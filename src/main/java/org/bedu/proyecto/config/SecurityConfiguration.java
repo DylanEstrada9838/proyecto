@@ -2,6 +2,7 @@ package org.bedu.proyecto.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,7 +26,7 @@ public class SecurityConfiguration {
        http.cors(cors->cors.disable());
        http.authorizeHttpRequests(request->{
         request.requestMatchers("/users/sign-in","/users/sign-up").permitAll();
-        request.requestMatchers("/users","/clients").hasRole("ADMIN");
+        request.requestMatchers(HttpMethod.GET,"/users","/clients").hasRole("ADMIN");
         request.anyRequest().authenticated();
        });
        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

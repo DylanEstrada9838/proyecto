@@ -51,12 +51,14 @@ public class SupplierService {
         return mapper.toDTO(Validation.supplierExists(repository, supplierId));
     }
 
-    public SupplierDTO save(CreateSupplierDTO data) throws UserNotFoundException, SupplierUserAlreadyExist {
-        User user = Validation.userExists(userRepository, data.getUserId());
+    public SupplierDTO save(CreateSupplierDTO data,long userId) throws UserNotFoundException, SupplierUserAlreadyExist {
+        User user = Validation.userExists(userRepository, userId);
         if (repository.findByUser(user).isPresent()) {
-            throw new SupplierUserAlreadyExist(data.getUserId());
+            throw new SupplierUserAlreadyExist(userId);
         }
+        
         Supplier entity = mapper.toModel(data);
+        entity.setUser(user);
         repository.save(entity);
         return mapper.toDTO(entity);
     }

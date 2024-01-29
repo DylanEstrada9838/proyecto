@@ -66,11 +66,11 @@ public class ServiceRequest {
     private Instant updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "address_id",nullable = false,referencedColumnName = "id")
+    @JoinColumn(name = "address_id",referencedColumnName = "id")
     private Address address;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false,referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     private Client client;

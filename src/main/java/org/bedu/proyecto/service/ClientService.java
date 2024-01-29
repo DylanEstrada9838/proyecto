@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class ClientService {
     @Autowired
     ClientRepository repository;
@@ -33,14 +34,14 @@ public class ClientService {
         return mapper.toDTO(Validation.clientExists(repository, clientId));
     }
 
-    public ClientDTO save(CreateClientDTO data) throws UserNotFoundException, ClientUserAlreadyExist {
-        User user = Validation.userExists(userRepository, data.getUserId());
+    public ClientDTO save(CreateClientDTO data, long userId) throws UserNotFoundException, ClientUserAlreadyExist {
+        User user = Validation.userExists(userRepository, userId);
 
         if (repository.findByUser(user).isPresent()) {
-            throw new ClientUserAlreadyExist(data.getUserId());
+            throw new ClientUserAlreadyExist(userId);
         }
-
         Client entity = mapper.toModel(data);
+        entity.setUser(user);
         repository.save(entity);
 
         return mapper.toDTO(entity);

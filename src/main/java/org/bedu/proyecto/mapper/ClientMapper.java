@@ -22,7 +22,7 @@ public interface ClientMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "serviceRequests", ignore = true)
     @Mapping(target = "addresses", ignore = true)
-    @Mapping(source = "userId", target = "user.id")
+    @Mapping(target = "user", ignore = true)
     Client toModel(CreateClientDTO dto);
 
     @Mapping(target = "id", ignore = true)
