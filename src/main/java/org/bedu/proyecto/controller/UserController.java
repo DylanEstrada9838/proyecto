@@ -46,8 +46,6 @@ public class UserController {
         } else {
             return service.findById(id);
         }
-       
-        
     }
 
     @Operation(summary="Este método elimina un usuario existente en la base de datos deacuerdo a el ID de el path.")

@@ -1,5 +1,5 @@
 package org.bedu.proyecto.service;
 
-public class ClientServiceTest {
+public class ServiceRequestServiceTest {
     
 }

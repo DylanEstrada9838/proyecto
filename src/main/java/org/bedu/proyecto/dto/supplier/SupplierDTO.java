@@ -1,9 +1,11 @@
 package org.bedu.proyecto.dto.supplier;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class SupplierDTO {
 
     @Schema(description = "ID del proveedor",example = "1")
