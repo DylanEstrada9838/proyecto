@@ -87,8 +87,8 @@ public class ClientController {
     @PutMapping("{clientId}")
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long clientId, @Valid @RequestBody UpdateClientDTO data)
-            throws ClientNotFoundException, UnauthorizedAction {
-                if(userService.retrieveUserId()!= clientId){
+            throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
+                if(userService.retrieveUserId().equals(clientId)){
                     throw new UnauthorizedAction();
                 } else {
                     service.update(clientId, data);
@@ -99,8 +99,8 @@ public class ClientController {
     @Operation(summary="Elimina el cliente con el ID especificado.")
     @DeleteMapping("{clientId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT) 
-    public void delete(@PathVariable long clientId) throws ClientNotFoundException, UnauthorizedAction {
-        if(userService.retrieveUserId()!= clientId){
+    public void delete(@PathVariable long clientId) throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
+        if(userService.retrieveUserId().equals(clientId)){
             throw new UnauthorizedAction();
         } else {
             service.delete(clientId);

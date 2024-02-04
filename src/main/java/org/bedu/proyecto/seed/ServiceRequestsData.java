@@ -14,12 +14,14 @@ import org.bedu.proyecto.model_enums.Urgency;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import jakarta.transaction.Transactional;
 
 @Component
+@Profile("!test")
 @Order(4)
 public class ServiceRequestsData implements CommandLineRunner {
     @Autowired

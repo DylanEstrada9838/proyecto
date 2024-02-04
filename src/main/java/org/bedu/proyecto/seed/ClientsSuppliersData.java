@@ -13,6 +13,7 @@ import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
+@Profile("!test")
 @Order(2)
 public class ClientsSuppliersData implements CommandLineRunner {
      @Autowired

@@ -10,8 +10,6 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring",injectionStrategy = InjectionStrategy.CONSTRUCTOR,nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface RatingMapper {
 
-    // RatingDTO toDTO(Rating model);
-
     @Mapping(source="clientId",target="client.id")
     @Mapping(source="clientId",target="id.clientId")
     @Mapping(source="supplierId",target="id.supplierServiceKey.supplierId")

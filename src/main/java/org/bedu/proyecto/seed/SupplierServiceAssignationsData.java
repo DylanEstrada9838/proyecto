@@ -6,6 +6,7 @@ import org.bedu.proyecto.dto.service.AddServiceDTO;
 import org.bedu.proyecto.mapper.SupplierServiceJoinMapper;
 import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
+@Profile("!test")
 @Order(3)
 public class SupplierServiceAssignationsData implements CommandLineRunner {
     @Autowired
@@ -33,9 +35,13 @@ public class SupplierServiceAssignationsData implements CommandLineRunner {
 
         int i = 0;
         for (Long supplierId : supplierIds) {
-            AddServiceDTO data = new AddServiceDTO(serviceIds.get(i),yearsExperience.get(i));
+            AddServiceDTO data = AddServiceDTO.builder()
+            .serviceId(serviceIds.get(i))
+            .yearsExperience(yearsExperience.get(i)).build();
             supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data));
-            AddServiceDTO data2 = new AddServiceDTO(serviceIds2.get(i),yearsExperience2.get(i));
+            AddServiceDTO data2 = AddServiceDTO.builder()
+            .serviceId(serviceIds2.get(i))
+            .yearsExperience(yearsExperience2.get(i)).build();
             supplierServiceJoinRepository.save(supplierServiceJoinMapper.toModel(supplierId, data2));
             i++;
         }

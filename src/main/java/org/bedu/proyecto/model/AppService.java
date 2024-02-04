@@ -12,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +24,8 @@ import lombok.ToString;
 @ToString
 @Table(name = "services")
 @NoArgsConstructor
-
+@Builder
+@AllArgsConstructor
 @Entity
 public class AppService {
     @Id
@@ -37,7 +40,5 @@ public class AppService {
     @JsonBackReference
     List<SupplierServiceJoin> suppliers;
 
-    public AppService(String serviceName) {
-        this.service = serviceName;
-    }
+
 }

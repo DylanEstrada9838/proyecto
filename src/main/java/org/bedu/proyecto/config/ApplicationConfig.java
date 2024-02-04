@@ -1,7 +1,6 @@
 package org.bedu.proyecto.config;
 
 import org.bedu.proyecto.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,16 +18,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    @Autowired
-    UserRepository repository;
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService(UserRepository repository){
         return username -> repository.findByEmail(username).orElseThrow(()->new UsernameNotFoundException("User Not Found"));
     }
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider(UserRepository repository){
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setUserDetailsService(userDetailsService(repository));
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }

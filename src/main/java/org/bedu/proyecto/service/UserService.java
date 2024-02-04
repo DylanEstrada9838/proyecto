@@ -52,10 +52,15 @@ public class UserService {
         repository.delete(Validation.userExists(repository, userId));
     }
 
-    public Long retrieveUserId(){
+    public Long retrieveUserId() throws UserNotFoundException{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = repository.findByEmail(authentication.getName());
-        return user.get().getId();
+        if (user.isPresent()){
+           return user.get().getId(); 
+        } else {
+            throw new UserNotFoundException(0);
+        }
+        
     }
 
 }

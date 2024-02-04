@@ -74,7 +74,7 @@ public class SupplierController {
     @PutMapping("{supplierId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long supplierId, @Valid @RequestBody UpdateSupplierDTO data)
-            throws SupplierNotFoundException, UnauthorizedAction {
+            throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException {
                 if(userService.retrieveUserId()!= supplierId){
                     throw new UnauthorizedAction();
                 } else {
@@ -86,8 +86,8 @@ public class SupplierController {
     @Operation(summary="Este método elimina un proveedor existente en la base de datos deacuerdo a el ID de el path.")
     @DeleteMapping("{supplierId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException, UnauthorizedAction {
-        if(userService.retrieveUserId()!= supplierId){
+    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException {
+        if(userService.retrieveUserId()!=supplierId){
             throw new UnauthorizedAction();
         } else {
            service.delete(supplierId);
@@ -125,7 +125,7 @@ public class SupplierController {
 
     @GetMapping("services/{serviceId}")
     @ResponseStatus(HttpStatus.OK)
-    List<SuppliersByServicesDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
+    public List<SuppliersByServicesDTO> findAllSuppliersByService(@PathVariable long serviceId) throws ServiceNotFoundException{
         return service.findAllByService(serviceId);
     }
 

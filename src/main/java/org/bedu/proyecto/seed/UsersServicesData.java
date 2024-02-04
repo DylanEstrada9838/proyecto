@@ -1,7 +1,6 @@
 package org.bedu.proyecto.seed;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bedu.proyecto.model.AppService;
 import org.bedu.proyecto.model.User;
@@ -10,6 +9,7 @@ import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import jakarta.transaction.Transactional;
 
 @Component
+@Profile("!test")
 @Order(1)
 public class UsersServicesData implements CommandLineRunner {
     @Autowired
@@ -66,8 +67,8 @@ public class UsersServicesData implements CommandLineRunner {
 
         // Using Stream and map to create instances
         List<AppService> servicesList = stringList.stream()
-                .map(name -> new AppService(name))
-                .collect(Collectors.toList());
+                .map(name -> AppService.builder().build())
+                .toList();
 
         servicesList.forEach(serviceRepository::save);
 

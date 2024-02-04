@@ -17,9 +17,6 @@ public interface UserMapper {
 
     List<UserDTO> toDTOs(List<User> model);
 
-    // @Mapping(target = "id", ignore = true)
-    // User toModel(CreateUserDTO dto);
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "role", ignore = true)

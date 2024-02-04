@@ -3,9 +3,11 @@ package org.bedu.proyecto.dto.supplier;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UpdateSupplierDTO {
     @Schema(description = "Nombre del proveedor  ",example = "Supplier 1")
     @Min(3)

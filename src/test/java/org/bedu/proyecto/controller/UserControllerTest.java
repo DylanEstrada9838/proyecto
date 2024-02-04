@@ -3,6 +3,7 @@ package org.bedu.proyecto.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -19,11 +20,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
+import org.bedu.proyecto.exception.user.PasswordNotAllowed;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 class UserControllerTest {
@@ -55,7 +60,9 @@ class UserControllerTest {
         //Act
         List<UserDTO> actualUserDTOs = controller.findAll();
         //Assert
-        assertEquals(expectedUserDTOs, actualUserDTOs);
+        assertEquals(user.getId(), actualUserDTOs.get(0).getId());
+        assertEquals(user.getEmail(), actualUserDTOs.get(0).getEmail());
+        assertEquals(user.getPassword(), actualUserDTOs.get(0).getPassword());
         assertTrue(actualUserDTOs.size()>0);
         
 
@@ -83,22 +90,26 @@ class UserControllerTest {
         verify(service).findById(1L);
 
     }
-    // @Test
-    // @DisplayName("Controller should return a user")
-    // void deleteByIdByIdTest() throws UserNotFoundException, UnauthorizedAction {
-    //     UserDTO expectedUserDTO = UserDTO.builder()
-    //     .id(999L)
-    //     .email("testmail@gmail.com")
-    //     .password("1234")
-    //     .build();
-
-    //     when(service.findById(999L)).thenReturn(expectedUserDTO);
+   @Test
+    @DisplayName("Controller should delete a user")
+    public void deleteByIdByIdTest() throws UserNotFoundException, UnauthorizedAction {
+        when(service.retrieveUserId()).thenReturn(1L);
         
+        controller.deleteById(1L);
         
-    // //Act
-    // UserDTO actualUserDTO = controller.findById(999L);
-    // //Assert
-    // assertEquals(expectedUserDTO, actualUserDTO);
+        verify(service, times(1)).deleteById(1L);
+    }
 
-    // }
+    @Test
+    @DisplayName("Controller should update a user")
+    public void updateTest() throws UserNotFoundException, PasswordNotAllowed, UnauthorizedAction{
+        when(service.retrieveUserId()).thenReturn(999L);
+
+        UpdateUserDTO dto = UpdateUserDTO.builder()
+        .password("123").build();
+        controller.update(999L, dto);
+        verify(service, times(1)).update(999L, dto);
+    }
+
+    
 }

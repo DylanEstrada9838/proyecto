@@ -13,7 +13,6 @@ import org.bedu.proyecto.exception.request.ServiceRequestCreateNotAllowed;
 import org.bedu.proyecto.exception.request.ServiceRequestNotFound;
 import org.bedu.proyecto.exception.request.UpdateServiceRequestNotAllowed;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
-import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
 import org.bedu.proyecto.mapper.ServiceRequestMapper;
 import org.bedu.proyecto.model.Address;
 import org.bedu.proyecto.model.AppService;
@@ -45,7 +44,7 @@ public class ServiceRequestService {
 
     public ServiceRequestDTO save(long clientId, CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
+         ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
 
         Client client = Validation.clientExists(clientRepository, clientId);
         AppService service = Validation.serviceExists(serviceRepository, data.getServiceId());
@@ -56,7 +55,7 @@ public class ServiceRequestService {
         if (!existingRequests.isEmpty()) {
             for (ServiceRequest existingRequest : existingRequests) {
                 if (existingRequest.getService().getId() == service.getId()
-                        & existingRequest.getStatus() != StatusRequest.COMPLETED) {
+                        && existingRequest.getStatus() != StatusRequest.COMPLETED) {
                     throw new ServiceRequestCreateNotAllowed(service.getId());
                 }
             }

@@ -8,9 +8,13 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@AllArgsConstructor
 public class AddServiceDTO {
 
     @Schema(description = "ID de tipo de servicio que se ofrece ", example = "1")
@@ -22,14 +26,12 @@ public class AddServiceDTO {
     @Min(value = 1)
     @Max(value = 99)
     private int yearsExperience;
+    @Builder.Default
     private BigDecimal averageRating = null;
+    @Builder.Default
     private Integer countRating = 0;
+    @Builder.Default
     private StatusSupplierServiceJoin status = StatusSupplierServiceJoin.ACTIVE;
-
-    public AddServiceDTO(@Positive @NotNull Long serviceId, @Positive @NotNull @Min(1) @Max(99) int yearsExperience) {
-        this.serviceId = serviceId;
-        this.yearsExperience = yearsExperience;
-    }
 
     
 }
