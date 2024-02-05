@@ -12,7 +12,6 @@ import org.bedu.proyecto.mapper.AddressMapper;
 import org.bedu.proyecto.model.Address;
 import org.bedu.proyecto.model.Client;
 import org.bedu.proyecto.model.ServiceRequest;
-import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.repository.AddressRepository;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
@@ -45,13 +44,12 @@ public class AddressService {
 
     public void update(long addressId,UpdateAddressDTO data) throws AddressNotFound, UpdateOrDeleteNotAllowed{
         Address address = Validation.addressExists(repository, addressId);
-        log.info("data {}", data);
-        //Validation Address is not currently used by ServiceRequest
+        
+        //Validation Address is not currently used by ServiceRequest with status IN_PROCESS,ASSIGNED OR SCHEDULED
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findAllByAddress(addressId);
-        for (ServiceRequest serviceRequest : serviceRequests){
-            if (serviceRequest.getStatus() == StatusRequest.IN_PROCESS || serviceRequest.getStatus() == StatusRequest.ASSIGNED || serviceRequest.getStatus() == StatusRequest.SCHEDULED ){
-                throw new UpdateOrDeleteNotAllowed(addressId);
-            }
+        log.info("data {}", serviceRequests);
+        if (serviceRequests.size() > 0){
+               throw new UpdateOrDeleteNotAllowed(addressId);
         }
         mapper.update(address, data);
         repository.save(address);
@@ -61,10 +59,9 @@ public class AddressService {
         Address address = Validation.addressExists(repository, addressId);
         //Validation Address is not currently used by ServiceRequest
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findAllByAddress(addressId);
-        for (ServiceRequest serviceRequest : serviceRequests){
-            if (serviceRequest.getStatus() == StatusRequest.IN_PROCESS || serviceRequest.getStatus() == StatusRequest.ASSIGNED || serviceRequest.getStatus() == StatusRequest.SCHEDULED ){
-                throw new UpdateOrDeleteNotAllowed(addressId);
-            }
+        log.info("data {}", serviceRequests);
+        if (serviceRequests.size() > 0){
+               throw new UpdateOrDeleteNotAllowed(addressId);
         }
         repository.delete(address);
     }

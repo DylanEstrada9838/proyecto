@@ -1,9 +1,11 @@
 package org.bedu.proyecto.dto.address;
 
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class UpdateAddressDTO {
     @Size(min = 5)
     private String line_1;
