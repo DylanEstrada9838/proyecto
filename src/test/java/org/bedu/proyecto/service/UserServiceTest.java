@@ -28,7 +28,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
-// @ActiveProfiles("test")
+@ActiveProfiles("test")
 @SpringBootTest
 class UserServiceTest {
     @MockBean

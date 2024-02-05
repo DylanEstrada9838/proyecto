@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import jakarta.transaction.Transactional;
 
 @Component
-// @Profile("!test")
+@Profile("!test")
 @Order(1)
 public class UsersServicesData implements CommandLineRunner {
     @Autowired
