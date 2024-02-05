@@ -110,13 +110,20 @@ class UserServiceTest {
   }
   @Test
   @DisplayName("Service should delete an User")
-  void deleteByIdTest(){
-    
+  void deleteByIdTest() throws UserNotFoundException{
+    User user = User.builder()
+    .id(99L)
+    .email("test@mail.com")
+    .password("123")
+    .build();
+    when(repository.findById(anyLong())).thenReturn(Optional.of(user));
+    service.deleteById(99L);
+    verify(repository,times(1)).delete(user);
+  
   }
   @Test
   @DisplayName("")
-  void retrieveUserIdTest(){
+  void retrieveUserIdTest() {
     
   }
-  
 }
