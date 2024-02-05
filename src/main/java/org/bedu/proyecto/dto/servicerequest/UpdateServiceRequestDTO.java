@@ -5,8 +5,10 @@ import org.bedu.proyecto.model_enums.Urgency;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 @Data
+@Builder
 public class UpdateServiceRequestDTO {
      @Size(min = 5, max = 300)
     private String description;

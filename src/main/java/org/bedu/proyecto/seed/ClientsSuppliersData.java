@@ -22,7 +22,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
-@Profile("!test")
+// @Profile("!test")
 @Order(2)
 public class ClientsSuppliersData implements CommandLineRunner {
      @Autowired

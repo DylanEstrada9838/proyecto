@@ -79,6 +79,7 @@ class SupplierControllerTest {
         //Act
         List<SupplierDTO> actualSupplierDTOs = controller.findAll();
         //Assert
+        assertNotNull(actualSupplierDTOs);
         assertEquals(expectedSupplierDTOs, actualSupplierDTOs);
         assertTrue(actualSupplierDTOs.size()>0);
         assertEquals(supplier.getBusinessName(), actualSupplierDTOs.get(0).getBusinessName());

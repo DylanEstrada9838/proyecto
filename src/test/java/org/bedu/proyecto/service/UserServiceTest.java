@@ -28,7 +28,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
+// @ActiveProfiles("test")
 @SpringBootTest
 class UserServiceTest {
     @MockBean
@@ -87,7 +87,7 @@ class UserServiceTest {
 
   }
   @Test
-  @DisplayName("Service shoul update an User")
+  @DisplayName("Service should update an User")
   void updateTest() throws UserNotFoundException, PasswordNotAllowed{
     UpdateUserDTO dto = UpdateUserDTO.builder()
     .password("12345")

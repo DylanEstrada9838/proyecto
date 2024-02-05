@@ -15,7 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
-@Profile("!test")
+// @Profile("!test")
 @Order(3)
 public class SupplierServiceAssignationsData implements CommandLineRunner {
     @Autowired

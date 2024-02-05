@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 import jakarta.transaction.Transactional;
 
 @Component
-@Profile("!test")
+// @Profile("!test")
 @Order(4)
 public class ServiceRequestsData implements CommandLineRunner {
     @Autowired

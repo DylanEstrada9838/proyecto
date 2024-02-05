@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import jakarta.transaction.Transactional;
 
 @Component
-@Profile("!test")
+// @Profile("!test")
 @Order(1)
 public class UsersServicesData implements CommandLineRunner {
     @Autowired
@@ -67,7 +67,7 @@ public class UsersServicesData implements CommandLineRunner {
 
         // Using Stream and map to create instances
         List<AppService> servicesList = stringList.stream()
-                .map(name -> AppService.builder().build())
+                .map(name -> AppService.builder().service(name).build())
                 .toList();
 
         servicesList.forEach(serviceRepository::save);
