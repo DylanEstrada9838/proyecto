@@ -1,8 +1,10 @@
 package org.bedu.proyecto.dto.address;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class AddressDTO {
     private long id;
     private String line_1;

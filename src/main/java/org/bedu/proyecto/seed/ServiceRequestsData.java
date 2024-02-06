@@ -52,11 +52,11 @@ public class ServiceRequestsData implements CommandLineRunner {
         int i = 0;
         for (Long serviceId : serviceIds) {
             try {
-                CreateServiceRequestDTO dto = new CreateServiceRequestDTO(
-                        serviceDescriptions.get(i),
-                        addressIds.get(i),
-                        urgencies.get(i),
-                        serviceId);
+                CreateServiceRequestDTO dto = CreateServiceRequestDTO.builder()
+                        .description(serviceDescriptions.get(i))
+                        .addressId(addressIds.get(i))
+                        .urgency(urgencies.get(i))
+                        .serviceId(serviceId).build();
                 service.save(clientsIds.get(i), dto);
             } catch (Exception e) {
                 // Handle the exception appropriately, log or rethrow if necessary
