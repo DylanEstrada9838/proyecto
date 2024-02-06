@@ -61,7 +61,7 @@ class SupplierControllerTest {
     void smokeTest(){
         assertNotNull(controller);
     }
-     @Test
+    @Test
     @DisplayName("Controller should return a list of suppliers")
     void findAllTest() {
         List<SupplierDTO> expectedSupplierDTOs = new LinkedList<>();

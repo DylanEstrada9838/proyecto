@@ -3,9 +3,11 @@ package org.bedu.proyecto.dto.client;
 import org.bedu.proyecto.model_enums.Gender;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class ClientDTO {
 
     private long id;

@@ -88,7 +88,7 @@ public class ClientController {
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long clientId, @Valid @RequestBody UpdateClientDTO data)
             throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
-                if(userService.retrieveUserId().equals(clientId)){
+                if(userService.retrieveUserId()!=clientId){
                     throw new UnauthorizedAction();
                 } else {
                     service.update(clientId, data);
@@ -100,7 +100,7 @@ public class ClientController {
     @DeleteMapping("{clientId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void delete(@PathVariable long clientId) throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
-        if(userService.retrieveUserId().equals(clientId)){
+        if(userService.retrieveUserId()!=clientId){
             throw new UnauthorizedAction();
         } else {
             service.delete(clientId);
