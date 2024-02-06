@@ -34,10 +34,10 @@ public class Address {
 
     @NotNull
     @Column(length = 100)
-    private String line_1;
+    private String line1;
 
     @Column(length = 100)
-    private String line_2;
+    private String line2;
 
     @NotNull
     @Column(length = 50)

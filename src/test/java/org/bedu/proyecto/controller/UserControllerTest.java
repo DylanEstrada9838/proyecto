@@ -92,7 +92,7 @@ class UserControllerTest {
     }
    @Test
     @DisplayName("Controller should delete a user")
-    public void deleteByIdByIdTest() throws UserNotFoundException, UnauthorizedAction {
+     void deleteByIdByIdTest() throws UserNotFoundException, UnauthorizedAction {
         when(service.retrieveUserId()).thenReturn(1L);
         
         controller.deleteById(1L);
@@ -102,7 +102,7 @@ class UserControllerTest {
 
     @Test
     @DisplayName("Controller should update a user")
-    public void updateTest() throws UserNotFoundException, PasswordNotAllowed, UnauthorizedAction{
+    void updateTest() throws UserNotFoundException, PasswordNotAllowed, UnauthorizedAction{
         when(service.retrieveUserId()).thenReturn(999L);
 
         UpdateUserDTO dto = UpdateUserDTO.builder()

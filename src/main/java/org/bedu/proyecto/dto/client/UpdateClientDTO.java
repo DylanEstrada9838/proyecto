@@ -27,7 +27,7 @@ public class UpdateClientDTO {
 
     @Schema(description = "Numero de telefono", example = "0123456789")
     @Min(5)
-    private String phone_2;
+    private String phone2;
 
     @Schema(description = "Edad del cliente", example = "30")
     @Min(value=1)

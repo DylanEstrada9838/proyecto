@@ -12,7 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
-public class QuoteControllerTest {
+class QuoteControllerTest {
     @MockBean
     QuoteService service;
     @Autowired
@@ -20,7 +20,7 @@ public class QuoteControllerTest {
 
     @Test
     @DisplayName("Controller should be injected")
-    public void smokeTest(){
+    void smokeTest(){
         assertNotNull(controller);
     }
 

@@ -10,10 +10,10 @@ import lombok.Data;
 public class CreateAddressDTO {
     @NotBlank
     @Size(min = 5)
-    private String line_1;
+    private String line1;
 
     @Size(min = 5)
-    private String line_2;
+    private String line2;
 
     @NotBlank
     @Size(min = 5)

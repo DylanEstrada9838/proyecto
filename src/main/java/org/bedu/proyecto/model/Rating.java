@@ -43,6 +43,6 @@ public class Rating {
     @NotNull
     @Min(value = 1)
     @Max(value = 5)
-    private int rating;
+    private int clientRating;
 
 }

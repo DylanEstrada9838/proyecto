@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating,Long>{
     List<Rating> findByIdSupplierServiceKey(SupplierServiceKey supplierServiceKey);
-    @Query("SELECT AVG(r.rating) FROM Rating r WHERE r.id.supplierServiceKey = :supplierServiceKey")
+    @Query("SELECT AVG(r.clientRating) FROM Rating r WHERE r.id.supplierServiceKey = :supplierServiceKey")
     BigDecimal calculateAverageRatingBySupplierServiceKey(@Param("supplierServiceKey") SupplierServiceKey supplierServiceKey);
-    @Query("SELECT COUNT(r.rating) FROM Rating r WHERE r.id.supplierServiceKey = :supplierServiceKey")
+    @Query("SELECT COUNT(r.clientRating) FROM Rating r WHERE r.id.supplierServiceKey = :supplierServiceKey")
     Integer calculateCountRatingBySupplierServiceKey(@Param("supplierServiceKey") SupplierServiceKey supplierServiceKey);
 }

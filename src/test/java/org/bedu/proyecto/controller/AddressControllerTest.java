@@ -12,7 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = AddressControllerTest.class)
-public class AddressControllerTest {
+class AddressControllerTest {
     @MockBean
     AddressService service;
     @Autowired
@@ -20,7 +20,7 @@ public class AddressControllerTest {
 
     @Test
     @DisplayName("Controller should be injected")
-    public void smokeTest(){
+    void smokeTest(){
         assertNotNull(controller);
     }
 }

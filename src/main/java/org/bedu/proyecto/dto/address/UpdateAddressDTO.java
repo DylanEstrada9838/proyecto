@@ -8,9 +8,9 @@ import lombok.Data;
 @Builder
 public class UpdateAddressDTO {
     @Size(min = 5)
-    private String line_1;
+    private String line1;
     @Size(min = 5)
-    private String line_2;
+    private String line2;
     @Size(min = 5)
     private String city;
     @Size(min = 1)

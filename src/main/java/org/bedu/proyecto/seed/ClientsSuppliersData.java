@@ -49,9 +49,9 @@ public class ClientsSuppliersData implements CommandLineRunner {
         List<Gender> clientGenders = List.of(Gender.MALE, Gender.FEMALE, Gender.FEMALE, Gender.MALE, Gender.MALE,
                 Gender.FEMALE, Gender.MALE, Gender.FEMALE, Gender.MALE, Gender.FEMALE);
         // Address data
-        List<String> addressLine_1 = List.of("123 Main St", "456 Oak Ave", "789 Pine Rd", "101 Maple Blvd",
+        List<String> addressLine1 = List.of("123 Main St", "456 Oak Ave", "789 Pine Rd", "101 Maple Blvd",
                 "202 Cedar Ln", "303 Elm St", "404 Birch Ave", "505 Spruce Rd", "606 Pine Ln", "707 Oak Blvd");
-        List<String> addressLine_2 = List.of("Apt 101", "Suite 202", "Unit 303", "Apt 404", "Suite 505", "Unit 606",
+        List<String> addressLine2 = List.of("Apt 101", "Suite 202", "Unit 303", "Apt 404", "Suite 505", "Unit 606",
                 "Apt 707", "Suite 808", "Unit 909", "Apt 1010");
         List<String> addressCity = List.of("CityA", "CityB", "CityC", "CityD", "CityE", "CityF", "CityG", "CityH",
                 "CityI", "CityJ");
@@ -88,8 +88,8 @@ public class ClientsSuppliersData implements CommandLineRunner {
                 clientRepository.save(client);
                 // Create Address and set Client
                 Address address = Address.builder()
-                        .line_1(addressLine_1.get(i))
-                        .line_2(addressLine_2.get(i))
+                        .line1(addressLine1.get(i))
+                        .line2(addressLine2.get(i))
                         .city(addressCity.get(i))
                         .state(addressState.get(i))
                         .postalCode(addressPostalCode.get(i))

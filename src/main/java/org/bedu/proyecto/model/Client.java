@@ -56,7 +56,7 @@ public class Client {
     private String phone;
 
     @Column(length = 15, unique = true)
-    private String phone_2;
+    private String phone2;
 
     @NotNull
     @Min(value = 1)

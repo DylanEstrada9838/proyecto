@@ -113,7 +113,7 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     public ServiceRequestDTO addServiceRequest(@PathVariable long clientId, @Valid @RequestBody CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,
-            ServiceNotAssignedException, ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
+             ServiceRequestCreateNotAllowed, AddressNotAssignedToClient, AddressNotFound {
 
         return serviceRequestService.save(clientId, data);
     }

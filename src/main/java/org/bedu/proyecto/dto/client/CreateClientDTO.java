@@ -32,7 +32,7 @@ public class CreateClientDTO {
 
     @Schema(description = "Numero de telefono", example = "0123456789")
     @Size(min = 5)
-    private String phone_2;
+    private String phone2;
 
     @Min(value=1)
     @Max(value=99)

@@ -60,14 +60,14 @@ class AddressServiceTest {
     void saveTest() throws ClientNotFoundException {
         CreateAddressDTO createDTO = CreateAddressDTO.builder()
                 .city("city A")
-                .line_1("streetA")
+                .line1("streetA")
                 .postalCode("12345")
                 .state("state A")
                 .build();
 
         Address address = Address.builder()
                 .city("city A")
-                .line_1("streetA")
+                .line1("streetA")
                 .postalCode("12345")
                 .state("state A")
                 .build();
@@ -87,7 +87,7 @@ class AddressServiceTest {
         assertNotNull(addressDTO);
         assertEquals(address.getId(), addressDTO.getId());
         assertEquals(address.getCity(), addressDTO.getCity());
-        assertEquals(address.getLine_1(), addressDTO.getLine_1());
+        assertEquals(address.getLine1(), addressDTO.getLine1());
         assertEquals(address.getPostalCode(), addressDTO.getPostalCode());
         assertEquals(address.getState(), addressDTO.getState());
 
@@ -98,14 +98,14 @@ class AddressServiceTest {
     void updateTest() throws AddressNotFound, UpdateOrDeleteNotAllowed {
         UpdateAddressDTO addressDTO = UpdateAddressDTO.builder()
                 .city("city A")
-                .line_1("streetA")
+                .line1("streetA")
                 .postalCode("12345")
                 .state("state A")
                 .build();
         Address address = Address.builder()
                 .id(99L)
                 .city("city B")
-                .line_1("street B")
+                .line1("street B")
                 .postalCode("12345678")
                 .state("state B")
                 .build();
@@ -115,7 +115,7 @@ class AddressServiceTest {
         service.update(99L, addressDTO);
 
         assertEquals(address.getCity(), addressDTO.getCity());
-        assertEquals(address.getLine_1(), addressDTO.getLine_1());
+        assertEquals(address.getLine1(), addressDTO.getLine1());
         assertEquals(address.getPostalCode(), addressDTO.getPostalCode());
         assertEquals(address.getState(), addressDTO.getState());
         verify(repository, times(1)).save(address);
@@ -127,7 +127,7 @@ class AddressServiceTest {
         Address address = Address.builder()
                 .id(99L)
                 .city("city B")
-                .line_1("street B")
+                .line1("street B")
                 .postalCode("12345678")
                 .state("state B")
                 .build();
@@ -146,7 +146,7 @@ class AddressServiceTest {
         Address address = Address.builder()
                 .id(99L)
                 .city("city B")
-                .line_1("street B")
+                .line1("street B")
                 .postalCode("12345678")
                 .state("state B")
                 .build();
@@ -166,7 +166,7 @@ class AddressServiceTest {
         assertNotNull(addressDTOs.size()>0);
         assertEquals(address.getId(), addressDTOs.get(0).getId());
         assertEquals(address.getCity(), addressDTOs.get(0).getCity());
-        assertEquals(address.getLine_1(), addressDTOs.get(0).getLine_1());
+        assertEquals(address.getLine1(), addressDTOs.get(0).getLine1());
         assertEquals(address.getPostalCode(), addressDTOs.get(0).getPostalCode());
         assertEquals(address.getState(), addressDTOs.get(0).getState());
     }

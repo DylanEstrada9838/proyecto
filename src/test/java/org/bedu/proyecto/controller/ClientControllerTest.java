@@ -50,7 +50,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class ClientControllerTest {
+ class ClientControllerTest {
     @MockBean
     ClientService service;
     @Autowired
@@ -66,7 +66,7 @@ public class ClientControllerTest {
 
     @Test
     @DisplayName("Controller should be injected")
-    public void smokeTest() {
+    void smokeTest() {
         assertNotNull(controller);
     }
 
@@ -246,7 +246,7 @@ public class ClientControllerTest {
     void addAddressTest() throws ClientNotFoundException {
         CreateAddressDTO createDTO = CreateAddressDTO.builder()
                 .city("city A")
-                .line_1("streetA")
+                .line1("streetA")
                 .postalCode("12345")
                 .state("state A")
                 .build();
@@ -263,7 +263,7 @@ public class ClientControllerTest {
 
         AddressDTO addressDTO = AddressDTO.builder()
                 .city("city A")
-                .line_1("streetA")
+                .line1("streetA")
                 .postalCode("12345")
                 .state("state A")
                 .build();
@@ -275,7 +275,7 @@ public class ClientControllerTest {
         assertTrue(result.size()>0);
         assertEquals(addressDTO.getId(), result.get(0).getId());
         assertEquals(addressDTO.getCity(), result.get(0).getCity());
-        assertEquals(addressDTO.getLine_1(), result.get(0).getLine_1());
+        assertEquals(addressDTO.getLine1(), result.get(0).getLine1());
         assertEquals(addressDTO.getPostalCode(), result.get(0).getPostalCode());
         assertEquals(addressDTO.getState(), result.get(0).getState());
         verify(addressService, times(1)).findAllByClient(99L);

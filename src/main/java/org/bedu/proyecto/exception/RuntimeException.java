@@ -6,8 +6,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RuntimeException extends Exception {
-    private String code;
-    private Object details;
+    private final String code;
+    private final transient Object details;
 
     public RuntimeException(String code, String message, Object details) {
         super(message);

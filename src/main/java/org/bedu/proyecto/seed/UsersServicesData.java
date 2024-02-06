@@ -59,7 +59,7 @@ public class UsersServicesData implements CommandLineRunner {
             User user = User.builder().email(email).password(encoder.encode(passwords.get(i))).role(Role.ROLE_USER).build();
             userRepository.save(user);
             i++;
-        };
+        }
         User admin = User.builder().email("admin@admin").password(encoder.encode("123")).role(Role.ROLE_ADMIN).build();
                  userRepository.save(admin);
         //Services data

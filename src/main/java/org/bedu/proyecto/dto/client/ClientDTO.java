@@ -21,7 +21,7 @@ public class ClientDTO {
     @Schema(description = "Numero de telefono", example = "0123456789")
     private String phone;
   
-    private String phone_2;
+    private String phone2;
    
     private int age;
 

@@ -15,6 +15,6 @@ public class CreateRatingDTO {
     @NotNull
     @Min(1)
     @Max(5)
-    private int rating;
+    private int clientRating;
 
 }

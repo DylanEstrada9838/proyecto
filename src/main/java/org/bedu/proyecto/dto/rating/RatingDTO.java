@@ -7,5 +7,5 @@ public class RatingDTO {
     private Long clientId;
     private Long supplierId;
     private Long serviceId;
-    private int rating;
+    private int clientRating;
 }
