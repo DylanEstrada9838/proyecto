@@ -114,12 +114,11 @@ class AddressServiceTest {
 
         service.update(99L, addressDTO);
 
-        assertNotNull(addressDTO);
         assertEquals(address.getCity(), addressDTO.getCity());
         assertEquals(address.getLine_1(), addressDTO.getLine_1());
         assertEquals(address.getPostalCode(), addressDTO.getPostalCode());
         assertEquals(address.getState(), addressDTO.getState());
-
+        verify(repository, times(1)).save(address);
     }
 
     @Test
@@ -141,7 +140,7 @@ class AddressServiceTest {
 
     @Test
     @DisplayName("Service should return a list of addresses")
-    void findAllTest() throws ClientNotFoundException {
+    void findAllByClientTest() throws ClientNotFoundException {
         List<Address> addresses = new LinkedList<>();
 
         Address address = Address.builder()
