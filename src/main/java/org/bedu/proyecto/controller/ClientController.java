@@ -15,7 +15,6 @@ import org.bedu.proyecto.dto.servicerequest.CreateServiceRequestDTO;
 import org.bedu.proyecto.dto.servicerequest.ServiceRequestDTO;
 import org.bedu.proyecto.exception.address.AddressNotAssignedToClient;
 import org.bedu.proyecto.exception.address.AddressNotFound;
-import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
 import org.bedu.proyecto.exception.client.ClientNotFoundException;
 import org.bedu.proyecto.exception.client.ClientUserAlreadyExist;
 import org.bedu.proyecto.exception.rating.RatingNotAlllowed;
@@ -91,7 +90,7 @@ public class ClientController {
     @PutMapping("{clientId}")
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long clientId, @Valid @RequestBody UpdateClientDTO data)
-            throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
+            throws ClientNotFoundException {
                     service.update(clientId, data);
         
     }
@@ -99,7 +98,7 @@ public class ClientController {
     @Operation(summary="Elimina el cliente con el ID especificado.")
     @DeleteMapping("{clientId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT) 
-    public void delete(@PathVariable long clientId) throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
+    public void delete(@PathVariable long clientId) throws ClientNotFoundException {
             service.delete(clientId);
         
     }

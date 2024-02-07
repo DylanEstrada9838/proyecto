@@ -14,7 +14,6 @@ import org.bedu.proyecto.dto.supplier.UpdateSupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.ChangeStatusDTO;
 import org.bedu.proyecto.dto.supplier_service.ServicesBySupplierDTO;
 import org.bedu.proyecto.dto.supplier_service.SuppliersByServicesDTO;
-import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
 import org.bedu.proyecto.exception.service.ServiceNotFoundException;
 import org.bedu.proyecto.exception.supplier.ServiceAlreadyAssignedException;
 import org.bedu.proyecto.exception.supplier.ServiceNotAssignedException;
@@ -80,14 +79,14 @@ public class SupplierController {
     @PutMapping("{supplierId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long supplierId, @Valid @RequestBody UpdateSupplierDTO data)
-            throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException {
+            throws SupplierNotFoundException {
                     service.update(supplierId, data);
     }
 
     @Operation(summary="Este método elimina un proveedor existente en la base de datos deacuerdo a el ID de el path.")
     @DeleteMapping("{supplierId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException {
+    public void delete(@PathVariable long supplierId) throws SupplierNotFoundException {
            service.delete(supplierId);
         
     }

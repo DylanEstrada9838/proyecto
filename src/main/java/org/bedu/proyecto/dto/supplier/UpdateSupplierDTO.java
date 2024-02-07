@@ -16,7 +16,7 @@ public class UpdateSupplierDTO {
     @Min(5)
     private String phone;
     @Schema(description = "Numero de telefono",example = "0123456789")
-    private String phone_2;
+    private String phone2;
     @Min(5)
     @Schema(description = "Dirección del proveedor",example = "789 Oak Lane Hamletville, XY 12345")
     @Min(5)
