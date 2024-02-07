@@ -141,7 +141,6 @@ class SupplierControllerTest {
     @Test
     @DisplayName("Controller should update a Supplier")
     void updateTest() throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException{
-        when(userService.retrieveUserId()).thenReturn(999L);
 
         UpdateSupplierDTO dto = UpdateSupplierDTO.builder()
         .address("street A City B")
@@ -155,8 +154,6 @@ class SupplierControllerTest {
     @Test
     @DisplayName("Controller should delete a Supplier")
     void deleteTest () throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException{
-        when(userService.retrieveUserId()).thenReturn(999L);
-        
         controller.delete(999L);
 
         verify(service,times(1)).delete(999L);

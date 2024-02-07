@@ -162,7 +162,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
     @Test
     @DisplayName("Controller should update a Client")
     void updateTest() throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
-        when(userService.retrieveUserId()).thenReturn(999L);
 
         UpdateClientDTO dto = UpdateClientDTO.builder()
                 .name("test2")
@@ -178,7 +177,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
     @Test
     @DisplayName("Controller should delete a Client")
     void deleteTest() throws ClientNotFoundException, UnauthorizedAction, UserNotFoundException {
-        when(userService.retrieveUserId()).thenReturn(999L);
 
         controller.delete(999L);
 

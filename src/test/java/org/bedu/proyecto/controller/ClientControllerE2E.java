@@ -2,11 +2,14 @@ package org.bedu.proyecto.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.bedu.proyecto.dto.client.ClientDTO;
 import org.bedu.proyecto.model.Client;
+import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.model_enums.Gender;
+import org.bedu.proyecto.model_enums.Role;
 import org.bedu.proyecto.repository.ClientRepository;
+import org.bedu.proyecto.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,14 +23,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @AutoConfigureMockMvc(addFilters = false)
@@ -36,15 +36,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 class ClientControllerE2E {
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ClientRepository repository;
+    @Autowired
+    private UserRepository userRepository;
 
     private ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
-    public void setup() {
+    void setup() {
+        // repository.deleteAll();
+        User user1 = userRepository.save(User.builder()
+                .email("test1@mail.com")
+                .id(99L)
+                .password("123")
+                .role(Role.ROLE_USER)
+                .build());
+        User user2 = userRepository.save(User.builder()
+                .email("test2@mail.com")
+                .id(999L)
+                .role(Role.ROLE_USER)
+                .password("123")
+                .build());
+    }
+
+    @AfterEach
+    void afterSetup() {
         repository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -63,21 +82,22 @@ class ClientControllerE2E {
     @Test
     @DisplayName("GET /client should return a list of client")
     void findAllTest() throws Exception {
+        List<User> users = userRepository.findAll();
         Client client1 = Client.builder()
-                .id(999)
                 .name("test")
                 .lastName("test")
                 .age(30)
                 .gender(Gender.MALE)
                 .phone("12345678")
+                .user(users.get(0))
                 .build();
         Client client2 = Client.builder()
-                .id(999)
                 .name("test2")
                 .lastName("test2")
                 .age(20)
                 .gender(Gender.FEMALE)
-                .phone("12345678")
+                .phone("123456789")
+                .user(users.get(1))
                 .build();
 
         repository.save(client1);
@@ -109,10 +129,8 @@ class ClientControllerE2E {
         assertEquals(client1.getLastName(), response.get(0).getLastName());
         assertEquals(client2.getLastName(), response.get(1).getLastName());
         assertEquals(client1.getPhone(), response.get(0).getPhone());
-        assertEquals(client1.getPhone(), response.get(0).getPhone());
+        assertEquals(client2.getPhone(), response.get(1).getPhone());
     }
-
-    
 
 
 }

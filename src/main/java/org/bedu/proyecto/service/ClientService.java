@@ -16,7 +16,6 @@ import org.bedu.proyecto.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class ClientService {
     
     private ClientRepository repository;

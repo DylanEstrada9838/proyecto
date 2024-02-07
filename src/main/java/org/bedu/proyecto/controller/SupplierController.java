@@ -81,23 +81,14 @@ public class SupplierController {
     @ResponseStatus(HttpStatus.NO_CONTENT) 
     public void update(@PathVariable long supplierId, @Valid @RequestBody UpdateSupplierDTO data)
             throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException {
-                if(userService.retrieveUserId()!= supplierId){
-                    throw new UnauthorizedAction();
-                } else {
                     service.update(supplierId, data);
-                }
-        
     }
 
     @Operation(summary="Este método elimina un proveedor existente en la base de datos deacuerdo a el ID de el path.")
     @DeleteMapping("{supplierId}") 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable long supplierId) throws SupplierNotFoundException, UnauthorizedAction, UserNotFoundException {
-        if(userService.retrieveUserId()!=supplierId){
-            throw new UnauthorizedAction();
-        } else {
            service.delete(supplierId);
-        }
         
     }
 

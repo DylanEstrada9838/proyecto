@@ -10,9 +10,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -34,8 +35,8 @@ import lombok.ToString;
 @AllArgsConstructor
 public class Supplier {
     @Id
-    @Column(name = "id")
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(unique=true,length = 100)
@@ -54,10 +55,10 @@ public class Supplier {
     private String address;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
+    //@MapsId
+    //@JoinColumn(name = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    // @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany(mappedBy = "supplier",cascade = CascadeType.ALL, orphanRemoval = true)
