@@ -2,6 +2,7 @@ package org.bedu.proyecto.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
@@ -163,7 +164,7 @@ class AddressServiceTest {
         when(clientRepository.findById(anyLong())).thenReturn(Optional.of(client));
         when(repository.findAllByClient(client)).thenReturn(addresses);
         List <AddressDTO> addressDTOs = service.findAllByClient(99L);
-        assertNotNull(addressDTOs.size()>0);
+        assertTrue(addressDTOs.size()>0);
         assertEquals(address.getId(), addressDTOs.get(0).getId());
         assertEquals(address.getCity(), addressDTOs.get(0).getCity());
         assertEquals(address.getLine1(), addressDTOs.get(0).getLine1());

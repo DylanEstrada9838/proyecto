@@ -48,7 +48,7 @@ public class AddressService {
         //Validation Address is not currently used by ServiceRequest with status IN_PROCESS,ASSIGNED OR SCHEDULED
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findAllByAddress(addressId);
         log.info("data {}", serviceRequests);
-        if (serviceRequests.isEmpty()){
+        if (!serviceRequests.isEmpty()){
                throw new UpdateOrDeleteNotAllowed(addressId);
         }
         mapper.update(address, data);
@@ -60,7 +60,7 @@ public class AddressService {
         //Validation Address is not currently used by ServiceRequest
         List<ServiceRequest> serviceRequests = serviceRequestRepository.findAllByAddress(addressId);
         log.info("data {}", serviceRequests);
-        if (serviceRequests.isEmpty()){
+        if (!serviceRequests.isEmpty()){
                throw new UpdateOrDeleteNotAllowed(addressId);
         }
         repository.delete(address);

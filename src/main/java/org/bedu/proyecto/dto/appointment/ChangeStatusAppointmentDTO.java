@@ -1,5 +1,4 @@
 package org.bedu.proyecto.dto.appointment;
-
 import org.bedu.proyecto.model_enums.StatusAppointment;
 
 import jakarta.validation.constraints.NotNull;

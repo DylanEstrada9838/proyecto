@@ -27,12 +27,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name="Endpoints de QuoteSupplierController",description="en construccion **")
-@RestController // Esta anotación indica que la clase es un controlador REST.
-@RequestMapping("quote") // Esta anotación mapea las solicitudes HTTP a métodos de controlador específicos.
-
+@RestController 
+@RequestMapping("quote") 
 public class QuoteController {
-    @Autowired // Esta anotación permite la inyección automática del bean 
-    QuoteService service; // Define una variable de instancia para el servicio.
+    @Autowired 
+    QuoteService service; 
     @Autowired
     AppointmentService appointmentService;
 
@@ -44,7 +43,7 @@ public class QuoteController {
 
     @Operation(summary="Crea una cotización a un QuoteRequest")
     @PostMapping("{quoteId}/appointment") 
-    @ResponseStatus(HttpStatus.OK) // En caso de éxito, devuelve un estado HTTP 200 (OK).
+    @ResponseStatus(HttpStatus.OK) 
     public AppointmentDTO addAppointment(@PathVariable long quoteId,@Valid @RequestBody CreateAppointmentDTO dto) throws QuoteNotFound, AppointmentAlreadyExist, AppointmentCreationNotAllowed{
         return appointmentService.save(quoteId,dto); 
     }

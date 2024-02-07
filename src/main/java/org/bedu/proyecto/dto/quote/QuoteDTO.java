@@ -5,9 +5,11 @@ import java.time.Instant;
 
 import org.bedu.proyecto.model_enums.StatusQuote;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class QuoteDTO {
     private long id;
     private BigDecimal totalCost;
