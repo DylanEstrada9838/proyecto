@@ -9,7 +9,6 @@ import org.bedu.proyecto.exception.user.UserEmailNotFound;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.model_enums.Role;
 import org.bedu.proyecto.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,18 +22,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    @Autowired
-    UserRepository repository;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    @Autowired
-    JwtService jwtService;
-
-    @Autowired
-    AuthenticationManager manager;
     
+    private UserRepository repository;
+
+    
+    private PasswordEncoder passwordEncoder;
+
+    
+    private JwtService jwtService;
+
+    
+    private AuthenticationManager manager;
+    
+    
+    public AuthenticationService(UserRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService,
+            AuthenticationManager manager) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.manager = manager;
+    }
+
     public AuthenticationResponse register(RegisterRequest request) throws UserEmailAlreadyCreated {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
                      throw new UserEmailAlreadyCreated(request.getEmail());

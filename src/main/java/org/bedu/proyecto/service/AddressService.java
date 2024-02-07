@@ -15,7 +15,6 @@ import org.bedu.proyecto.model.ServiceRequest;
 import org.bedu.proyecto.repository.AddressRepository;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,14 +22,23 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class AddressService {
-    @Autowired
-    AddressRepository repository;
-    @Autowired
-    AddressMapper mapper;
-    @Autowired
-    ClientRepository clientRepository;
-    @Autowired
-    ServiceRequestRepository serviceRequestRepository;
+    
+    private AddressRepository repository;
+    
+    private AddressMapper mapper;
+    
+    private ClientRepository clientRepository;
+    
+    private ServiceRequestRepository serviceRequestRepository;
+    
+
+    public AddressService(AddressRepository repository, AddressMapper mapper, ClientRepository clientRepository,
+            ServiceRequestRepository serviceRequestRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.clientRepository = clientRepository;
+        this.serviceRequestRepository = serviceRequestRepository;
+    }
 
     public AddressDTO save(long clientId,CreateAddressDTO data) throws ClientNotFoundException{
         Client client = Validation.clientExists(clientRepository, clientId);

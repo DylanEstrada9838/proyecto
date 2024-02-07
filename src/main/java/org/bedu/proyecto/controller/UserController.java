@@ -10,7 +10,6 @@ import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
 import org.bedu.proyecto.exception.user.PasswordNotAllowed;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +26,12 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("users")
 public class UserController {
-    @Autowired 
+     
     private UserService service;
+
+    public UserController(UserService service) {
+        this.service = service;
+    }
 
     @Operation(summary="Este método devuelve una lista de todos los usuarios.")
     @GetMapping 

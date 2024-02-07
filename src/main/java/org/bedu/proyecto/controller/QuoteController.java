@@ -15,7 +15,6 @@ import org.bedu.proyecto.exception.quote.CannotChangeQuoteStatus;
 import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.service.AppointmentService;
 import org.bedu.proyecto.service.QuoteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +29,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController 
 @RequestMapping("quote") 
 public class QuoteController {
-    @Autowired 
-    QuoteService service; 
-    @Autowired
-    AppointmentService appointmentService;
+    
+    private QuoteService service; 
+    
+    private AppointmentService appointmentService;
+
+    public QuoteController(QuoteService service, AppointmentService appointmentService) {
+        this.service = service;
+        this.appointmentService = appointmentService;
+    }
 
     @PutMapping("{quoteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

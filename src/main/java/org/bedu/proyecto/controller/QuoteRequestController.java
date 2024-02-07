@@ -10,9 +10,7 @@ import org.bedu.proyecto.exception.quote.QuoteAlreadyExist;
 import org.bedu.proyecto.exception.quote.QuoteNotFound;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestClosed;
 import org.bedu.proyecto.exception.quote_request.QuoteRequestNotFound;
-import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.QuoteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,11 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("quoterequests") // Esta anotación mapea las solicitudes HTTP a métodos de controlador específicos.
 
 public class QuoteRequestController { // Define una clase pública llamada ServiceRequestController.
-    @Autowired // Esta anotación permite la inyección automática del bean ServiceRequestService.
-    QuoteRequestService service; // Define una variable de instancia para el servicio.
-    @Autowired
-    QuoteService quoteService;
+     // Esta anotación permite la inyección automática del bean ServiceRequestService.
+
+    private QuoteService quoteService;
     
+    public QuoteRequestController(QuoteService quoteService) {
+        this.quoteService = quoteService;
+    }
 
     @Operation(summary="Crea una cotización a un ServiceRequest")
     @PostMapping("{quoteRequestId}/quote") 

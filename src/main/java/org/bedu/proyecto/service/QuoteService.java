@@ -20,8 +20,6 @@ import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.repository.QuoteRepository;
 import org.bedu.proyecto.repository.QuoteRequestRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
-import org.bedu.proyecto.repository.SupplierRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,16 +27,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class QuoteService {
-    @Autowired
-    QuoteRepository repository;
-    @Autowired
-    QuoteMapper mapper;
-    @Autowired
-    SupplierRepository supplierRepository;
-    @Autowired
-    QuoteRequestRepository quoteRequestRepository;
-    @Autowired
-    ServiceRequestRepository serviceRequestRepository;
+    
+    private QuoteRepository repository;
+    
+    private QuoteMapper mapper;
+    
+    private QuoteRequestRepository quoteRequestRepository;
+    
+    private ServiceRequestRepository serviceRequestRepository;
+    
+
+    public QuoteService(QuoteRepository repository, QuoteMapper mapper, QuoteRequestRepository quoteRequestRepository,
+            ServiceRequestRepository serviceRequestRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.quoteRequestRepository = quoteRequestRepository;
+        this.serviceRequestRepository = serviceRequestRepository;
+    }
 
     public QuoteDTO save(long quoteRequestId, CreateQuoteDTO data)
             throws QuoteAlreadyExist, QuoteRequestNotFound, QuoteRequestClosed {

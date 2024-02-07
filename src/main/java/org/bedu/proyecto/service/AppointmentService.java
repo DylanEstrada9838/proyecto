@@ -19,19 +19,26 @@ import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.repository.AppointmentRepository;
 import org.bedu.proyecto.repository.QuoteRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AppointmentService {
-    @Autowired
+    
     private AppointmentRepository repository;
-    @Autowired
+    
     private AppointmentMapper mapper;
-    @Autowired
+    
     private QuoteRepository quoteRepository;
-    @Autowired
+    
     private ServiceRequestRepository serviceRequestRepository;
+
+    public AppointmentService(AppointmentRepository repository, AppointmentMapper mapper,
+            QuoteRepository quoteRepository, ServiceRequestRepository serviceRequestRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.quoteRepository = quoteRepository;
+        this.serviceRequestRepository = serviceRequestRepository;
+    }
 
     public AppointmentDTO save(long quoteId,CreateAppointmentDTO data) throws QuoteNotFound, AppointmentAlreadyExist, AppointmentCreationNotAllowed{
         Quote quote = Validation.quoteExists(quoteRepository, quoteId);
