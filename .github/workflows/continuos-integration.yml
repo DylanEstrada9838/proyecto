@@ -20,6 +20,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Compilar el proyecto
-        run: 
+        run: | 
           gradle build
           gradle test
