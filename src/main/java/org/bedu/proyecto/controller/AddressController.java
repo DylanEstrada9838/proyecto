@@ -4,7 +4,6 @@ import org.bedu.proyecto.dto.address.UpdateAddressDTO;
 import org.bedu.proyecto.exception.address.AddressNotFound;
 import org.bedu.proyecto.exception.address.UpdateOrDeleteNotAllowed;
 import org.bedu.proyecto.service.AddressService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("addresses")
 public class AddressController {
-    @Autowired
-    AddressService service;
+
+    
+    private AddressService service;
+
+    public AddressController(AddressService service) {
+        this.service = service;
+    }
 
     @PutMapping("{addressId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -5,7 +5,6 @@ import org.bedu.proyecto.exception.appointment.AppointmentAlreadyCompleted;
 import org.bedu.proyecto.exception.appointment.AppointmentNotFound;
 import org.bedu.proyecto.exception.appointment.CannotChangeStatus;
 import org.bedu.proyecto.service.AppointmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -20,8 +19,14 @@ import jakarta.validation.Valid;
 @RequestMapping("appointment")
 public class AppointmentController {
 
-    @Autowired
-    AppointmentService service;
+   
+    private AppointmentService service;
+
+    
+    public AppointmentController(AppointmentService service) {
+        this.service = service;
+    }
+
 
     @PutMapping("{appointmentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
