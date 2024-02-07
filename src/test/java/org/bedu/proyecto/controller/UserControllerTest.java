@@ -20,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
 import org.bedu.proyecto.dto.user.UpdateUserDTO;
 import org.bedu.proyecto.dto.user.UserDTO;
 import org.bedu.proyecto.exception.authentication.UnauthorizedAction;
@@ -28,7 +27,6 @@ import org.bedu.proyecto.exception.user.PasswordNotAllowed;
 import org.bedu.proyecto.exception.user.UserNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
-@ActiveProfiles("test")
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 class UserControllerTest {
