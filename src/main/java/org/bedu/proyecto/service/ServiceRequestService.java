@@ -22,25 +22,32 @@ import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.repository.AddressRepository;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.ServiceRequestRepository;
-import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.ServiceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceRequestService {
-    @Autowired
-    ServiceRequestRepository repository;
-    @Autowired
-    ServiceRequestMapper mapper;
-    @Autowired
-    ClientRepository clientRepository;
-    @Autowired
-    ServiceRepository serviceRepository;
-    @Autowired
-    SupplierRepository supplierRepository;
-    @Autowired
-    AddressRepository addressRepository;
+    
+    private ServiceRequestRepository repository;
+    
+    private ServiceRequestMapper mapper;
+    
+    private ClientRepository clientRepository;
+    
+    private ServiceRepository serviceRepository;
+    
+    private AddressRepository addressRepository;
+
+
+    public ServiceRequestService(ServiceRequestRepository repository, ServiceRequestMapper mapper,
+            ClientRepository clientRepository, ServiceRepository serviceRepository,
+            AddressRepository addressRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.clientRepository = clientRepository;
+        this.serviceRepository = serviceRepository;
+        this.addressRepository = addressRepository;
+    }
 
     public ServiceRequestDTO save(long clientId, CreateServiceRequestDTO data)
             throws ClientNotFoundException, ServiceNotFoundException,

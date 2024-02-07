@@ -24,7 +24,6 @@ import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.SupplierService;
 import org.bedu.proyecto.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,12 +41,19 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("suppliers") 
 public class SupplierController {
-    @Autowired 
-    SupplierService service;
-    @Autowired 
-    UserService userService;
-    @Autowired 
-    QuoteRequestService quoteRequestService;
+     
+    private SupplierService service;
+
+    private UserService userService;
+     
+    private QuoteRequestService quoteRequestService;
+
+    public SupplierController(SupplierService service, UserService userService,
+            QuoteRequestService quoteRequestService) {
+        this.service = service;
+        this.userService = userService;
+        this.quoteRequestService = quoteRequestService;
+    }
 
     @Operation(summary="Este método devuelve una lista de todos los proveedores.")
     @GetMapping 

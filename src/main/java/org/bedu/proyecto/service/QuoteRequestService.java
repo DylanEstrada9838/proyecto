@@ -23,21 +23,30 @@ import org.bedu.proyecto.repository.ServiceRequestRepository;
 import org.bedu.proyecto.repository.QuoteRequestRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class QuoteRequestService {
-    @Autowired
-    QuoteRequestRepository repository;
-    @Autowired
-    QuoteRequestMapper mapper;
-    @Autowired
-    SupplierRepository supplierRepository;
-    @Autowired
-    ServiceRequestRepository serviceRequestRepository;
-    @Autowired
-    SupplierServiceJoinRepository supplierServiceJoinRepository;
+    
+    private QuoteRequestRepository repository;
+    
+    private QuoteRequestMapper mapper;
+    
+    private SupplierRepository supplierRepository;
+    
+    private ServiceRequestRepository serviceRequestRepository;
+    
+    private SupplierServiceJoinRepository supplierServiceJoinRepository;
+
+    public QuoteRequestService(QuoteRequestRepository repository, QuoteRequestMapper mapper,
+            SupplierRepository supplierRepository, ServiceRequestRepository serviceRequestRepository,
+            SupplierServiceJoinRepository supplierServiceJoinRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.supplierRepository = supplierRepository;
+        this.serviceRequestRepository = serviceRequestRepository;
+        this.supplierServiceJoinRepository = supplierServiceJoinRepository;
+    }
 
     public QuoteRequestDTO save(long serviceRequestId, CreateQuoteRequestDTO data)
             throws ServiceRequestNotFound, SupplierNotFoundException, RequestSameUserNotAllowed,

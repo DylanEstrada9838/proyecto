@@ -7,7 +7,6 @@ import org.bedu.proyecto.exception.authentication.UserOrPasswordIncorrect;
 import org.bedu.proyecto.exception.user.UserEmailAlreadyCreated;
 import org.bedu.proyecto.exception.user.UserEmailNotFound;
 import org.bedu.proyecto.service.AuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,9 +21,13 @@ import jakarta.validation.Valid;
 @RequestMapping("users")
 public class AuthenticationController {
 
-    @Autowired
-    AuthenticationService service;
 
+    private AuthenticationService service;
+    
+
+    public AuthenticationController(AuthenticationService service) {
+        this.service = service;
+    }
     @PostMapping("sign-in")
     @ResponseStatus(HttpStatus.OK)
     public AuthenticationResponse authenticate(@RequestBody @Valid AuthenticationRequest request) throws UserEmailNotFound, UserOrPasswordIncorrect{

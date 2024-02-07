@@ -29,7 +29,6 @@ import org.bedu.proyecto.service.ClientService;
 import org.bedu.proyecto.service.RatingService;
 import org.bedu.proyecto.service.ServiceRequestService;
 import org.bedu.proyecto.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,20 +46,25 @@ import jakarta.validation.Valid;
 @RestController 
 @RequestMapping("clients")  
 public class ClientController {
-    @Autowired
-    ClientService service;
+    
+    private ClientService service;
 
-    @Autowired  
-    UserService userService;
+    private UserService userService;
+ 
+    private ServiceRequestService serviceRequestService;
 
-    @Autowired 
-    ServiceRequestService serviceRequestService;
+    private RatingService ratingService;
+ 
+    private AddressService addressService;
 
-    @Autowired
-    RatingService ratingService;
-
-    @Autowired
-    AddressService addressService;
+    public ClientController(ClientService service, UserService userService, ServiceRequestService serviceRequestService,
+            RatingService ratingService, AddressService addressService) {
+        this.service = service;
+        this.userService = userService;
+        this.serviceRequestService = serviceRequestService;
+        this.ratingService = ratingService;
+        this.addressService = addressService;
+    }
 
     @Operation(summary="Devuelve una lista de todos los clientes.")
     @GetMapping 

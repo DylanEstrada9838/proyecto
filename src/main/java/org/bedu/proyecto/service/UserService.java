@@ -11,7 +11,6 @@ import org.bedu.proyecto.exception.user.UserNotFoundException;
 import org.bedu.proyecto.mapper.UserMapper;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,12 +18,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    @Autowired
+    
     private UserRepository repository;
-    @Autowired
+    
     private UserMapper mapper;
-    @Autowired
-    PasswordEncoder encoder;
+    
+    private PasswordEncoder encoder;
+
+    public UserService(UserRepository repository, UserMapper mapper, PasswordEncoder encoder) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.encoder = encoder;
+    }
 
     public List<UserDTO> findAll() {
         return mapper.toDTOs(repository.findAll());

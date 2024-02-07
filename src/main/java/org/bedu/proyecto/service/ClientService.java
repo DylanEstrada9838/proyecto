@@ -13,18 +13,23 @@ import org.bedu.proyecto.model.Client;
 import org.bedu.proyecto.model.User;
 import org.bedu.proyecto.repository.ClientRepository;
 import org.bedu.proyecto.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 
 public class ClientService {
-    @Autowired
-    ClientRepository repository;
-    @Autowired
-    ClientMapper mapper;
-    @Autowired
-    UserRepository userRepository;
+    
+    private ClientRepository repository;
+    
+    private ClientMapper mapper;
+    
+    private UserRepository userRepository;
+    
+    public ClientService(ClientRepository repository, ClientMapper mapper, UserRepository userRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.userRepository = userRepository;
+    }
 
     public List<ClientDTO> findAll() {
         return mapper.toDTOs(repository.findAll());

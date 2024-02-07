@@ -25,23 +25,33 @@ import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
 import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SupplierService {
-    @Autowired
-    SupplierRepository repository;
-    @Autowired
-    SupplierMapper mapper;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    ServiceRepository serviceRepository;
-    @Autowired
-    SupplierServiceJoinRepository supplierServiceJoinRepository;
-    @Autowired
-    SupplierServiceJoinMapper supplierServiceJoinMapper;
+    
+    private SupplierRepository repository;
+    
+    private SupplierMapper mapper;
+    
+    private UserRepository userRepository;
+    
+    private ServiceRepository serviceRepository;
+    
+    private SupplierServiceJoinRepository supplierServiceJoinRepository;
+    
+    private SupplierServiceJoinMapper supplierServiceJoinMapper;
+
+    public SupplierService(SupplierRepository repository, SupplierMapper mapper, UserRepository userRepository,
+            ServiceRepository serviceRepository, SupplierServiceJoinRepository supplierServiceJoinRepository,
+            SupplierServiceJoinMapper supplierServiceJoinMapper) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.userRepository = userRepository;
+        this.serviceRepository = serviceRepository;
+        this.supplierServiceJoinRepository = supplierServiceJoinRepository;
+        this.supplierServiceJoinMapper = supplierServiceJoinMapper;
+    }
 
     public List<SupplierDTO> findAll() {
         return mapper.toDTOs(repository.findAll());

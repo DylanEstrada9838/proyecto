@@ -20,24 +20,35 @@ import org.bedu.proyecto.repository.RatingRepository;
 import org.bedu.proyecto.repository.ServiceRepository;
 import org.bedu.proyecto.repository.SupplierRepository;
 import org.bedu.proyecto.repository.SupplierServiceJoinRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class RatingService {
-    @Autowired
-    RatingRepository repository;
-    @Autowired
-    RatingMapper mapper;
-    @Autowired
-    SupplierRepository supplierRepository;
-    @Autowired
-    ServiceRepository serviceRepository;
-    @Autowired
-    ClientRepository clientRepository;
-    @Autowired
-    SupplierServiceJoinRepository supplierServiceJoinRepository;
+    
+    private RatingRepository repository;
+    
+    private RatingMapper mapper;
+    
+    private SupplierRepository supplierRepository;
+    
+    private ServiceRepository serviceRepository;
+    
+    private ClientRepository clientRepository;
+    
+    private SupplierServiceJoinRepository supplierServiceJoinRepository;
+
+    public RatingService(RatingRepository repository, RatingMapper mapper, SupplierRepository supplierRepository,
+            ServiceRepository serviceRepository, ClientRepository clientRepository,
+            SupplierServiceJoinRepository supplierServiceJoinRepository) {
+        this.repository = repository;
+        this.mapper = mapper;
+        this.supplierRepository = supplierRepository;
+        this.serviceRepository = serviceRepository;
+        this.clientRepository = clientRepository;
+        this.supplierServiceJoinRepository = supplierServiceJoinRepository;
+    }
+
 
     public void save(long clientId, long supplierId, CreateRatingDTO data) throws ServiceNotAssignedException,
             SupplierNotFoundException, ServiceNotFoundException, ClientNotFoundException, RatingNotAlllowed {

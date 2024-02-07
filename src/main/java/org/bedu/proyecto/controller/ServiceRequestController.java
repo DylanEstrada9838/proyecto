@@ -19,7 +19,6 @@ import org.bedu.proyecto.exception.supplier.SupplierNotFoundException;
 import org.bedu.proyecto.exception.supplier.SupplierServiceNotActive;
 import org.bedu.proyecto.service.QuoteRequestService;
 import org.bedu.proyecto.service.ServiceRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,11 +37,15 @@ import jakarta.validation.Valid;
                            // específicos.
 
 public class ServiceRequestController { // Define una clase pública llamada ServiceRequestController.
-    @Autowired // Esta anotación permite la inyección automática del bean ServiceRequestService.
-    ServiceRequestService service; // Define una variable de instancia para el servicio.
+     // Esta anotación permite la inyección automática del bean ServiceRequestService.
+    private ServiceRequestService service; // Define una variable de instancia para el servicio.
 
-    @Autowired
-    QuoteRequestService quoteRequestService;
+    private QuoteRequestService quoteRequestService;
+
+    public ServiceRequestController(ServiceRequestService service, QuoteRequestService quoteRequestService) {
+        this.service = service;
+        this.quoteRequestService = quoteRequestService;
+    }
 
     @GetMapping("{serviceRequestId}")
     @ResponseStatus(HttpStatus.OK)
