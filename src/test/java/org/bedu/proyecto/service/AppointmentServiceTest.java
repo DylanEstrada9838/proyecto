@@ -114,6 +114,7 @@ class AppointmentServiceTest {
                 .startDate(LocalDateTime.of(2024, 12, 01, 12, 0, 0))
                 .status(StatusAppointment.SCHEDULED)
                 .createdAt(Instant.now())
+                .updatedAt(Instant.now())
                 .build();
 
         Quote quote = Quote.builder()
