@@ -2,6 +2,7 @@ name: Proyecto API CI/CD
 
 on: 
   push:
+  pull_request:
 
 jobs:
   continuous-integration:
@@ -20,6 +21,4 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Compilar el proyecto
-        run: |
-          gradle build
-          gradle test
+        run: gradle build

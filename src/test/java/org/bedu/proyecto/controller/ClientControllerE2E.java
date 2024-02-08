@@ -90,7 +90,7 @@ class ClientControllerE2E {
     @Test
     @DisplayName("GET /clients should return an empty list")
     void emptyListTest() throws Exception {
-
+        repository.deleteAll();
         MvcResult result = mockMvc.perform(get("/clients"))
                 .andExpect(status().isOk())
                 .andReturn();
