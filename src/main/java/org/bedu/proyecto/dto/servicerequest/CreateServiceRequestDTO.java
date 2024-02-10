@@ -9,12 +9,15 @@ import jakarta.validation.constraints.Size;
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.model_enums.Urgency;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateServiceRequestDTO {
     @Schema(description = "Descripcion de el servicio ", example = "Broken desk")
     @Size(min = 5, max = 300)
@@ -36,7 +39,6 @@ public class CreateServiceRequestDTO {
     private Long serviceId;
 
     @Schema(description = "Estatus de la solicitud del servicio", example = "ASSIGNED")
-    @NotNull
     @Builder.Default
     private StatusRequest status = StatusRequest.OPEN;
 

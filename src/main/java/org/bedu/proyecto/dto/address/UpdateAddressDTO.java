@@ -1,11 +1,15 @@
 package org.bedu.proyecto.dto.address;
 
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UpdateAddressDTO {
     @Size(min = 5)
     private String line1;

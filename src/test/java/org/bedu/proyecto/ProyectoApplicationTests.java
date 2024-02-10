@@ -3,7 +3,7 @@ package org.bedu.proyecto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = ProyectoApplicationTests.class)
+@SpringBootTest
 class ProyectoApplicationTests {
 
 	@Test

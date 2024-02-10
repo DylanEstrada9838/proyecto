@@ -87,7 +87,6 @@ class ServiceRequestControllerTest {
             ServiceNotAssignedException, QuoteRequestAlreadyExist, QuoteRequestAcceptedExist, SupplierServiceNotActive {
         CreateQuoteRequestDTO createDTO = CreateQuoteRequestDTO.builder()
                 .supplierId(99L)
-                .status(StatusQuoteRequest.PENDING)
                 .build();
 
         QuoteRequestDTO expectedDto = QuoteRequestDTO.builder()
