@@ -7,11 +7,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.bedu.proyecto.model_enums.StatusRequest;
 import org.bedu.proyecto.model_enums.Urgency;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ServiceRequestDTO {
     @Schema(description = "", example = "")
     private long id;
